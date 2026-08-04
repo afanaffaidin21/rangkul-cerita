@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
+
+  --color-forest-ink: #173D30;
+  --color-rangkul-green: #2E6F57;
+  --color-leaf-green: #58A17F;
+  --color-soft-sage: #BFDCCD;
+  --color-mist-green: #EEF7F2;
+  --color-warm-white: #FAFBF8;
+
+  --color-neutral-ink: #17201B;
+  --color-deep-gray: #35413A;
+  --color-body-gray: #66736C;
+  --color-muted-gray: #A0AAA4;
+  --color-border-subtle: #DDE4DF;
+  --color-soft-surface: #F3F5F2;
+
+  --color-emotion-tenang: #86BFA8;
+  --color-emotion-senang: #F2C66D;
+  --color-emotion-sedih: #8FAFD0;
+  --color-emotion-cemas: #C8A4D8;
+  --color-emotion-marah: #E89887;
+  --color-emotion-kesepian: #A4A8CC;
+  --color-emotion-lelah: #C8B59A;
+  --color-emotion-bingung: #E0AFC3;
+
+  --color-semantic-success: #2E7D5B;
+  --color-semantic-info: #477DA7;
+  --color-semantic-warning: #B97422;
+  --color-semantic-danger: #B8414E;
+  --color-semantic-danger-soft: #FBEAEC;
+}
+
+/* Custom organic utilities */
+.rangkul-gradient {
+  background: linear-gradient(135deg, #EEF7F2 0%, #FAFBF8 50%, #F3F5F2 100%);
+}
+
+.rangkul-card-shadow {
+  box-shadow: 0 4px 20px -2px rgba(23, 61, 48, 0.05), 0 2px 6px -1px rgba(23, 61, 48, 0.03);
+}
+
+.rangkul-card-hover {
+  transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rangkul-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -4px rgba(23, 61, 48, 0.08), 0 4px 10px -2px rgba(23, 61, 48, 0.04);
+}
+
+/* Organic Rangkul Lines background motif */
+.bg-rangkul-lines {
+  background-image: radial-gradient(circle at 10% 20%, rgba(191, 220, 205, 0.25) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(88, 161, 127, 0.15) 0%, transparent 50%);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAFBF8;
+}
+::-webkit-scrollbar-thumb {
+  background: #BFDCCD;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #58A17F;
+}
+
+/* Smooth motion accessibility fallback */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

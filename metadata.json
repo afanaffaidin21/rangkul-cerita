@@ -1,0 +1,6 @@
+{
+  "name": "Rangkul Cerita",
+  "description": "Ruang aman untuk memahami perasaanmu, guided journaling, dan jalur bantuan untuk anak muda Indonesia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
