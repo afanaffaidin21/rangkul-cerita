@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { VERIFIED_HELPLINES } from "../../../../src/lib/safety/contacts";
+import { SAFETY_RISK_LEVELS } from "../../../../src/lib/safety/risk-levels";
 
 export async function POST(request: Request) {
   try {
@@ -20,14 +21,14 @@ export async function POST(request: Request) {
 
     if (isHighRisk) {
       return NextResponse.json({
-        riskLevel: 3,
+        riskLevel: SAFETY_RISK_LEVELS.HIGH,
         isCrisis: true,
         message: "Sistem mendeteksi sinyal krisis. Silakan akses jalur bantuan darurat segera.",
         recommendedHelplines: VERIFIED_HELPLINES
       });
     }
 
-    return NextResponse.json({ riskLevel: 0, isCrisis: false });
+    return NextResponse.json({ riskLevel: SAFETY_RISK_LEVELS.LOW, isCrisis: false });
   } catch (err: any) {
     console.error("Safety classification error:", err);
     return NextResponse.json(
