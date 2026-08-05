@@ -28,7 +28,18 @@ export type NeedType =
 
 export interface MoodCheckinResult {
   isCrisis: boolean;
-  reflection: string;
+  safety?: {
+    level: "LOW" | "ELEVATED" | "HIGH" | "IMMINENT" | null;
+    status: string;
+  };
+  controlledResponse?: {
+    title: string;
+    message: string;
+    primaryAction: string;
+    trustedPersonAction: string;
+    primaryContact: HelplineItem;
+  } | null;
+  reflection: string | null;
   suggestedQuestion?: string;
   summary: {
     mainTopic: string;

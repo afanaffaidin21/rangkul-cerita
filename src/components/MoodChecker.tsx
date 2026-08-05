@@ -5,6 +5,7 @@ import {
   EMOTION_OPTIONS
 } from "../data/landingData";
 import { EmotionType, NeedType, MoodCheckinResult } from "../types";
+import { isControlledHighState } from "../lib/safety/ui-state";
 import { Sparkles, ArrowRight, RefreshCw, Heart, Check, Play, Phone, ShieldAlert } from "lucide-react";
 
 interface MoodCheckerProps {
@@ -239,8 +240,31 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
             </button>
           </div>
 
-          {/* Dynamic Result Output Box */}
-          {result && (
+          {result && isControlledHighState(result.safety?.level) ? (
+            <div className="p-6 bg-[#FAF0EE] border border-[#E89887] rounded-2xl space-y-4 animate-fade-in mt-6" role="alert" aria-labelledby="high-safety-title">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#B8414E]">
+                <ShieldAlert className="w-4 h-4" />
+                <span id="high-safety-title">Dukungan manusia lebih penting sekarang</span>
+              </div>
+              <p className="text-sm text-[#17201B] leading-relaxed font-sans font-medium">
+                {result.controlledResponse?.message || "Untuk saat ini, hubungi orang yang bisa menemanimu dan dukungan manusia yang tersedia."}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
+                <button
+                  onClick={onOpenSafetyModal}
+                  className="px-5 py-2.5 bg-[#B8414E] hover:bg-[#8F2E3B] text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#B8414E] focus:ring-offset-2"
+                >
+                  <Phone className="w-3.5 h-3.5" /> Lihat Jalur Healing119
+                </button>
+                <button
+                  onClick={onOpenSafetyModal}
+                  className="px-5 py-2.5 bg-white hover:bg-[#F3F5F2] text-[#173D30] border border-[#DDE4DF] text-xs font-semibold rounded-xl flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#2E6F57] focus:ring-offset-2"
+                >
+                  Hubungi Orang Tepercaya
+                </button>
+              </div>
+            </div>
+          ) : result && (
             <div className="p-6 bg-[#EEF7F2] border border-[#BFDCCD] rounded-2xl space-y-4 animate-fade-in mt-6">
               <div className="flex items-center gap-2 text-xs font-bold text-[#2E6F57]">
                 <Heart className="w-4 h-4 fill-current" />
