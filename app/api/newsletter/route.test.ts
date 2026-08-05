@@ -42,6 +42,6 @@ describe("newsletter persistence boundary", () => {
     subscribeToNewsletter.mockResolvedValue(null);
     const response = await POST(request({ email: "person@example.com", consent: true }));
     expect(response.status).toBe(500);
-    expect(await response.json()).toEqual({ error: { code: "PERSISTENCE_ERROR", message: "Pendaftaran newsletter belum dapat diproses" } });
+    expect(await response.json()).toEqual({ success: false, error: { code: "PERSISTENCE_FAILED", message: "Pendaftaran newsletter belum dapat diproses" } });
   });
 });

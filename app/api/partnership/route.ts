@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { AppError, apiFailure } from "../../../src/lib/errors";
 import { createPartnershipLead } from "../../../src/lib/database/partnership";
 import { parseJson, partnershipSchema, validationError } from "../../../src/lib/validation/public-boundaries";
 
@@ -13,7 +14,12 @@ export async function POST(request: Request) {
       success: true,
       message: `Terima kasih ${body.contactName}! Proposal & informasi kemitraan Rangkul Cerita untuk ${body.institutionName} telah kami catat.`,
     });
-  } catch {
-    return NextResponse.json({ error: { code: "PERSISTENCE_ERROR", message: "Formulir kemitraan belum dapat diproses" } }, { status: 500 });
+  } catch (error) {
+    return apiFailure(new AppError({
+      code: "PERSISTENCE_FAILED",
+      message: "Formulir kemitraan belum dapat diproses",
+      status: 500,
+      cause: error,
+    }));
   }
 }

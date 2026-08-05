@@ -53,6 +53,6 @@ describe("partnership persistence boundary", () => {
     createPartnershipLead.mockResolvedValue(null);
     const response = await POST(request(validPayload));
     expect(response.status).toBe(500);
-    expect(await response.json()).toEqual({ error: { code: "PERSISTENCE_ERROR", message: "Formulir kemitraan belum dapat diproses" } });
+    expect(await response.json()).toEqual({ success: false, error: { code: "PERSISTENCE_FAILED", message: "Formulir kemitraan belum dapat diproses" } });
   });
 });

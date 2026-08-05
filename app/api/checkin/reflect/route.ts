@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { AppError, apiFailure } from "../../../../src/lib/errors";
 import { checkinReflectionSchema, parseJson, validationError } from "../../../../src/lib/validation/public-boundaries";
 import { generateReflection } from "../../../../src/lib/ai/provider";
 import { reflectionOutputSchema } from "../../../../src/lib/ai/schemas";
@@ -43,40 +44,40 @@ export async function POST(request: Request) {
     });
 
     if (!generated.ok) {
-      return NextResponse.json({
-        success: false,
-        error: { code: "AI_UNAVAILABLE", message: "Refleksi sedang tidak tersedia. Coba lagi nanti." },
-        safety: { level, status: "ALLOWED" },
-      }, { status: 503 });
+      return apiFailure(new AppError({
+        code: "AI_UNAVAILABLE",
+        message: "Refleksi sedang tidak tersedia. Coba lagi nanti.",
+        status: 503,
+      }), { safety: { level, status: "ALLOWED" } });
     }
 
     const resultText = generated.text;
     if (!resultText) {
-      return NextResponse.json({
-        success: false,
-        error: { code: "AI_EMPTY_RESPONSE", message: "Refleksi belum tersedia. Coba lagi." },
-        safety: { level, status: "ALLOWED" },
-      }, { status: 502 });
+      return apiFailure(new AppError({
+        code: "AI_EMPTY_RESPONSE",
+        message: "Refleksi belum tersedia. Coba lagi.",
+        status: 502,
+      }), { safety: { level, status: "ALLOWED" } });
     }
 
     let parsed: unknown;
     try {
       parsed = JSON.parse(resultText);
     } catch {
-      return NextResponse.json({
-        success: false,
-        error: { code: "AI_INVALID_RESPONSE", message: "Refleksi belum tersedia. Coba lagi." },
-        safety: { level, status: "ALLOWED" },
-      }, { status: 502 });
+      return apiFailure(new AppError({
+        code: "AI_INVALID_RESPONSE",
+        message: "Refleksi belum tersedia. Coba lagi.",
+        status: 502,
+      }), { safety: { level, status: "ALLOWED" } });
     }
 
     const validated = reflectionOutputSchema.safeParse(parsed);
     if (!validated.success) {
-      return NextResponse.json({
-        success: false,
-        error: { code: "AI_INVALID_RESPONSE", message: "Refleksi belum tersedia. Coba lagi." },
-        safety: { level, status: "ALLOWED" },
-      }, { status: 502 });
+      return apiFailure(new AppError({
+        code: "AI_INVALID_RESPONSE",
+        message: "Refleksi belum tersedia. Coba lagi.",
+        status: 502,
+      }), { safety: { level, status: "ALLOWED" } });
     }
 
     return NextResponse.json({
@@ -86,11 +87,13 @@ export async function POST(request: Request) {
       ...validated.data,
     });
 
-  } catch {
-    return NextResponse.json({
-      success: false,
-      error: { code: "AI_PROVIDER_ERROR", message: "Refleksi sedang tidak tersedia. Coba lagi nanti." },
-      safety: { level, status: "ALLOWED" },
-    }, { status: 502 });
+  } catch (error) {
+    const appError = error instanceof AppError ? error : new AppError({
+      code: "AI_PROVIDER_ERROR",
+      message: "Refleksi sedang tidak tersedia. Coba lagi nanti.",
+      status: 502,
+      cause: error,
+    });
+    return apiFailure(appError, { safety: { level, status: "ALLOWED" } });
   }
 }

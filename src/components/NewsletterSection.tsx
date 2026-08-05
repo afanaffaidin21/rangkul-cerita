@@ -33,7 +33,9 @@ export const NewsletterSection: React.FC = () => {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Gagal mendaftar newsletter");
+      if (!response.ok) {
+        throw new Error(typeof data.error === "string" ? data.error : data.error?.message || "Gagal mendaftar newsletter");
+      }
 
       setSuccessMsg(data.message);
       setEmail("");

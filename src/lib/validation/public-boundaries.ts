@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { apiFailure, APP_ERRORS } from "../errors";
 
 const boundedText = (max: number) => z.string().trim().min(1).max(max);
 
@@ -36,7 +37,7 @@ export const partnershipSchema = z.object({
 export type CheckinReflectionInput = z.infer<typeof checkinReflectionSchema>;
 
 export function validationError() {
-  return Response.json({ error: { code: "VALIDATION_ERROR", message: "Permintaan tidak valid" } }, { status: 400 });
+  return apiFailure(APP_ERRORS.validation());
 }
 
 export async function parseJson<T>(request: Request, schema: z.ZodType<T>) {

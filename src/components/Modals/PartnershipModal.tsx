@@ -37,7 +37,7 @@ export const PartnershipModal: React.FC<PartnershipModalProps> = ({ isOpen, onCl
 
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.error || "Gagal mengirim formulir");
+        throw new Error(typeof data.error === "string" ? data.error : data.error?.message || "Gagal mengirim formulir");
       }
 
       setIsSuccess(true);

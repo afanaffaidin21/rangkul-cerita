@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { apiFailure, APP_ERRORS } from "../../../../src/lib/errors";
 import { isCrisisLevel, runSafetyGate } from "../../../../src/lib/safety/gate";
 import { parseJson, safetyClassificationSchema, validationError } from "../../../../src/lib/validation/public-boundaries";
 
@@ -28,11 +29,7 @@ export async function POST(request: Request) {
       },
       isCrisis: false,
     });
-  } catch {
-    console.error("Safety classification error");
-    return NextResponse.json(
-      { error: "Gagal memproses pengecekan keselamatan" },
-      { status: 500 }
-    );
+  } catch (error) {
+    return apiFailure(APP_ERRORS.safetyUnavailable(error));
   }
 }

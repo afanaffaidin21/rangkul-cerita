@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { AppError, apiFailure } from "../../../src/lib/errors";
 import { subscribeToNewsletter } from "../../../src/lib/database/newsletter";
 import { newsletterSchema, parseJson, validationError } from "../../../src/lib/validation/public-boundaries";
 
@@ -15,7 +16,12 @@ export async function POST(request: Request) {
         ? "Terima kasih telah mendaftar Teman Mingguan Rangkul Cerita!"
         : "Email ini sudah terdaftar di Teman Mingguan Rangkul Cerita.",
     });
-  } catch {
-    return NextResponse.json({ error: { code: "PERSISTENCE_ERROR", message: "Pendaftaran newsletter belum dapat diproses" } }, { status: 500 });
+  } catch (error) {
+    return apiFailure(new AppError({
+      code: "PERSISTENCE_FAILED",
+      message: "Pendaftaran newsletter belum dapat diproses",
+      status: 500,
+      cause: error,
+    }));
   }
 }

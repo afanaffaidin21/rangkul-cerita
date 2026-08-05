@@ -22,7 +22,7 @@ describe("public boundary runtime validation", () => {
   ])("rejects malformed payloads without exposing input", async (handler, path, body) => {
     const response = await handler(request(path, body));
     expect(response.status).toBe(400);
-    expect(await response.json()).toEqual({ error: { code: "VALIDATION_ERROR", message: "Permintaan tidak valid" } });
+    expect(await response.json()).toEqual({ success: false, error: { code: "VALIDATION_ERROR", message: "Permintaan tidak valid" } });
   });
 
 });
