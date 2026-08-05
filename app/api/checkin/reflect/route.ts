@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
+import { checkinReflectionSchema, parseJson, validationError } from "../../../../src/lib/validation/public-boundaries";
 import { isCrisisLevel, runSafetyGate } from "../../../../src/lib/safety/gate";
 import {
   CONTROLLED_HIGH_RESPONSE,
@@ -22,15 +23,10 @@ function getGenAI() {
 }
 
 export async function POST(request: Request) {
-  let body: any = {};
-  let safety: ReturnType<typeof runSafetyGate>;
-  try {
-    body = await request.json();
-    const { userNote } = body;
-    safety = runSafetyGate(typeof userNote === "string" ? userNote : "");
-  } catch {
-    return NextResponse.json({ error: "Permintaan tidak valid" }, { status: 400 });
-  }
+  const body = await parseJson(request, checkinReflectionSchema);
+  if (!body) return validationError();
+
+  const safety = runSafetyGate(body.userNote);
 
   if (!safety.allowed) {
     return NextResponse.json({

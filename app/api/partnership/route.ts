@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
+import { parseJson, partnershipSchema, validationError } from "../../../src/lib/validation/public-boundaries";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { institutionName, category, contactName, email, phone, message } = body;
-
-    if (!institutionName || !contactName || !email) {
-      return NextResponse.json({ error: "Mohon isi nama institusi, kontak, dan email" }, { status: 400 });
-    }
+    const body = await parseJson(request, partnershipSchema);
+    if (!body) return validationError();
+    const { institutionName, category, contactName, email } = body;
 
     return NextResponse.json({
       success: true,

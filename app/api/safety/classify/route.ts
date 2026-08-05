@@ -1,16 +1,13 @@
 import { NextResponse } from "next/server";
 import { isCrisisLevel, runSafetyGate } from "../../../../src/lib/safety/gate";
+import { parseJson, safetyClassificationSchema, validationError } from "../../../../src/lib/validation/public-boundaries";
 
 export async function POST(request: Request) {
+  const body = await parseJson(request, safetyClassificationSchema);
+  if (!body) return validationError();
+
   try {
-    const body = await request.json();
-    const { text } = body;
-
-    if (!text || typeof text !== "string") {
-      return NextResponse.json({ error: "Teks wajib diisi" }, { status: 400 });
-    }
-
-    const safety = runSafetyGate(text);
+    const safety = runSafetyGate(body.text);
 
     if (!safety.allowed) {
       return NextResponse.json({

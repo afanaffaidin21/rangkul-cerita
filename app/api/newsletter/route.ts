@@ -1,16 +1,11 @@
 import { NextResponse } from "next/server";
+import { newsletterSchema, parseJson, validationError } from "../../../src/lib/validation/public-boundaries";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { email, consent } = body;
-
-    if (!email || typeof email !== "string" || !email.includes("@")) {
-      return NextResponse.json({ error: "Alamat email tidak valid" }, { status: 400 });
-    }
-    if (!consent) {
-      return NextResponse.json({ error: "Mohon menyetujui persetujuan privasi" }, { status: 400 });
-    }
+    const body = await parseJson(request, newsletterSchema);
+    if (!body) return validationError();
+    const { email } = body;
 
     return NextResponse.json({
       success: true,
