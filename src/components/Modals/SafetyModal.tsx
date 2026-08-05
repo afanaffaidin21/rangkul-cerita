@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Phone, ShieldAlert, HeartHandshake, X, Copy, Check, ExternalLink, LifeBuoy } from "lucide-react";
-import { VERIFIED_HELPLINES } from "../../data/landingData";
+import { VERIFIED_HELPLINES } from "../../lib/safety/contacts";
 
 interface SafetyModalProps {
   isOpen: boolean;
@@ -134,13 +134,24 @@ export const SafetyModal: React.FC<SafetyModalProps> = ({ isOpen, onClose }) => 
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0">
+                      <div className="flex flex-wrap items-center gap-2 shrink-0 pt-2 sm:pt-0">
+                        {helpline.website && (
+                          <a
+                            href={helpline.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-4 py-2 bg-white border border-[#DDE4DF] hover:bg-[#F3F5F2] text-[#173D30] text-xs font-semibold rounded-xl transition-all shadow-sm"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            Kunjungi Web/Chat
+                          </a>
+                        )}
                         <a
                           href={`tel:${helpline.phone.replace(/[^0-9]/g, "")}`}
                           className="flex items-center gap-2 px-4 py-2 bg-[#2E6F57] hover:bg-[#173D30] text-white text-xs font-semibold rounded-xl transition-all shadow-sm"
                         >
                           <Phone className="w-3.5 h-3.5" />
-                          Hubungi {helpline.phone} {helpline.ext ? `Ext ${helpline.ext}` : ""}
+                          Hubungi {helpline.phone} {helpline.ext ? `(Tekan ${helpline.ext})` : ""}
                         </a>
                         <button
                           onClick={() => handleCopyPhone(helpline.id, helpline.phone, helpline.ext)}

@@ -1,0 +1,45 @@
+import { HelplineItem } from "../../types";
+
+export const VERIFIED_HELPLINES: HelplineItem[] = [
+  {
+    id: "healing-119",
+    name: "Healing119 (Layanan Sehat Jiwa)",
+    category: "Darurat",
+    phone: "119",
+    ext: "8",
+    website: "https://www.healing119.id/",
+    operatingHours: "Sesuai ketentuan resmi",
+    cost: "Gratis",
+    format: "Telepon & Web",
+    city: "Nasional",
+    verifiedDate: "Sesuai SAFETY.md",
+    description: "Dukungan krisis psikologis dan pencegahan bunuh diri.",
+    isCrisisTarget: true,
+  },
+  {
+    id: "psc-119",
+    name: "PSC 119",
+    category: "Darurat",
+    phone: "119",
+    operatingHours: "24 Jam",
+    cost: "Gratis",
+    format: "Telepon",
+    city: "Nasional",
+    verifiedDate: "Sesuai SAFETY.md",
+    description: "Layanan darurat medis fisik yang mengancam nyawa.",
+    isCrisisTarget: true,
+  },
+  {
+    id: "emergency-112",
+    name: "Layanan Darurat 112",
+    category: "Darurat",
+    phone: "112",
+    operatingHours: "24 Jam (Bergantung wilayah)",
+    cost: "Gratis",
+    format: "Telepon",
+    city: "Wilayah Cakupan 112",
+    verifiedDate: "Sesuai SAFETY.md",
+    description: "Panggilan darurat terpadu (polisi, damkar, medis) dari pemda setempat.",
+    isCrisisTarget: true,
+  }
+];

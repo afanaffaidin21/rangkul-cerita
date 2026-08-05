@@ -81,7 +81,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacyModal, onOpenSafety
         {/* Legal Disclaimer Box */}
         <div className="p-4 bg-[#2E6F57]/40 border border-[#BFDCCD]/20 rounded-2xl text-center text-xs text-[#BFDCCD]">
           <p>
-            <strong>Disclaimer Penting:</strong> Rangkul Cerita bukan pengganti layanan kesehatan mental profesional, psikolog, psikiater, atau layanan darurat medis. Layanan ini adalah alat refleksi awal dan literasi emosi. Jika kamu berada dalam kondisi krisis atau tidak aman, segera hubungi Layanan Sehat Jiwa 119 Ext 8.
+            <strong>Disclaimer Penting:</strong> Rangkul Cerita bukan pengganti layanan kesehatan mental profesional, psikolog, psikiater, atau layanan darurat medis. Layanan ini adalah alat refleksi awal dan literasi emosi. Jika kamu berada dalam kondisi krisis atau tidak aman, segera hubungi Healing119 (119 Ext 8) atau panggilan darurat 112.
           </p>
         </div>
 

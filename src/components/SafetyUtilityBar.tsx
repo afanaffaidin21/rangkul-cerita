@@ -22,7 +22,7 @@ export const SafetyUtilityBar: React.FC<SafetyUtilityBarProps> = ({ onOpenSafety
 
         <div className="flex items-center gap-3">
           <span className="hidden md:inline text-xs text-[#66736C]">
-            Layanan Sehat Jiwa Kemenkes 119 Ext 8 & LISA Helpline 24/7
+            Hubungi Healing119 (119 Ext 8) atau 112
           </span>
           <button
             onClick={onOpenSafetyModal}

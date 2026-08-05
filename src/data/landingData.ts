@@ -75,71 +75,6 @@ export const EMOTION_OPTIONS: EmotionOption[] = [
   },
 ];
 
-export const VERIFIED_HELPLINES: HelplineItem[] = [
-  {
-    id: "sehat-jiwa-119",
-    name: "Layanan Sehat Jiwa Kemenkes RI",
-    category: "Darurat",
-    phone: "119",
-    ext: "8",
-    operatingHours: "24 Jam / 7 Hari",
-    cost: "Gratis",
-    format: "Online (WhatsApp/Telepon)",
-    city: "Seluruh Indonesia",
-    verifiedDate: "Verifikasi Mei 2026",
-    description: "Layanan resmi Kementerian Kesehatan RI untuk dukungan kesehatan jiwa darurat & pertolongan pertama psikologis.",
-    isCrisisTarget: true,
-  },
-  {
-    id: "lisa-helpline",
-    name: "LISA Helpline (Love Inside Suicide Awareness)",
-    category: "Darurat",
-    phone: "0811-3855-472",
-    operatingHours: "24 Jam / 7 Hari",
-    cost: "Gratis",
-    format: "Online (WhatsApp/Telepon)",
-    city: "Seluruh Indonesia",
-    verifiedDate: "Verifikasi Mei 2026",
-    description: "Layanan pencegahan krisis dan pencegahan bunuh diri dalam Bahasa Indonesia & Inggris.",
-    isCrisisTarget: true,
-  },
-  {
-    id: "yayasan-pulih",
-    name: "Yayasan Pulih (Konseling Trauma & Krisis)",
-    category: "Konseling",
-    phone: "0811-8436-633",
-    operatingHours: "Senin – Jumat (09.00 – 17.00 WIB)",
-    cost: "Berbayar Sesuai Layanan",
-    format: "Tatap Muka & Online",
-    city: "Jakarta & Online",
-    verifiedDate: "Verifikasi April 2026",
-    description: "Layanan pemulihan trauma, konflik keluarga, dan kekerasan emosional oleh tim psikolog profesional.",
-  },
-  {
-    id: "himpsi-call",
-    name: "Layanan Psikologi HIMPSI (Himpunan Psikologi Indonesia)",
-    category: "Konseling",
-    phone: "0811-1920-119",
-    operatingHours: "Setiap Hari (08.00 – 20.00 WIB)",
-    cost: "Gratis / Terjangkau",
-    format: "Online (WhatsApp/Telepon)",
-    city: "Seluruh Indonesia",
-    verifiedDate: "Verifikasi Mei 2026",
-    description: "Direktori konseling awal dan rujukan psikolog terdaftar di wilayah Indonesia.",
-  },
-  {
-    id: "peer-campus",
-    name: "Direktori Peer Counselor Kampus & Sekolah",
-    category: "Layanan Mahasiswa",
-    phone: "0812-9900-8811",
-    operatingHours: "Jam Operasional Kampus / Sekolah",
-    cost: "Gratis",
-    format: "Online (WhatsApp/Telepon)",
-    city: "Jakarta, Bandung, Yogya, Surabaya",
-    verifiedDate: "Verifikasi Pilot 2026",
-    description: "Koneksi ke unit konseling mahasiswa & BKN/BEM yang telah bermitra dengan Rangkul Cerita.",
-  },
-];
 
 export const SELF_HELP_RESOURCES: SelfHelpResource[] = [
   {
@@ -340,7 +275,7 @@ export const FAQ_DATA: FAQItem[] = [
   {
     id: "faq-7",
     question: "Apa yang terjadi jika saya sedang dalam situasi krisis atau bahaya?",
-    answer: "Sistem pendeteksi keselamatan kami akan secara otomatis menghentikan aliran jurnal biasa dan mengaktifkan Modul Bantuan Krisis. Kamu akan langsung disajikan tombol telepon satu-klik ke nomor darurat resmi seperti Layanan Sehat Jiwa Kemenkes 119 ext 8, LISA Helpline, serta petunjuk keselamatan praktis.",
+    answer: "Sistem pendeteksi keselamatan kami akan secara otomatis menghentikan aliran jurnal biasa dan mengaktifkan Modul Bantuan Krisis. Kamu akan langsung disajikan tombol telepon satu-klik ke nomor darurat resmi seperti Healing119 (119 ext 8) atau 112, serta petunjuk keselamatan praktis.",
     category: "Krisis & Bantuan",
   },
   {

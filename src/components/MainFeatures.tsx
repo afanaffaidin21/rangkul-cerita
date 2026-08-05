@@ -93,7 +93,7 @@ export const MainFeatures: React.FC<MainFeaturesProps> = ({
       id: "safetysos",
       title: "Safety SOS & Krisis",
       badge: "Siap 24/7",
-      description: "Jalur darurat 1-klik menuju Layanan Sehat Jiwa 119 Ext 8, LISA Helpline, dan langkah penanganan krisis.",
+      description: "Jalur darurat 1-klik menuju Healing119 (119 ext 8), PSC 119, 112, dan langkah penanganan krisis.",
       icon: ShieldAlert,
       actionText: "Jalur Bantuan",
       onClick: onOpenSafetyModal,

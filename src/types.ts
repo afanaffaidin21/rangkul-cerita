@@ -41,15 +41,16 @@ export interface MoodCheckinResult {
 }
 
 export interface HelplineItem {
-  id: string;
+  id: "healing-119" | "psc-119" | "emergency-112";
   name: string;
-  category: "Darurat" | "Konseling" | "Layanan Mahasiswa" | "Komunitas";
-  phone: string;
-  ext?: string;
+  category: "Darurat";
+  phone: "119" | "112";
+  ext?: "8";
+  website?: string;
   operatingHours: string;
-  cost: "Gratis" | "Berbayar Sesuai Layanan" | "Gratis / Terjangkau";
-  format: "Online (WhatsApp/Telepon)" | "Tatap Muka & Online";
-  city: string;
+  cost: "Gratis";
+  format: "Telepon" | "Telepon & Web";
+  city: "Nasional" | "Wilayah Cakupan 112";
   verifiedDate: string;
   description: string;
   isCrisisTarget?: boolean;

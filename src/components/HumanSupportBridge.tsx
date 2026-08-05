@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Users, Phone, MessageCircle, Heart, Copy, Check, Sparkles, UserCheck } from "lucide-react";
-import { VERIFIED_HELPLINES } from "../data/landingData";
+import { VERIFIED_HELPLINES } from "../lib/safety/contacts";
 
 interface HumanSupportBridgeProps {
   onOpenSafetyModal: () => void;
@@ -76,8 +76,8 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
                   <Phone className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-sm text-[#17201B]">Psikolog Klinis & Layanan Krisis</h4>
-                  <p className="text-xs text-[#66736C] mt-0.5">Layanan profesional terdaftar (Sehat Jiwa 119 Ext 8 & HIMPSI).</p>
+                  <h4 className="font-bold text-sm text-[#17201B]">Layanan Darurat & Pencegahan Bunuh Diri</h4>
+                  <p className="text-xs text-[#66736C] mt-0.5">Layanan profesional terdaftar (Healing119, PSC 119, atau 112).</p>
                 </div>
               </div>
             </div>

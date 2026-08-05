@@ -38,10 +38,10 @@ export async function POST(request: Request) {
           mainTopic: "Krisis & Keselamatan",
           emotions: emotions || ["Berat"],
           need: "Bantuan Darurat",
-          nextStep: "Menghubungi Layanan Sehat Jiwa (119 ext 8) atau LISA Helpline."
+          nextStep: "Menghubungi Healing119 (119 ext 8) atau PSC 119."
         },
         recommendedSteps: [
-          "Hubungi Layanan Sehat Jiwa 119 ext 8",
+          "Hubungi Healing119 (119 ext 8) atau 112",
           "Kirim pesan ke teman/orang tepercaya",
           "Pindah ke tempat yang aman dan tenang"
         ]

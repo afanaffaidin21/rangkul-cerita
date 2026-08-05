@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { VERIFIED_HELPLINES } from "../../../../src/lib/safety/contacts";
 
 export async function POST(request: Request) {
   try {
@@ -22,11 +23,7 @@ export async function POST(request: Request) {
         riskLevel: 3,
         isCrisis: true,
         message: "Sistem mendeteksi sinyal krisis. Silakan akses jalur bantuan darurat segera.",
-        recommendedHelplines: [
-          { name: "Layanan Sehat Jiwa Kemenkes RI", phone: "119", ext: "8", available: "24/7" },
-          { name: "LISA Helpline (Layanan Pencegahan Bunuh Diri)", phone: "0811-3855-472", available: "24/7" },
-          { name: "Yayasan Pulih (Konseling Trauma & Krisis)", phone: "0811-8436-633", available: "Senin-Jumat 09:00-17:00" }
-        ]
+        recommendedHelplines: VERIFIED_HELPLINES
       });
     }
 
