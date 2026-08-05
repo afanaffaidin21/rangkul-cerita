@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
+import { isCrisisLevel, runSafetyGate } from "../../../../src/lib/safety/gate";
 
 function getGenAI() {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -21,37 +22,29 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
     const { emotions, intensity, need, userNote, history = [] } = body;
+    const safety = runSafetyGate(typeof userNote === "string" ? userNote : "");
 
-    const ai = getGenAI();
-
-    // Check for crisis in userNote first
-    const lowercaseNote = (userNote || "").toLowerCase();
-    const crisisKeywords = [
-      "bunuh diri", "akhiri hidup", "sayat", "potong urat", "overdosis", "gantung diri",
-      "ingin mati", "racun", "loncat dari", "menyakiti diri"
-    ];
-    if (crisisKeywords.some((kw) => lowercaseNote.includes(kw))) {
+    if (!safety.allowed) {
       return NextResponse.json({
-        isCrisis: true,
-        reflection: "Kedengarannya kamu sedang berada di masa yang sangat berat dan merasa tidak aman. Kamu tidak harus menghadapinya sendirian. Mari beralih ke jalur bantuan manusia yang siap mendengarkanmu tanpa penghakiman.",
-        summary: {
-          mainTopic: "Krisis & Keselamatan",
-          emotions: emotions || ["Berat"],
-          need: "Bantuan Darurat",
-          nextStep: "Menghubungi Healing119 (119 ext 8) atau PSC 119."
+        success: true,
+        safety: {
+          level: safety.classification?.level ?? null,
+          status: "reason" in safety ? safety.reason : "CLASSIFIER_FAILURE",
         },
-        recommendedSteps: [
-          "Hubungi Healing119 (119 ext 8) atau 112",
-          "Kirim pesan ke teman/orang tepercaya",
-          "Pindah ke tempat yang aman dan tenang"
-        ]
+        isCrisis: safety.classification ? isCrisisLevel(safety.classification.level) : false,
+        reflection: null,
       });
     }
+
+    const ai = getGenAI();
+    const level = safety.classification.level;
 
     if (!ai) {
       // Fallback warm response when API key is not configured yet
       const primaryEmotion = emotions && emotions.length > 0 ? emotions.join(", ") : "yang dirasakan";
       return NextResponse.json({
+        success: true,
+        safety: { level, status: "ALLOWED" },
         isCrisis: false,
         reflection: `Kedengarannya hari ini cukup melelahkan bagi kamu yang merasakan ${primaryEmotion} (intensitas ${intensity}/5). Sangat wajar jika kamu merasa butuh waktu untuk ${need || "memahami perasaan ini"}. Tidak perlu terburu-buru mencari semua jawaban hari ini.`,
         suggestedQuestion: "Apa satu hal kecil yang membuat perasaan ini terasa makin berat belakangan ini?",
@@ -122,6 +115,8 @@ Buatkan respon dengan format JSON persis seperti berikut:
     const parsed = JSON.parse(resultText);
 
     return NextResponse.json({
+      success: true,
+      safety: { level, status: "ALLOWED" },
       isCrisis: false,
       reflection: parsed.reflection || "Terima kasih sudah berbagi cerita dengan Rangkul Cerita hari ini.",
       suggestedQuestion: parsed.suggestedQuestion || "Bagaimana jika kita mulai dengan mengenali apa yang paling kamu butuhkan saat ini?",
