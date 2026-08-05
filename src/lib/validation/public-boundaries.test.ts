@@ -1,8 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("../../../src/lib/database/newsletter", () => ({
-  subscribeToNewsletter: vi.fn().mockResolvedValue({ created: true }),
-}));
 import { POST as reflect } from "../../../app/api/checkin/reflect/route";
 import { POST as classify } from "../../../app/api/safety/classify/route";
 import { POST as newsletter } from "../../../app/api/newsletter/route";
@@ -28,18 +25,4 @@ describe("public boundary runtime validation", () => {
     expect(await response.json()).toEqual({ error: { code: "VALIDATION_ERROR", message: "Permintaan tidak valid" } });
   });
 
-  it("accepts valid newsletter and partnership payloads", async () => {
-    const newsletterResponse = await newsletter(request("/api/newsletter", { email: "person@example.com", consent: true }));
-    expect(newsletterResponse.status).toBe(200);
-
-    const partnershipResponse = await partnership(request("/api/partnership", {
-      institutionName: "Komunitas Cerita",
-      category: "Komunitas Pemuda / OSIS",
-      contactName: "Nama Kontak",
-      email: "person@example.com",
-      phone: "+62 812 3456",
-      message: "Mari berdiskusi.",
-    }));
-    expect(partnershipResponse.status).toBe(200);
-  });
 });

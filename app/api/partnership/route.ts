@@ -1,17 +1,19 @@
 import { NextResponse } from "next/server";
+import { createPartnershipLead } from "../../../src/lib/database/partnership";
 import { parseJson, partnershipSchema, validationError } from "../../../src/lib/validation/public-boundaries";
 
 export async function POST(request: Request) {
   try {
     const body = await parseJson(request, partnershipSchema);
     if (!body) return validationError();
-    const { institutionName, category, contactName, email } = body;
 
+    const result = await createPartnershipLead(body);
+    if (!result.created) throw new Error("Partnership lead persistence was not confirmed");
     return NextResponse.json({
       success: true,
-      message: `Terima kasih ${contactName}! Proposal & informasi kemitraan Rangkul Cerita untuk ${institutionName} telah kami catat dan tim Partnership akan menghubungi kamu melalui email (${email}) dalam 1x24 jam kerja.`
+      message: `Terima kasih ${body.contactName}! Proposal & informasi kemitraan Rangkul Cerita untuk ${body.institutionName} telah kami catat.`,
     });
-  } catch (err: any) {
-    return NextResponse.json({ error: "Gagal memproses formulir kemitraan" }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: { code: "PERSISTENCE_ERROR", message: "Formulir kemitraan belum dapat diproses" } }, { status: 500 });
   }
 }
