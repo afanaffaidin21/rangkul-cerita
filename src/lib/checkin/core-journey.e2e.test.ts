@@ -4,12 +4,10 @@ import { getPrimaryNextStepAction, getNextStepActionLabel } from "./next-step";
 import { deleteJournalEntry, JOURNAL_STORAGE_KEY, readJournalEntries, saveJournalEntry } from "../privacy/journal-storage";
 import { getSupportVisibility } from "../safety/support-visibility";
 
-const generateContent = vi.fn();
+const { generateReflection } = vi.hoisted(() => ({ generateReflection: vi.fn() }));
 
-vi.mock("@google/genai", () => ({
-  GoogleGenAI: class {
-    models = { generateContent };
-  },
+vi.mock("../ai/provider", () => ({
+  generateReflection,
 }));
 
 function request(body: Record<string, unknown>) {
@@ -56,7 +54,7 @@ describe("core journey E2E boundary", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     process.env.GEMINI_API_KEY = "synthetic-test-key";
-    generateContent.mockResolvedValue({ text: JSON.stringify(validReflection) });
+    generateReflection.mockResolvedValue({ ok: true, text: JSON.stringify(validReflection) });
   });
 
   it("completes the LOW check-in, validates reflection, selects Next Step, saves Journal locally, and exposes Human Support", async () => {
@@ -87,7 +85,7 @@ describe("core journey E2E boundary", () => {
 
     expect(response.status).toBe(400);
     expect(data.error.code).toBe("VALIDATION_ERROR");
-    expect(generateContent).not.toHaveBeenCalled();
+    expect(generateReflection).not.toHaveBeenCalled();
   });
 
   it("keeps HIGH in the controlled support flow without normal reflection or journal bypass", async () => {
@@ -98,7 +96,7 @@ describe("core journey E2E boundary", () => {
     expect(data.safety.level).toBe("HIGH");
     expect(data.reflection).toBeNull();
     expect(data.controlledResponse).toBeTruthy();
-    expect(generateContent).not.toHaveBeenCalled();
+    expect(generateReflection).not.toHaveBeenCalled();
     expect(getSupportVisibility(data.safety.level)).toBe("primary");
   });
 
@@ -110,7 +108,7 @@ describe("core journey E2E boundary", () => {
     expect(data.safety.level).toBe("IMMINENT");
     expect(data.reflection).toBeNull();
     expect(data.controlledResponse).toBeTruthy();
-    expect(generateContent).not.toHaveBeenCalled();
+    expect(generateReflection).not.toHaveBeenCalled();
     expect(getSupportVisibility(data.safety.level)).toBe("emergency");
   });
 
