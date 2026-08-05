@@ -124,44 +124,40 @@ export const MainFeatures: React.FC<MainFeaturesProps> = ({
         </div>
 
         {/* Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feat) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-x-8 gap-y-10">
+          {features.map((feat, index) => {
             const IconComponent = feat.icon;
+            const isSpotlight = index < 3;
             return (
               <div
                 key={feat.id}
-                className="bg-white rounded-3xl p-6 shadow-sm rangkul-card-hover flex flex-col justify-between space-y-4"
+                className={`${isSpotlight ? "lg:col-span-2 bg-white border border-[#DDE4DF] rounded-3xl p-7 shadow-sm" : "lg:col-span-2 bg-white border border-[#DDE4DF] rounded-3xl p-5"} flex flex-col justify-between gap-5`}
               >
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="p-3 rounded-2xl bg-[#EEF7F2] text-[#2E6F57]">
-                      <IconComponent className="w-5 h-5" />
+                  <div className="flex items-center justify-between gap-4">
+                    <div className={`${isSpotlight ? "w-10 h-10 rounded-xl bg-[#EEF7F2] flex items-center justify-center" : "w-8 h-8 rounded-lg bg-[#E8F0EA] flex items-center justify-center"}`}>
+                      <IconComponent className="w-5 h-5 text-[#2E6F57]" />
                     </div>
                     {feat.badge && (
-                      <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-[#F3F5F2] text-[#173D30] border border-[#DDE4DF]">
+                      <span className="text-[10px] font-bold text-[#2E6F57]">
                         {feat.badge}
                       </span>
                     )}
                   </div>
-
-                  <h3 className="font-bold text-base text-[#173D30]">
+                  <h3 className={`${isSpotlight ? "text-lg" : "text-base"} font-bold text-[#173D30]`}>
                     {feat.title}
                   </h3>
-
                   <p className="text-sm text-[#66736C] leading-relaxed">
                     {feat.description}
                   </p>
                 </div>
-
-                <div className="pt-3">
-                  <button
-                    onClick={feat.onClick}
-                    className="text-xs font-bold text-[#2E6F57] hover:text-[#173D30] inline-flex items-center gap-1 transition-colors"
-                  >
-                    <span>{feat.actionText}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                <button
+                  onClick={feat.onClick}
+                  className="text-xs font-bold text-[#2E6F57] hover:text-[#173D30] inline-flex items-center gap-1 transition-colors w-fit"
+                >
+                  <span>{feat.actionText}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
               </div>
             );
           })}

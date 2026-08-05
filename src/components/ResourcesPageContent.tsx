@@ -29,13 +29,13 @@ export const ResourcesPageContent: React.FC = () => {
           <div className="flex flex-wrap gap-2" aria-label="Filter kategori materi">
             {categories.map((item) => <button key={item} type="button" aria-pressed={category === item} onClick={() => setCategory(item)} className={`px-4 py-2.5 rounded-xl text-sm font-semibold ${category === item ? "bg-[#2E6F57] text-white" : "bg-white text-[#35413A]"}`}>{item}</button>)}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {resources.map((item) => <article key={item.id} className="bg-white rounded-3xl p-6 shadow-sm space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+            {resources.map((item) => <article key={item.id} className="group border-t border-[#DDE4DF] pt-5 space-y-4">
               <div className="flex items-center justify-between gap-3 text-xs text-[#66736C]"><span className="font-semibold text-[#2E6F57]">{item.format}</span><span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{item.duration}</span></div>
-              <h2 className="text-lg font-bold text-[#173D30]">{item.title}</h2>
+              <h2 className="text-lg font-bold text-[#173D30] group-hover:text-[#2E6F57] transition-colors">{item.title}</h2>
               <p className="text-sm text-[#66736C] leading-relaxed">{item.summary}</p>
               {item.steps && <ol className="list-decimal pl-5 space-y-2 text-sm text-[#35413A]">{item.steps.map((step) => <li key={step}>{step}</li>)}</ol>}
-              {item.contentMarkdown && <div className="p-4 rounded-2xl bg-[#EEF7F2] text-sm text-[#35413A] leading-relaxed">{item.contentMarkdown}</div>}
+              {item.contentMarkdown && <div className="p-4 rounded-xl bg-[#EEF7F2] text-sm text-[#35413A] leading-relaxed">{item.contentMarkdown}</div>}
               <p className="flex items-center gap-1.5 text-xs text-[#66736C]"><ShieldCheck className="w-3.5 h-3.5 text-[#2E6F57]" />{item.reviewer}</p>
             </article>)}
           </div>

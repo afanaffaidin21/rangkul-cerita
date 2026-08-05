@@ -50,8 +50,8 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
               Pilihan Teman Bicara & Bantuan:
             </h3>
 
-            <div className="space-y-3">
-              <div className="p-4 bg-[#FAFBF8] border border-[#DDE4DF] rounded-2xl flex items-start gap-3.5">
+            <div className="border-y border-[#DDE4DF] divide-y divide-[#DDE4DF]">
+              <div className="py-5 flex items-start gap-3.5">
                 <div className="p-2.5 bg-[#EEF7F2] text-[#2E6F57] rounded-xl font-bold text-xs shrink-0">
                   <Heart className="w-4 h-4" />
                 </div>
@@ -61,7 +61,7 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
                 </div>
               </div>
 
-              <div className="p-4 bg-[#FAFBF8] border border-[#DDE4DF] rounded-2xl flex items-start gap-3.5">
+              <div className="py-5 flex items-start gap-3.5">
                 <div className="p-2.5 bg-[#EEF7F2] text-[#2E6F57] rounded-xl font-bold text-xs shrink-0">
                   <UserCheck className="w-4 h-4" />
                 </div>
@@ -71,7 +71,7 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
                 </div>
               </div>
 
-              <div className="p-4 bg-[#FAFBF8] border border-[#DDE4DF] rounded-2xl flex items-start gap-3.5">
+              <div className="py-5 flex items-start gap-3.5">
                 <div className="p-2.5 bg-[#EEF7F2] text-[#2E6F57] rounded-xl font-bold text-xs shrink-0">
                   <Phone className="w-4 h-4" />
                 </div>

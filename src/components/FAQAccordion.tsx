@@ -45,18 +45,18 @@ export const FAQAccordion: React.FC = () => {
         </div>
 
         {/* Accordion List */}
-        <div className="space-y-3">
+        <div className="border-y border-[#DDE4DF] divide-y divide-[#DDE4DF]">
           {filteredFAQs.map((faq) => {
             const isOpen = openId === faq.id;
             return (
               <div
                 key={faq.id}
-                className="bg-[#FAFBF8] border border-[#DDE4DF] rounded-2xl overflow-hidden transition-all"
+                className="overflow-hidden"
               >
                 <button
                   onClick={() => toggleFAQ(faq.id)}
                   aria-expanded={isOpen}
-                  className="w-full p-5 text-left font-bold text-sm text-[#173D30] flex items-center justify-between gap-4 hover:bg-[#EEF7F2]/50 transition-colors focus:outline-none focus:ring-2 focus:ring-[#2E6F57]"
+                  className="w-full py-5 text-left font-bold text-sm text-[#173D30] flex items-center justify-between gap-4 hover:text-[#2E6F57] transition-colors focus:outline-none focus:ring-2 focus:ring-[#2E6F57]"
                 >
                   <span className="flex items-center gap-2">
                     <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-[#EEF7F2] text-[#2E6F57] border border-[#BFDCCD]">
@@ -72,7 +72,7 @@ export const FAQAccordion: React.FC = () => {
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-5 pt-2 text-sm text-[#35413A] leading-relaxed border-t border-[#DDE4DF]/60 bg-white">
+                  <div className="pb-6 pr-8 text-sm text-[#35413A] leading-relaxed max-w-3xl">
                     {faq.answer}
                   </div>
                 )}

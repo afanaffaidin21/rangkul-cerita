@@ -76,15 +76,15 @@ export const Hero: React.FC<HeroProps> = ({ onStartCheckin, onOpenJournalModal }
 
             {/* Trust Badges */}
             <div className="pt-4 border-t border-[#DDE4DF] flex flex-wrap items-center gap-4 text-xs text-[#35413A]">
-              <div className="flex items-center gap-1.5 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-lg">
+              <div className="flex items-center gap-1.5">
                 <UserCheck className="w-4 h-4 text-[#2E6F57]" />
                 <span className="font-medium">Identitas Minimum</span>
               </div>
-              <div className="flex items-center gap-1.5 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-lg">
+              <div className="flex items-center gap-1.5">
                 <Lock className="w-4 h-4 text-[#2E6F57]" />
                 <span className="font-medium">Privasi sebagai Standar</span>
               </div>
-              <div className="flex items-center gap-1.5 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-lg">
+              <div className="flex items-center gap-1.5">
                 <Shield className="w-4 h-4 text-[#2E6F57]" />
                 <span className="font-medium">AI dengan Safety Guardrail</span>
               </div>

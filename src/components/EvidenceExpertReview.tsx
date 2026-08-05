@@ -17,9 +17,9 @@ export const EvidenceExpertReview: React.FC = () => {
         </div>
 
         {/* Process Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 bg-[#FAFBF8] rounded-3xl space-y-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#EEF7F2] text-[#2E6F57] flex items-center justify-center font-bold">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="p-6 bg-[#FAFBF8] border-t-2 border-[#2E6F57] rounded-b-2xl space-y-4">
+            <div className="w-10 h-10 rounded-full bg-[#EEF7F2] text-[#2E6F57] flex items-center justify-center font-serif italic text-lg">
               1
             </div>
             <h3 className="font-bold text-base text-[#173D30]">Review Materi Self-Help</h3>
@@ -28,8 +28,8 @@ export const EvidenceExpertReview: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-6 bg-[#FAFBF8] rounded-3xl space-y-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#EEF7F2] text-[#2E6F57] flex items-center justify-center font-bold">
+          <div className="p-6 bg-[#FAFBF8] border-t-2 border-[#8FAFD0] rounded-b-2xl space-y-4">
+            <div className="w-10 h-10 rounded-full bg-[#EEF7F2] text-[#2E6F57] flex items-center justify-center font-serif italic text-lg">
               2
             </div>
             <h3 className="font-bold text-base text-[#173D30]">Pengujian Algoritma AI Safety</h3>
@@ -38,8 +38,8 @@ export const EvidenceExpertReview: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-6 bg-[#FAFBF8] rounded-3xl space-y-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#EEF7F2] text-[#2E6F57] flex items-center justify-center font-bold">
+          <div className="p-6 bg-[#FAFBF8] border-t-2 border-[#C8A4D8] rounded-b-2xl space-y-4">
+            <div className="w-10 h-10 rounded-full bg-[#EEF7F2] text-[#2E6F57] flex items-center justify-center font-serif italic text-lg">
               3
             </div>
             <h3 className="font-bold text-base text-[#173D30]">Evaluasi Jalur Rujukan</h3>
@@ -61,15 +61,15 @@ export const EvidenceExpertReview: React.FC = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 bg-white rounded-2xl border border-[#DDE4DF] space-y-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 sm:divide-x sm:divide-[#BFDCCD] text-xs">
+            <div className="py-2 sm:pr-5 space-y-1">
                 <span className="font-bold text-[#173D30]">Batas Penggunaan</span>
                 <p className="text-[#66736C] text-[11px]">
                  Materi ini bukan diagnosis, terapi, atau pengganti dukungan profesional.
                 </p>
             </div>
 
-            <div className="p-4 bg-white rounded-2xl border border-[#DDE4DF] space-y-1">
+            <div className="pt-4 sm:pt-2 sm:pl-5 space-y-1">
                 <span className="font-bold text-[#173D30]">Status Pengembangan</span>
                 <p className="text-[#66736C] text-[11px]">
                  Klaim tinjauan pakar atau klinis tidak digunakan sebelum proses tinjauan benar-benar selesai.

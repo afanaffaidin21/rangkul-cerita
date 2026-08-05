@@ -52,45 +52,29 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onOpenJournalModal }) =>
           </p>
         </div>
 
-        {/* Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {steps.map((item, idx) => {
-            const IconComp = item.icon;
-            return (
-              <div
-                key={idx}
-                className="relative bg-[#FAFBF8] rounded-3xl p-8 shadow-sm rangkul-card-hover flex flex-col justify-between space-y-6"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className={`p-3.5 rounded-2xl ${item.bg} ${item.accent}`}>
-                      <IconComp className="w-6 h-6" />
+        <div className="relative max-w-5xl mx-auto">
+          <div className="absolute left-7 top-8 bottom-8 w-px bg-[#BFDCCD] md:left-[16.666%] md:right-[16.666%] md:top-7 md:bottom-auto md:h-px md:w-auto" />
+          <div className="relative grid gap-8 md:grid-cols-3 md:gap-10">
+            {steps.map((item, idx) => {
+              const IconComp = item.icon;
+              return (
+                <div key={idx} className="relative grid grid-cols-[3.5rem_1fr] gap-5 md:block md:text-center">
+                  <div className={`relative z-10 w-14 h-14 rounded-full ${item.bg} ${item.accent} border-4 border-white shadow-sm flex items-center justify-center md:mx-auto`}>
+                    <IconComp className="w-6 h-6" />
+                  </div>
+                  <div className="space-y-3 md:mt-5">
+                    <div className="flex items-baseline gap-3 md:block">
+                      <span className="font-serif italic text-xl text-[#A0AAA4]">{item.stepNumber}</span>
+                      <h3 className="text-xl font-bold text-[#173D30] font-sans md:mt-1">{item.title}</h3>
                     </div>
-                    <span className="font-serif italic font-normal text-2xl text-[#A0AAA4]">
-                      {item.stepNumber}
-                    </span>
+                    <p className="text-xs font-semibold text-[#2E6F57]">{item.subtitle}</p>
+                    <p className="text-sm text-[#66736C] leading-relaxed">{item.description}</p>
+                    <p className="text-xs font-semibold text-[#2E6F57]">Ditinjau tanpa label diagnosis</p>
                   </div>
-
-                  <div>
-                    <h3 className="text-xl font-bold text-[#173D30] font-sans">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs font-semibold text-[#2E6F57] mt-0.5">
-                      {item.subtitle}
-                    </p>
-                  </div>
-
-                  <p className="text-sm text-[#66736C] leading-relaxed">
-                    {item.description}
-                  </p>
                 </div>
-
-                <div className="pt-4 text-xs font-semibold text-[#2E6F57] flex items-center gap-1.5">
-                  <span>Ditinjau tanpa label diagnosis</span>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {/* Action CTA */}

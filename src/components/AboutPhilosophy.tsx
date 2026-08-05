@@ -47,19 +47,17 @@ export const AboutPhilosophy: React.FC = () => {
         </div>
 
         {/* Principles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 border-y border-[#DDE4DF] md:divide-x md:divide-[#DDE4DF]">
           {principles.map((pr, idx) => {
             const IconComp = pr.icon;
             return (
               <div
                 key={idx}
-                className="p-6 bg-[#FAFBF8] border border-[#DDE4DF] rounded-3xl space-y-3 rangkul-card-hover"
+                className={`py-7 md:px-8 border-b border-[#DDE4DF] space-y-3 ${idx % 2 === 0 ? "md:pl-0" : "md:pr-0"}`}
               >
-                <div className="p-3 bg-[#EEF7F2] text-[#2E6F57] rounded-2xl w-fit border border-[#BFDCCD]">
-                  <IconComp className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-base text-[#173D30]">{pr.title}</h3>
-                <p className="text-xs text-[#66736C] leading-relaxed">{pr.desc}</p>
+                <IconComp className="w-5 h-5 text-[#2E6F57]" />
+                <h3 className="font-bold text-lg text-[#173D30]">{pr.title}</h3>
+                <p className="text-sm text-[#66736C] leading-relaxed">{pr.desc}</p>
               </div>
             );
           })}

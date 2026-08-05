@@ -54,15 +54,15 @@ export const SafetyPrivacySection: React.FC<SafetyPrivacySectionProps> = ({
         </div>
 
         {/* 4 Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto">
           {pillars.map((pil, idx) => {
             const IconComp = pil.icon;
             return (
               <div
                 key={idx}
-                className="bg-[#2E6F57]/40 border border-[#BFDCCD]/20 rounded-3xl p-6 space-y-3 backdrop-blur-sm"
+                className="bg-[#2E6F57]/35 border border-[#BFDCCD]/20 rounded-2xl p-6 space-y-4"
               >
-                <div className="p-3 rounded-2xl bg-[#2E6F57] text-[#BFDCCD] w-fit">
+                <div className="w-10 h-10 rounded-xl bg-[#2E6F57] text-[#BFDCCD] flex items-center justify-center">
                   <IconComp className="w-5 h-5" />
                 </div>
                 <h3 className="font-bold text-base text-white">{pil.title}</h3>
@@ -81,19 +81,19 @@ export const SafetyPrivacySection: React.FC<SafetyPrivacySectionProps> = ({
           </h3>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center text-xs">
-            <div className="p-3 bg-[#173D30] rounded-xl border border-[#BFDCCD]/30 w-full sm:w-auto">
+            <div className="py-3 w-full sm:w-auto">
               1. Tulis Cerita
             </div>
             <ArrowRight className="w-4 h-4 text-[#BFDCCD] hidden sm:block" />
-            <div className="p-3 bg-[#173D30] rounded-xl border border-[#BFDCCD]/30 w-full sm:w-auto">
+            <div className="py-3 w-full sm:w-auto">
               2. Penyimpanan Lokal
             </div>
             <ArrowRight className="w-4 h-4 text-[#BFDCCD] hidden sm:block" />
-            <div className="p-3 bg-[#173D30] rounded-xl border border-[#BFDCCD]/30 w-full sm:w-auto">
+            <div className="py-3 w-full sm:w-auto">
               3. Kontrol Pengguna
             </div>
             <ArrowRight className="w-4 h-4 text-[#BFDCCD] hidden sm:block" />
-            <div className="p-3 bg-[#2E7D5B] rounded-xl border border-[#BFDCCD]/40 font-bold w-full sm:w-auto">
+            <div className="py-3 font-bold text-[#BFDCCD] w-full sm:w-auto">
               4. Tidak Disimpan di Server oleh Default
             </div>
           </div>
