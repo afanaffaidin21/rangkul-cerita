@@ -6,6 +6,7 @@ import {
 } from "../data/landingData";
 import { EmotionType, NeedType, MoodCheckinResult } from "../types";
 import { isControlledHighState, isControlledImminentState } from "../lib/safety/ui-state";
+import { getCheckinViewState } from "../lib/safety/checkin-state";
 import { Sparkles, ArrowRight, RefreshCw, Heart, Check, Play, Phone, ShieldAlert } from "lucide-react";
 
 interface MoodCheckerProps {
@@ -24,6 +25,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
   const [need, setNeed] = useState<NeedType>("Cerita sebentar");
   const [userNote, setUserNote] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [requestError, setRequestError] = useState(false);
   const [result, setResult] = useState<MoodCheckinResult | null>(null);
 
   const intensityLabels: Record<number, string> = {
@@ -52,7 +54,19 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
     }
   };
 
+  const resultState = getCheckinViewState(result);
+  const viewState = requestError && resultState !== "HIGH_CONTROLLED" && resultState !== "IMMINENT_CONTROLLED"
+    ? "ERROR"
+    : isLoading
+      ? "SUBMITTING"
+      : resultState;
+
   const handleProcessCheckin = async () => {
+    if (isLoading) return;
+    setRequestError(false);
+    if (result && getCheckinViewState(result) !== "HIGH_CONTROLLED" && getCheckinViewState(result) !== "IMMINENT_CONTROLLED") {
+      setResult(null);
+    }
     setIsLoading(true);
     try {
       const response = await fetch("/api/checkin/reflect", {
@@ -68,12 +82,13 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
 
       const data = await response.json();
 
-      if (data.isCrisis) {
+      if (data.safety?.level === "HIGH" || data.safety?.level === "IMMINENT") {
         onOpenSafetyModal();
       }
 
       setResult(data);
     } catch (err) {
+      setRequestError(true);
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -240,7 +255,11 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
             </button>
           </div>
 
-          {result && isControlledImminentState(result.safety?.level) ? (
+          {viewState === "ERROR" ? (
+            <div className="p-4 mt-6 rounded-2xl border border-[#E89887] bg-[#FAF0EE] text-sm text-[#8F2E3B]" role="alert">
+              Refleksi belum tersedia. Coba lagi tanpa mengubah jalur bantuan yang tersedia.
+            </div>
+          ) : viewState === "IMMINENT_CONTROLLED" && result && isControlledImminentState(result.safety?.level) ? (
             <div className="p-6 bg-[#FAF0EE] border-2 border-[#B8414E] rounded-2xl space-y-4 animate-fade-in mt-6" role="alert" aria-labelledby="imminent-safety-title">
               <div className="flex items-center gap-2 text-xs font-bold text-[#B8414E]">
                 <ShieldAlert className="w-4 h-4" />
@@ -270,7 +289,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
                 </button>
               </div>
             </div>
-          ) : result && isControlledHighState(result.safety?.level) ? (
+          ) : viewState === "HIGH_CONTROLLED" && result && isControlledHighState(result.safety?.level) ? (
             <div className="p-6 bg-[#FAF0EE] border border-[#E89887] rounded-2xl space-y-4 animate-fade-in mt-6" role="alert" aria-labelledby="high-safety-title">
               <div className="flex items-center gap-2 text-xs font-bold text-[#B8414E]">
                 <ShieldAlert className="w-4 h-4" />
