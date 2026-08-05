@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { isCrisisLevel, runSafetyGate } from "../../../../src/lib/safety/gate";
-import { CONTROLLED_HIGH_RESPONSE } from "../../../../src/lib/safety/messages";
+import {
+  CONTROLLED_HIGH_RESPONSE,
+  CONTROLLED_IMMINENT_RESPONSE,
+} from "../../../../src/lib/safety/messages";
 
 function getGenAI() {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -33,7 +36,11 @@ export async function POST(request: Request) {
           status: "reason" in safety ? safety.reason : "CLASSIFIER_FAILURE",
         },
         isCrisis: safety.classification ? isCrisisLevel(safety.classification.level) : false,
-        controlledResponse: "reason" in safety && safety.reason === "HIGH" ? CONTROLLED_HIGH_RESPONSE : null,
+        controlledResponse: "reason" in safety && safety.reason === "HIGH"
+          ? CONTROLLED_HIGH_RESPONSE
+          : "reason" in safety && safety.reason === "IMMINENT"
+            ? CONTROLLED_IMMINENT_RESPONSE
+            : null,
         reflection: null,
       });
     }

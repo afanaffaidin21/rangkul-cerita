@@ -38,6 +38,9 @@ export interface MoodCheckinResult {
     primaryAction: string;
     trustedPersonAction: string;
     primaryContact: HelplineItem;
+    secondaryAction?: string;
+    secondaryContact?: HelplineItem;
+    supportContact?: HelplineItem;
   } | null;
   reflection: string | null;
   suggestedQuestion?: string;

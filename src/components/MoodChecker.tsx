@@ -5,7 +5,7 @@ import {
   EMOTION_OPTIONS
 } from "../data/landingData";
 import { EmotionType, NeedType, MoodCheckinResult } from "../types";
-import { isControlledHighState } from "../lib/safety/ui-state";
+import { isControlledHighState, isControlledImminentState } from "../lib/safety/ui-state";
 import { Sparkles, ArrowRight, RefreshCw, Heart, Check, Play, Phone, ShieldAlert } from "lucide-react";
 
 interface MoodCheckerProps {
@@ -240,7 +240,37 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
             </button>
           </div>
 
-          {result && isControlledHighState(result.safety?.level) ? (
+          {result && isControlledImminentState(result.safety?.level) ? (
+            <div className="p-6 bg-[#FAF0EE] border-2 border-[#B8414E] rounded-2xl space-y-4 animate-fade-in mt-6" role="alert" aria-labelledby="imminent-safety-title">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#B8414E]">
+                <ShieldAlert className="w-4 h-4" />
+                <span id="imminent-safety-title">Cari bantuan langsung sekarang</span>
+              </div>
+              <p className="text-sm text-[#17201B] leading-relaxed font-sans font-medium">
+                {result.controlledResponse?.message || "Hubungi bantuan darurat sekarang dan dekati orang yang bisa menemanimu."}
+              </p>
+              <div className="flex flex-col gap-2.5 pt-2">
+                <button
+                  onClick={onOpenSafetyModal}
+                  className="w-full px-5 py-3 bg-[#B8414E] hover:bg-[#8F2E3B] text-white text-sm font-bold rounded-xl flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#B8414E] focus:ring-offset-2"
+                >
+                  <Phone className="w-4 h-4" /> Hubungi PSC 119
+                </button>
+                <button
+                  onClick={onOpenSafetyModal}
+                  className="w-full px-5 py-2.5 bg-white hover:bg-[#F3F5F2] text-[#173D30] border border-[#DDE4DF] text-xs font-semibold rounded-xl flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#2E6F57] focus:ring-offset-2"
+                >
+                  Coba 112 jika tersedia di wilayahmu
+                </button>
+                <button
+                  onClick={onOpenSafetyModal}
+                  className="w-full px-5 py-2.5 bg-white hover:bg-[#F3F5F2] text-[#173D30] border border-[#DDE4DF] text-xs font-semibold rounded-xl flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#2E6F57] focus:ring-offset-2"
+                >
+                  Hubungi Orang Tepercaya Sekarang
+                </button>
+              </div>
+            </div>
+          ) : result && isControlledHighState(result.safety?.level) ? (
             <div className="p-6 bg-[#FAF0EE] border border-[#E89887] rounded-2xl space-y-4 animate-fade-in mt-6" role="alert" aria-labelledby="high-safety-title">
               <div className="flex items-center gap-2 text-xs font-bold text-[#B8414E]">
                 <ShieldAlert className="w-4 h-4" />
