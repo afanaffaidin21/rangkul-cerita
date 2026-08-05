@@ -15,7 +15,8 @@ const HISTORICAL = /\b(dulu|pernah|waktu itu|sebelumnya|masa lalu)\b/i;
 const IMMINENT_PATTERNS = [
   /sedang (?:mau|akan|melakukan|menyakiti)/i,
   /(?:malam ini|sebentar lagi|dalam waktu dekat)/i,
-  /sekarang.{0,20}(?:sedang|mau|akan|melakukan|menyakiti)/i,
+  /(?:mau|akan|sedang|melakukan|menyakiti).{0,30}(?:diriku|diri sendiri|pada diriku|ke diriku).{0,30}(?:sekarang|sebentar lagi|malam ini|dalam waktu dekat)/i,
+  /sekarang.{0,30}(?:sedang|mau|akan|melakukan|menyakiti).{0,30}(?:diriku|diri sendiri|pada diriku|ke diriku)/i,
   /sudah (?:menyiapkan|minum|minum obat|melukai|menyayat)/i,
   /sudah (?:punya|memegang) (?:obat|pisau|tali|racun)/i,
 ];
@@ -54,7 +55,7 @@ function detectContext(text: string): SafetyContext {
   const activeText = removeQuotedContent(text).replace(/\baku membaca kalimat\b/gi, " ");
   const hasQuotedContext = QUOTED_CONTEXT.test(text);
   const hasSelfReference = ACTIVE_SELF_REFERENCE.test(activeText);
-  const hasSelfDirectedSignal = /\b(?:aku|saya|gue|gua|gw|diriku)\b.{0,40}(?:bunuh diri|mati|akhiri hidup|menyakiti diri|melukai diri|gak mau hidup lagi)/i.test(activeText)
+  const hasSelfDirectedSignal = /\b(?:aku|saya|gue|gua|gw|diriku)\b.{0,40}(?:bunuh diri|mati|akhiri hidup|menyakiti diri|melukai diri|gak mau hidup lagi|melakukan sesuatu ke diriku|melakukan sesuatu pada diriku|diri sendiri)/i.test(activeText)
     || /\baku sendiri merasa begitu\b/i.test(activeText)
     || IMMINENT_PATTERNS.some((pattern) => pattern.test(activeText) && /\b(?:aku|saya|gue|gua|gw|diriku)\b/i.test(activeText));
   const hasThirdPersonReference = THIRD_PERSON_REFERENCES.test(activeText);

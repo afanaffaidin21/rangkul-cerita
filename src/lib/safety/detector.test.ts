@@ -123,6 +123,34 @@ describe("classifySafetyRisk", () => {
     expect(result.level).toBe(SAFETY_RISK_LEVELS.IMMINENT);
   });
 
+  it("classifies immediate self-directed action without an explicit suicide keyword as IMMINENT", () => {
+    const result = classifySafetyRisk("Aku mau melakukan sesuatu ke diriku sekarang.");
+
+    expect(result.context).toBe("SELF");
+    expect(result.level).toBe(SAFETY_RISK_LEVELS.IMMINENT);
+  });
+
+  it("classifies immediate self-directed intent conservatively as IMMINENT", () => {
+    const result = classifySafetyRisk("Aku akan melakukan sesuatu pada diriku sebentar lagi.");
+
+    expect(result.context).toBe("SELF");
+    expect(result.level).toBe(SAFETY_RISK_LEVELS.IMMINENT);
+  });
+
+  it.each([
+    "Aku sedang mengerjakan tugas sekarang.",
+    "Sekarang aku mau minum air.",
+  ])("does not treat ordinary present-tense language as IMMINENT: %s", (text) => {
+    expect(classifySafetyRisk(text).level).not.toBe(SAFETY_RISK_LEVELS.IMMINENT);
+  });
+
+  it("does not escalate generic sekarang without self-directed danger", () => {
+    const result = classifySafetyRisk("Sekarang rasanya hari ini berat banget.");
+
+    expect(result.level).toBe(SAFETY_RISK_LEVELS.LOW);
+    expect(result.level).not.toBe(SAFETY_RISK_LEVELS.IMMINENT);
+  });
+
   it("returns a safe failure result instead of defaulting invalid input to LOW", () => {
     expect(tryClassifySafetyRisk(null)).toBeNull();
     expect(tryClassifySafetyRisk({ text: "Aku ingin mati" })).toBeNull();
