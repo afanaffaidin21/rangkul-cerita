@@ -7,6 +7,7 @@ import {
 import { EmotionType, NeedType, MoodCheckinResult } from "../types";
 import { isControlledHighState, isControlledImminentState } from "../lib/safety/ui-state";
 import { getCheckinViewState } from "../lib/safety/checkin-state";
+import { getSupportVisibility } from "../lib/safety/support-visibility";
 import { CHECKIN_STEPS } from "../lib/checkin/progression";
 import { getNextStepActionLabel, getPrimaryNextStepAction } from "../lib/checkin/next-step";
 import { Sparkles, ArrowRight, RefreshCw, Heart, Check, Play, Phone, ShieldAlert } from "lucide-react";
@@ -59,6 +60,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
 
   const resultState = getCheckinViewState(result);
   const primaryNextStep = getPrimaryNextStepAction(need);
+  const supportVisibility = getSupportVisibility(result?.safety?.level);
   const viewState = requestError && resultState !== "HIGH_CONTROLLED" && resultState !== "IMMINENT_CONTROLLED"
     ? "ERROR"
     : isLoading
@@ -357,6 +359,14 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
               )}
 
               <div className="space-y-2.5 pt-2">
+                {supportVisibility === "prominent" && (
+                  <div className="p-3.5 bg-[#FBEAEC] rounded-xl border border-[#E89887]/50 space-y-2" role="status">
+                    <p className="text-xs font-semibold text-[#8F2E3B]">Dukungan manusia tersedia jika kamu ingin bicara dengan seseorang.</p>
+                    <button onClick={onOpenSafetyModal} className="w-full px-4 py-2.5 bg-white text-[#B8414E] border border-[#E89887]/60 text-xs font-semibold rounded-xl">
+                      Lihat pilihan bantuan
+                    </button>
+                  </div>
+                )}
                 <div className="p-3.5 bg-white/80 rounded-xl border border-[#DDE4DF]">
                   <p className="text-[11px] font-semibold uppercase tracking-wide text-[#66736C]">Langkah berikutnya</p>
                   <p className="mt-1 text-xs text-[#35413A]">{result.summary?.nextStep || "Pilih satu langkah kecil yang terasa paling mungkin dilakukan sekarang."}</p>
@@ -394,7 +404,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
                       Coba latihan 2 menit
                     </button>
                   )}
-                  {primaryNextStep !== "support" && (
+                  {primaryNextStep !== "support" && supportVisibility !== "prominent" && (
                     <button onClick={onOpenSafetyModal} className="flex-1 px-4 py-2.5 bg-white text-[#B8414E] border border-[#E89887]/40 text-xs font-semibold rounded-xl">
                       Pilihan bantuan
                     </button>
