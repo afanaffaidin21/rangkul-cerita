@@ -8,6 +8,7 @@ import { EmotionType, NeedType, MoodCheckinResult } from "../types";
 import { isControlledHighState, isControlledImminentState } from "../lib/safety/ui-state";
 import { getCheckinViewState } from "../lib/safety/checkin-state";
 import { CHECKIN_STEPS } from "../lib/checkin/progression";
+import { getNextStepActionLabel, getPrimaryNextStepAction } from "../lib/checkin/next-step";
 import { Sparkles, ArrowRight, RefreshCw, Heart, Check, Play, Phone, ShieldAlert } from "lucide-react";
 
 interface MoodCheckerProps {
@@ -57,6 +58,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
   };
 
   const resultState = getCheckinViewState(result);
+  const primaryNextStep = getPrimaryNextStepAction(need);
   const viewState = requestError && resultState !== "HIGH_CONTROLLED" && resultState !== "IMMINENT_CONTROLLED"
     ? "ERROR"
     : isLoading
@@ -354,28 +356,50 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
                 </div>
               )}
 
-              {/* CTAs from Result */}
-              <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
-                <button
-                  onClick={() => onOpenJournalWithData(selectedEmotions, intensity, need)}
-                  className="px-5 py-2.5 bg-[#2E6F57] hover:bg-[#173D30] text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 shadow-sm"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-[#BFDCCD]" /> Mulai Jurnal Terpandu
-                </button>
-
-                <button
-                  onClick={onOpenExerciseModal}
-                  className="px-5 py-2.5 bg-white hover:bg-[#F3F5F2] text-[#173D30] border border-[#DDE4DF] text-xs font-semibold rounded-xl flex items-center justify-center gap-2"
-                >
-                  <Play className="w-3.5 h-3.5 text-[#2E6F57] fill-current" /> Coba Latihan 2 Menit
-                </button>
-
-                <button
-                  onClick={onOpenSafetyModal}
-                  className="px-5 py-2.5 bg-[#FBEAEC] hover:bg-[#E89887]/30 text-[#B8414E] border border-[#E89887]/40 text-xs font-semibold rounded-xl flex items-center justify-center gap-2"
-                >
-                  <Phone className="w-3.5 h-3.5" /> Lihat Pilihan Bantuan
-                </button>
+              <div className="space-y-2.5 pt-2">
+                <div className="p-3.5 bg-white/80 rounded-xl border border-[#DDE4DF]">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-[#66736C]">Langkah berikutnya</p>
+                  <p className="mt-1 text-xs text-[#35413A]">{result.summary?.nextStep || "Pilih satu langkah kecil yang terasa paling mungkin dilakukan sekarang."}</p>
+                </div>
+                {primaryNextStep === "journal" ? (
+                  <button
+                    onClick={() => onOpenJournalWithData(selectedEmotions, intensity, need)}
+                    className="w-full px-5 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-[#BFDCCD]" /> {getNextStepActionLabel(primaryNextStep)}
+                  </button>
+                ) : primaryNextStep === "exercise" ? (
+                  <button
+                    onClick={onOpenExerciseModal}
+                    className="w-full px-5 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    <Play className="w-3.5 h-3.5 text-[#BFDCCD] fill-current" /> {getNextStepActionLabel(primaryNextStep)}
+                  </button>
+                ) : (
+                  <button
+                    onClick={onOpenSafetyModal}
+                    className="w-full px-5 py-3 bg-[#B8414E] hover:bg-[#8F2E3B] text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    <Phone className="w-3.5 h-3.5" /> {getNextStepActionLabel(primaryNextStep)}
+                  </button>
+                )}
+                <div className="flex flex-col sm:flex-row gap-2">
+                  {primaryNextStep !== "journal" && (
+                    <button onClick={() => onOpenJournalWithData(selectedEmotions, intensity, need)} className="flex-1 px-4 py-2.5 bg-white text-[#173D30] border border-[#DDE4DF] text-xs font-semibold rounded-xl">
+                      Lanjut ke jurnal
+                    </button>
+                  )}
+                  {primaryNextStep !== "exercise" && (
+                    <button onClick={onOpenExerciseModal} className="flex-1 px-4 py-2.5 bg-white text-[#173D30] border border-[#DDE4DF] text-xs font-semibold rounded-xl">
+                      Coba latihan 2 menit
+                    </button>
+                  )}
+                  {primaryNextStep !== "support" && (
+                    <button onClick={onOpenSafetyModal} className="flex-1 px-4 py-2.5 bg-white text-[#B8414E] border border-[#E89887]/40 text-xs font-semibold rounded-xl">
+                      Pilihan bantuan
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           )}
