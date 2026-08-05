@@ -5,8 +5,10 @@ export const AI_CONFIG = {
   userAgent: "aistudio-build",
 } as const;
 
-export function getGeminiApiKey(): string | null {
-  const apiKey = process.env.GEMINI_API_KEY?.trim();
+import { getRuntimeEnv } from "../config/env";
+
+export function getGeminiApiKey(env: NodeJS.ProcessEnv = process.env): string | null {
+  const apiKey = getRuntimeEnv(env).GEMINI_API_KEY;
   if (!apiKey || apiKey === "MY_GEMINI_API_KEY") return null;
   return apiKey;
 }

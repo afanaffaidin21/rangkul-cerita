@@ -1,3 +1,5 @@
+import { getRuntimeEnv } from "../config/env";
+
 export type DatabaseConfig = {
   url: string;
   maxConnections: number;
@@ -17,7 +19,8 @@ function parseMaxConnections(value: string | undefined) {
 }
 
 export function getDatabaseConfig(env: NodeJS.ProcessEnv = process.env): DatabaseConfig {
-  const url = env.DATABASE_URL?.trim();
+  const runtimeEnv = getRuntimeEnv(env);
+  const url = runtimeEnv.DATABASE_URL;
   if (!url) {
     throw new Error("DATABASE_URL is required for database operations");
   }
@@ -33,6 +36,6 @@ export function getDatabaseConfig(env: NodeJS.ProcessEnv = process.env): Databas
 
   return {
     url,
-    maxConnections: parseMaxConnections(env.DATABASE_MAX_CONNECTIONS),
+    maxConnections: parseMaxConnections(runtimeEnv.DATABASE_MAX_CONNECTIONS),
   };
 }
