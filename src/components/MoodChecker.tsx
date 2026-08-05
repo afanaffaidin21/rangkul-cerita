@@ -173,14 +173,14 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
 
           {/* STEP 2: Intensity Slider */}
           <div className={`${step === 2 ? "" : "hidden"} space-y-4 pt-4 border-t border-[#DDE4DF]`}>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <label className="text-sm font-bold text-[#173D30] flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-[#2E6F57] text-white text-xs font-bold flex items-center justify-center">
                   2
                 </span>
                 Seberapa kuat perasaan ini?
               </label>
-              <span className="text-xs font-bold text-[#2E6F57] px-3 py-1 bg-[#EEF7F2] rounded-full border border-[#BFDCCD]">
+              <span className="self-start ml-8 text-xs font-bold text-[#2E6F57] px-3 py-1 bg-[#EEF7F2] rounded-full border border-[#BFDCCD] sm:self-auto sm:ml-0">
                 {intensityLabels[intensity]}
               </span>
             </div>
