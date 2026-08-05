@@ -7,6 +7,7 @@ import {
 import { EmotionType, NeedType, MoodCheckinResult } from "../types";
 import { isControlledHighState, isControlledImminentState } from "../lib/safety/ui-state";
 import { getCheckinViewState } from "../lib/safety/checkin-state";
+import { CHECKIN_STEPS } from "../lib/checkin/progression";
 import { Sparkles, ArrowRight, RefreshCw, Heart, Check, Play, Phone, ShieldAlert } from "lucide-react";
 
 interface MoodCheckerProps {
@@ -24,6 +25,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
   const [intensity, setIntensity] = useState<number>(3);
   const [need, setNeed] = useState<NeedType>("Cerita sebentar");
   const [userNote, setUserNote] = useState<string>("");
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(CHECKIN_STEPS.indexOf("feeling") + 1 as 1 | 2 | 3 | 4);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [requestError, setRequestError] = useState(false);
   const [result, setResult] = useState<MoodCheckinResult | null>(null);
@@ -95,6 +97,14 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
     }
   };
 
+  const goToNextStep = () => {
+    setStep((current) => Math.min(4, current + 1) as 1 | 2 | 3 | 4);
+  };
+
+  const goToPreviousStep = () => {
+    setStep((current) => Math.max(1, current - 1) as 1 | 2 | 3 | 4);
+  };
+
   return (
     <section id="mood-checker" className="py-16 lg:py-24 bg-[#FAFBF8] border-b border-[#DDE4DF]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
@@ -117,7 +127,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
         <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#DDE4DF] shadow-lg space-y-8">
           
           {/* STEP 1: Emotion Selection */}
-          <div className="space-y-4">
+          <div className={`${step === 1 ? "" : "hidden"} space-y-4`}>
             <div className="flex items-center justify-between">
               <label className="text-sm font-bold text-[#173D30] flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-[#2E6F57] text-white text-xs font-bold flex items-center justify-center">
@@ -162,7 +172,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
           </div>
 
           {/* STEP 2: Intensity Slider */}
-          <div className="space-y-4 pt-4 border-t border-[#DDE4DF]">
+          <div className={`${step === 2 ? "" : "hidden"} space-y-4 pt-4 border-t border-[#DDE4DF]`}>
             <div className="flex items-center justify-between">
               <label className="text-sm font-bold text-[#173D30] flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-[#2E6F57] text-white text-xs font-bold flex items-center justify-center">
@@ -194,7 +204,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
           </div>
 
           {/* STEP 3: Current Need */}
-          <div className="space-y-4 pt-4 border-t border-[#DDE4DF]">
+          <div className={`${step === 3 ? "" : "hidden"} space-y-4 pt-4 border-t border-[#DDE4DF]`}>
             <label className="text-sm font-bold text-[#173D30] flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-[#2E6F57] text-white text-xs font-bold flex items-center justify-center">
                 3
@@ -223,7 +233,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
           </div>
 
           {/* Optional Short Note */}
-          <div className="space-y-2 pt-2">
+          <div className={`${step === 4 ? "" : "hidden"} space-y-2 pt-2`}>
             <label className="text-xs font-semibold text-[#173D30]">
               Catatan singkat tentang pemicu atau apa yang terjadi (Opsional):
             </label>
@@ -236,23 +246,21 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
             />
           </div>
 
-          {/* Submit Action */}
-          <div className="pt-2">
-            <button
-              onClick={handleProcessCheckin}
-              disabled={isLoading}
-              className="w-full py-4 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-bold rounded-2xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-            >
-              {isLoading ? (
-                <>
-                  <RefreshCw className="w-4 h-4 animate-spin" /> Merangkum Perasaan...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4 text-[#BFDCCD]" /> Dapatkan Refleksi Awal
-                </>
-              )}
-            </button>
+          <div className="flex items-center justify-between gap-3 pt-2">
+            {step > 1 ? (
+              <button type="button" onClick={goToPreviousStep} disabled={isLoading} className="px-4 py-3 text-xs font-semibold text-[#2E6F57] border border-[#BFDCCD] rounded-xl disabled:opacity-50">
+                Kembali
+              </button>
+            ) : <span />}
+            {step < 4 ? (
+              <button type="button" onClick={goToNextStep} className="ml-auto px-5 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-bold rounded-xl flex items-center justify-center gap-2">
+                Lanjut <ArrowRight className="w-4 h-4" />
+              </button>
+            ) : (
+              <button type="button" onClick={handleProcessCheckin} disabled={isLoading} className="ml-auto px-5 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50">
+                {isLoading ? <><RefreshCw className="w-4 h-4 animate-spin" /> Merangkum Perasaan...</> : <><Sparkles className="w-4 h-4 text-[#BFDCCD]" /> Dapatkan Refleksi Awal</>}
+              </button>
+            )}
           </div>
 
           {viewState === "ERROR" ? (
