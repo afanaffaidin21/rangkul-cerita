@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { AppError, apiFailure } from "../../../src/lib/errors";
-import { subscribeToNewsletter } from "../../../src/lib/database/newsletter";
+import { subscribeToNewsletter } from "../../../src/features/newsletter/services/subscribe";
 import { newsletterSchema, parseJson, validationError } from "../../../src/lib/validation/public-boundaries";
 
 export async function POST(request: Request) {

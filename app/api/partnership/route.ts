@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { AppError, apiFailure } from "../../../src/lib/errors";
-import { createPartnershipLead } from "../../../src/lib/database/partnership";
+import { createPartnershipLead } from "../../../src/features/partnership/services/leads";
 import { parseJson, partnershipSchema, validationError } from "../../../src/lib/validation/public-boundaries";
 
 export async function POST(request: Request) {
