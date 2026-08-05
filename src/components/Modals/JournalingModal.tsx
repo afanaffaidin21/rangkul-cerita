@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from "react";
-import { Sparkles, X, Send, ShieldAlert, Check, Copy, ArrowRight, Heart, RefreshCw, BookOpen } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Sparkles, X, Send, ShieldAlert, Check, Copy, ArrowRight, Heart, RefreshCw, BookOpen, Trash2 } from "lucide-react";
 import { EmotionType, NeedType, MoodCheckinResult } from "../../types";
+import { deleteJournalEntry, JournalEntry, readJournalEntries, saveJournalEntry } from "../../lib/privacy/journal-storage";
 
 interface JournalingModalProps {
   isOpen: boolean;
@@ -29,10 +30,38 @@ export const JournalingModal: React.FC<JournalingModalProps> = ({
   >([]);
   const [followUpText, setFollowUpText] = useState("");
   const [copiedSummary, setCopiedSummary] = useState(false);
+  const [savedEntries, setSavedEntries] = useState<JournalEntry[]>([]);
+  const [journalMessage, setJournalMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isOpen || typeof window === "undefined") return;
+    setSavedEntries(readJournalEntries(window.localStorage));
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
+  const handleSaveJournal = () => {
+    if (typeof window === "undefined") return;
+    const saved = saveJournalEntry(window.localStorage, userNote);
+    if (saved.ok === false) {
+      setJournalMessage(saved.reason === "EMPTY" ? "Tulis sedikit cerita sebelum menyimpan." : "Cerita belum tersimpan. Periksa ruang penyimpanan browser lalu coba lagi.");
+      return;
+    }
+    setSavedEntries((entries) => [...entries, saved.entry]);
+    setUserNote("");
+    setJournalMessage("Cerita tersimpan di browser ini.");
+  };
+
+  const handleDeleteJournal = (id: string) => {
+    if (typeof window === "undefined") return;
+    if (deleteJournalEntry(window.localStorage, id)) {
+      setSavedEntries((entries) => entries.filter((entry) => entry.id !== id));
+      setJournalMessage("Cerita dihapus dari browser ini.");
+    }
+  };
+
   const handleStartReflect = async () => {
+    setJournalMessage(null);
     setIsLoading(true);
     try {
       const response = await fetch("/api/checkin/reflect", {
@@ -46,10 +75,15 @@ export const JournalingModal: React.FC<JournalingModalProps> = ({
         }),
       });
 
-      const data: MoodCheckinResult = await response.json();
+      const data: MoodCheckinResult & { success?: boolean; error?: { message?: string } } = await response.json();
 
       if (data.safety?.level === "HIGH" || data.safety?.level === "IMMINENT") {
         onOpenSafetyModal();
+        return;
+      }
+
+      if (!response.ok || data.success !== true || typeof data.reflection !== "string") {
+        setJournalMessage(data.error?.message || "Refleksi belum tersedia. Coba lagi.");
         return;
       }
 
@@ -59,7 +93,7 @@ export const JournalingModal: React.FC<JournalingModalProps> = ({
         { sender: "ai", text: data.reflection || "" },
       ]);
     } catch {
-      console.error("Journal reflection request failed");
+      setJournalMessage("Refleksi belum tersedia. Periksa koneksi lalu coba lagi.");
     } finally {
       setIsLoading(false);
     }
@@ -88,17 +122,22 @@ export const JournalingModal: React.FC<JournalingModalProps> = ({
         }),
       });
 
-      const data: MoodCheckinResult = await response.json();
+      const data: MoodCheckinResult & { success?: boolean; error?: { message?: string } } = await response.json();
 
       if (data.safety?.level === "HIGH" || data.safety?.level === "IMMINENT") {
         onOpenSafetyModal();
         return;
       }
 
+      if (!response.ok || data.success !== true || typeof data.reflection !== "string") {
+        setJournalMessage(data.error?.message || "Refleksi belum tersedia. Coba lagi.");
+        return;
+      }
+
       setResult(data);
       setConversation((prev) => [...prev, { sender: "ai", text: data.reflection || "" }]);
     } catch {
-      console.error("Journal reflection request failed");
+      setJournalMessage("Refleksi belum tersedia. Periksa koneksi lalu coba lagi.");
     } finally {
       setIsLoading(false);
     }
@@ -164,8 +203,22 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
               </span>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-[#17201B]">
+             {savedEntries.length > 0 && (
+               <div className="space-y-2">
+                 <h3 className="text-sm font-semibold text-[#17201B]">Cerita tersimpan di browser ini</h3>
+                 {savedEntries.map((entry) => (
+                   <div key={entry.id} className="flex items-start justify-between gap-3 p-3 bg-white border border-[#DDE4DF] rounded-xl">
+                     <p className="text-xs text-[#35413A] whitespace-pre-line">{entry.text}</p>
+                     <button type="button" onClick={() => handleDeleteJournal(entry.id)} aria-label="Hapus cerita tersimpan" className="shrink-0 p-2 text-[#B8414E] hover:bg-[#FAF0EE] rounded-lg">
+                       <Trash2 className="w-4 h-4" />
+                     </button>
+                   </div>
+                 ))}
+               </div>
+             )}
+
+             <div className="space-y-2">
+               <label className="text-sm font-semibold text-[#17201B]">
                 Ingin menceritakan apa yang terjadi hari ini? (Boleh dikosongkan)
               </label>
               <textarea
@@ -177,11 +230,20 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
               />
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-              <div className="text-xs text-[#66736C]">
-                 Ceritamu tetap di browser sampai kamu memilih untuk meminta refleksi AI.
-              </div>
-              <button
+               <div className="flex flex-col gap-3 pt-2">
+                 <div className="text-xs text-[#66736C]">
+                   Cerita hanya tersimpan di browser ini setelah kamu memilih Simpan. Tidak ada pengiriman otomatis. Refleksi AI hanya berjalan setelah kamu memilih Mulai Refleksi.
+                 </div>
+                 {journalMessage && <p className="text-xs text-[#8F2E3B]" role="status">{journalMessage}</p>}
+                 <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+               <button
+                 type="button"
+                 onClick={handleSaveJournal}
+                 className="w-full sm:w-auto px-6 py-3 bg-white hover:bg-[#F3F5F2] text-[#173D30] border border-[#BFDCCD] text-sm font-semibold rounded-xl"
+               >
+                 Simpan di Browser
+               </button>
+               <button
                 onClick={handleStartReflect}
                 disabled={isLoading}
                 className="w-full sm:w-auto px-6 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-semibold rounded-xl transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
@@ -196,12 +258,13 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
                   </>
                 )}
               </button>
+                </div>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Active reflection dialogue & summary state */}
-        {result && (
+          {/* Active reflection dialogue & summary state */}
+          {result && (
           <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-[#FAFBF8]">
             {/* Conversation log */}
             <div className="space-y-4">
