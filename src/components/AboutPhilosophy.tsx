@@ -1,5 +1,3 @@
-'use client';
-
 import React from "react";
 import { Heart, Compass, ShieldCheck, Users, Lock, Sparkles } from "lucide-react";
 

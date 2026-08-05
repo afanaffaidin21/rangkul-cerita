@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, type ReactNode } from "react";
 import { SafetyUtilityBar } from "./components/SafetyUtilityBar";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
-import { TrustStrip } from "./components/TrustStrip";
 import { MoodChecker } from "./components/MoodChecker";
 import { HowItWorks } from "./components/HowItWorks";
 import { MainFeatures } from "./components/MainFeatures";
@@ -12,9 +11,7 @@ import { SelfHelpLibrary } from "./components/SelfHelpLibrary";
 import { SafetyPrivacySection } from "./components/SafetyPrivacySection";
 import { HumanSupportBridge } from "./components/HumanSupportBridge";
 import { Testimonials } from "./components/Testimonials";
-import { EvidenceExpertReview } from "./components/EvidenceExpertReview";
 import { ArticleSection } from "./components/ArticleSection";
-import { AboutPhilosophy } from "./components/AboutPhilosophy";
 import { PartnershipSection } from "./components/PartnershipSection";
 import { FAQAccordion } from "./components/FAQAccordion";
 import { NewsletterSection } from "./components/NewsletterSection";
@@ -32,7 +29,13 @@ import { DataPrivacyModal } from "./components/Modals/DataPrivacyModal";
 
 import { EmotionType, NeedType, ArticleItem } from "./types";
 
-export default function App() {
+interface AppProps {
+  trustStrip: ReactNode;
+  evidenceExpertReview: ReactNode;
+  aboutPhilosophy: ReactNode;
+}
+
+export default function App({ trustStrip, evidenceExpertReview, aboutPhilosophy }: AppProps) {
   // Modal states
   const [safetyModalOpen, setSafetyModalOpen] = useState(false);
   const [journalModalOpen, setJournalModalOpen] = useState(false);
@@ -85,7 +88,7 @@ export default function App() {
         />
 
         {/* 4. Trust Strip */}
-        <TrustStrip />
+          {trustStrip}
 
         {/* 5. Interactive Mood Checker */}
         <MoodChecker
@@ -120,13 +123,13 @@ export default function App() {
         <Testimonials />
 
         {/* 12. Evidence and Expert Review */}
-        <EvidenceExpertReview />
+          {evidenceExpertReview}
 
         {/* 13. Article and Blog Section */}
         <ArticleSection onSelectArticle={(article) => setSelectedArticle(article)} />
 
         {/* 14. About and Philosophy */}
-        <AboutPhilosophy />
+          {aboutPhilosophy}
 
         {/* 15. Partnership Section */}
         <PartnershipSection onOpenPartnershipModal={() => setPartnershipModalOpen(true)} />
