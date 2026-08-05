@@ -40,14 +40,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           : "bg-[#FAFBF8] border-b border-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-2.5 group focus:outline-none focus:ring-2 focus:ring-[#2E6F57] rounded-lg p-1">
+        <a href="/" className="min-w-0 flex items-center gap-2.5 group focus:outline-none focus:ring-2 focus:ring-[#2E6F57] rounded-lg p-1">
           <div className="w-10 h-10 rounded-2xl bg-[#2E6F57] text-[#BFDCCD] flex items-center justify-center shadow-sm group-hover:bg-[#173D30] transition-colors">
             <Heart className="w-5 h-5 fill-current" />
           </div>
-          <div>
-            <span className="font-bold text-lg text-[#173D30] tracking-tight font-sans block leading-none">
+           <div className="min-w-0">
+             <span className="font-bold text-lg text-[#173D30] tracking-tight font-sans block leading-none">
               Rangkul Cerita
             </span>
             <span className="text-[10px] text-[#66736C] tracking-wide block mt-0.5">
@@ -100,7 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center gap-2 lg:hidden">
           <button
             onClick={onOpenSafetyModal}
-            className="p-2.5 text-[#66736C] hover:text-[#B8414E] hover:bg-[#FBEAEC] rounded-xl"
+            className="min-w-11 min-h-11 p-2.5 text-[#66736C] hover:text-[#B8414E] hover:bg-[#FBEAEC] rounded-xl flex items-center justify-center"
             aria-label="Buka pilihan dukungan manusia"
           >
             <Phone className="w-4 h-4" />
@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2.5 border border-[#DDE4DF] bg-white text-[#17201B] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2E6F57]"
+            className="min-w-11 min-h-11 p-2.5 border border-[#DDE4DF] bg-white text-[#17201B] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2E6F57] flex items-center justify-center"
             aria-label={mobileMenuOpen ? "Tutup Menu Navigasi" : "Buka Menu Navigasi"}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"
@@ -120,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div id="mobile-navigation" className="lg:hidden bg-[#FAFBF8] border-b border-[#DDE4DF] px-6 py-6 space-y-4 animate-fade-in">
+        <div id="mobile-navigation" className="lg:hidden max-h-[calc(100dvh-5rem)] overflow-y-auto bg-[#FAFBF8] border-b border-[#DDE4DF] px-6 py-6 space-y-4 animate-fade-in">
           <nav className="flex flex-col space-y-3">
             {navLinks.map((link) => (
               <a

@@ -151,14 +151,14 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 min-[360px]:grid-cols-2 sm:grid-cols-4 gap-3">
               {EMOTION_OPTIONS.map((opt) => {
                 const isSelected = selectedEmotions.includes(opt.id);
                 return (
                   <button
                     key={opt.id}
                     onClick={() => toggleEmotion(opt.id)}
-                    className={`p-3.5 rounded-2xl border text-left transition-all flex flex-col justify-between gap-2 ${
+                    className={`min-h-24 p-3.5 rounded-2xl border text-left transition-all flex flex-col justify-between gap-2 ${
                       isSelected
                         ? "border-[#2E6F57] bg-[#EEF7F2] ring-2 ring-[#2E6F57]/30 shadow-sm"
                         : "border-[#DDE4DF] bg-white hover:border-[#BFDCCD] hover:bg-[#FAFBF8]"
@@ -206,10 +206,10 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
                 onChange={(e) => setIntensity(Number(e.target.value))}
                 className="w-full h-2.5 bg-[#EEF7F2] rounded-lg appearance-none cursor-pointer accent-[#2E6F57]"
               />
-              <div className="flex justify-between text-[11px] text-[#66736C]">
-                <span>1 (Sedikit terasa)</span>
-                <span>3 (Cukup terasa)</span>
-                <span>5 (Sangat berat)</span>
+              <div className="grid grid-cols-3 gap-2 text-[11px] text-[#66736C]">
+                <span className="text-left">1 (Sedikit terasa)</span>
+                <span className="text-center">3 (Cukup terasa)</span>
+                <span className="text-right">5 (Sangat berat)</span>
               </div>
             </div>
           </div>
@@ -257,18 +257,18 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
             />
           </div>
 
-          <div className="flex items-center justify-between gap-3 pt-2">
+          <div className="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-3 pt-2">
             {step > 1 ? (
               <button type="button" onClick={goToPreviousStep} disabled={isLoading} className="px-4 py-3 text-xs font-semibold text-[#2E6F57] border border-[#BFDCCD] rounded-xl disabled:opacity-50">
                 Kembali
               </button>
             ) : <span />}
             {step < 4 ? (
-              <button type="button" onClick={goToNextStep} className="ml-auto px-5 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-bold rounded-xl flex items-center justify-center gap-2">
+              <button type="button" onClick={goToNextStep} className="w-full sm:w-auto sm:ml-auto px-5 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-bold rounded-xl flex items-center justify-center gap-2">
                 Lanjut <ArrowRight className="w-4 h-4" />
               </button>
             ) : (
-              <button type="button" onClick={handleProcessCheckin} disabled={isLoading} className="ml-auto px-5 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50">
+              <button type="button" onClick={handleProcessCheckin} disabled={isLoading} className="w-full sm:w-auto sm:ml-auto px-5 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-bold rounded-xl flex items-center justify-center gap-2 disabled:opacity-50">
                 {isLoading ? <><RefreshCw className="w-4 h-4 animate-spin" /> Merangkum Perasaan...</> : <><Sparkles className="w-4 h-4 text-[#BFDCCD]" /> Dapatkan Refleksi Awal</>}
               </button>
             )}

@@ -160,15 +160,15 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
 
   return (
     <div
-      className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-[#17201B]/60 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-[110] flex items-start sm:items-center justify-center p-2 sm:p-4 bg-[#17201B]/60 backdrop-blur-sm animate-fade-in"
       role="dialog"
       aria-modal="true"
       aria-labelledby="journal-modal-title"
     >
-      <div className="relative w-full max-w-3xl max-h-[92vh] flex flex-col bg-[#FAFBF8] rounded-2xl shadow-2xl border border-[#DDE4DF] overflow-hidden">
+      <div className="relative w-full max-w-3xl max-h-[calc(100dvh-1rem)] sm:max-h-[92vh] flex flex-col bg-[#FAFBF8] rounded-2xl shadow-2xl border border-[#DDE4DF] overflow-hidden">
         {/* Header */}
-        <div className="bg-[#173D30] text-white px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="bg-[#173D30] text-white px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
+          <div className="min-w-0 flex items-center gap-3">
             <div className="p-2 bg-[#2E6F57] rounded-xl text-[#BFDCCD]">
               <Sparkles className="w-5 h-5" />
             </div>
@@ -193,7 +193,7 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
         {/* Initial prompt input state */}
         {!result && (
           <div className="p-6 overflow-y-auto space-y-5 flex-1">
-            <div className="p-4 bg-[#EEF7F2] border border-[#BFDCCD] rounded-xl text-xs text-[#173D30] flex items-center justify-between">
+            <div className="p-4 bg-[#EEF7F2] border border-[#BFDCCD] rounded-xl text-xs text-[#173D30] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <span className="font-bold">Check-in Terpilih: </span>
                 {initialEmotions.join(", ")} (Skala {initialIntensity}/5) • Kebutuhan: {initialNeed}
@@ -208,7 +208,7 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
                  <h3 className="text-sm font-semibold text-[#17201B]">Cerita tersimpan di browser ini</h3>
                  {savedEntries.map((entry) => (
                    <div key={entry.id} className="flex items-start justify-between gap-3 p-3 bg-white border border-[#DDE4DF] rounded-xl">
-                     <p className="text-xs text-[#35413A] whitespace-pre-line">{entry.text}</p>
+                     <p className="min-w-0 break-words text-xs text-[#35413A] whitespace-pre-line">{entry.text}</p>
                      <button type="button" onClick={() => handleDeleteJournal(entry.id)} aria-label="Hapus cerita tersimpan" className="shrink-0 p-2 text-[#B8414E] hover:bg-[#FAF0EE] rounded-lg">
                        <Trash2 className="w-4 h-4" />
                      </button>
@@ -376,12 +376,12 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
                 value={followUpText}
                 onChange={(e) => setFollowUpText(e.target.value)}
                 placeholder="Balas atau ceritakan lebih lanjut..."
-                className="flex-1 px-4 py-3 text-sm bg-white border border-[#DDE4DF] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2E6F57] text-[#17201B]"
+                className="min-w-0 flex-1 px-4 py-3 text-sm bg-white border border-[#DDE4DF] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2E6F57] text-[#17201B]"
               />
               <button
                 type="submit"
                 disabled={isLoading || !followUpText.trim()}
-                className="px-5 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                className="min-w-11 min-h-11 px-4 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
               >
                 <Send className="w-4 h-4" />
               </button>
@@ -390,7 +390,7 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
         )}
 
         {/* Footer */}
-        <div className="p-4 bg-[#F3F5F2] border-t border-[#DDE4DF] flex items-center justify-between text-xs text-[#66736C]">
+        <div className="p-4 bg-[#F3F5F2] border-t border-[#DDE4DF] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-[#66736C]">
           <button
             onClick={onOpenSafetyModal}
             className="flex items-center gap-1.5 text-[#B8414E] font-medium hover:underline"
