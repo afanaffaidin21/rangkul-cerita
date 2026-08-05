@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { FAQ_DATA } from "../data/landingData";
-import { HelpCircle, ChevronDown, Search, Sparkles } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 
 export const FAQAccordion: React.FC = () => {
   const [openId, setOpenId] = useState<string | null>("faq-1");
@@ -19,19 +19,15 @@ export const FAQAccordion: React.FC = () => {
   );
 
   return (
-    <section id="faq" className="py-16 lg:py-24 bg-white border-b border-[#DDE4DF]">
+    <section id="faq" className="py-16 lg:py-20 bg-white border-b border-[#DDE4DF]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
         
         {/* Section Heading */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EEF7F2] text-[#2E6F57] text-xs font-semibold">
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>Pertanyaan yang Sering Diajukan</span>
-          </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#173D30] font-sans">
             Pertanyaan seputar Rangkul Cerita.
           </h2>
-          <p className="text-sm text-[#66736C]">
+          <p className="text-sm sm:text-base text-[#35413A] leading-relaxed">
             Jawaban jujur, transparan, dan tidak defensif tentang batas AI, privasi, dan krisis.
           </p>
         </div>
@@ -76,7 +72,7 @@ export const FAQAccordion: React.FC = () => {
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-5 pt-1 text-xs text-[#35413A] leading-relaxed border-t border-[#DDE4DF]/60 bg-white">
+                  <div className="px-5 pb-5 pt-2 text-sm text-[#35413A] leading-relaxed border-t border-[#DDE4DF]/60 bg-white">
                     {faq.answer}
                   </div>
                 )}

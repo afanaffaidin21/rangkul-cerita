@@ -36,8 +36,8 @@ export const SafetyPrivacySection: React.FC<SafetyPrivacySectionProps> = ({
   ];
 
   return (
-    <section id="keamanan" className="py-16 lg:py-24 bg-[#173D30] text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section id="keamanan" className="py-20 lg:py-28 bg-[#173D30] text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
         
         {/* Section Heading */}
         <div className="text-center space-y-3 max-w-2xl mx-auto">
@@ -66,7 +66,7 @@ export const SafetyPrivacySection: React.FC<SafetyPrivacySectionProps> = ({
                   <IconComp className="w-5 h-5" />
                 </div>
                 <h3 className="font-bold text-base text-white">{pil.title}</h3>
-                <p className="text-xs text-[#BFDCCD] leading-relaxed font-normal">
+                <p className="text-sm text-[#BFDCCD] leading-relaxed font-normal">
                   {pil.description}
                 </p>
               </div>

@@ -39,19 +39,15 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onOpenJournalModal }) =>
   ];
 
   return (
-    <section id="cara-kerja" className="py-16 lg:py-24 bg-white border-b border-[#DDE4DF]">
+    <section id="cara-kerja" className="py-16 lg:py-20 bg-white border-b border-[#DDE4DF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Heading */}
-        <div className="text-center space-y-3 mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EEF7F2] text-[#2E6F57] text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Alur Sederhana & Aman</span>
-          </div>
+        <div className="text-center space-y-3 mb-12">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#173D30] font-sans">
             Begini cara Rangkul Cerita membantumu.
           </h2>
-          <p className="text-sm sm:text-base text-[#66736C] max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-[#35413A] leading-relaxed max-w-xl mx-auto">
             Tiga langkah tenang untuk berpindah dari merasa bingung menuju tindakan kecil yang terasa aman.
           </p>
         </div>
@@ -63,7 +59,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onOpenJournalModal }) =>
             return (
               <div
                 key={idx}
-                className="relative bg-[#FAFBF8] rounded-3xl p-8 border border-[#DDE4DF] shadow-sm rangkul-card-hover flex flex-col justify-between space-y-6"
+                className="relative bg-[#FAFBF8] rounded-3xl p-8 shadow-sm rangkul-card-hover flex flex-col justify-between space-y-6"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -89,7 +85,7 @@ export const HowItWorks: React.FC<HowItWorksProps> = ({ onOpenJournalModal }) =>
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-[#DDE4DF]/60 text-xs font-semibold text-[#2E6F57] flex items-center gap-1.5">
+                <div className="pt-4 text-xs font-semibold text-[#2E6F57] flex items-center gap-1.5">
                   <span>Ditinjau tanpa label diagnosis</span>
                 </div>
               </div>

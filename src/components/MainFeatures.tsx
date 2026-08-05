@@ -110,19 +110,15 @@ export const MainFeatures: React.FC<MainFeaturesProps> = ({
   ];
 
   return (
-    <section id="fitur" className="py-16 lg:py-24 bg-[#FAFBF8] border-b border-[#DDE4DF]">
+    <section id="fitur" className="py-20 lg:py-28 bg-[#FAFBF8] border-b border-[#DDE4DF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Heading */}
         <div className="text-center space-y-3 mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EEF7F2] text-[#2E6F57] text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Fitur Utama Rangkul Cerita</span>
-          </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#173D30] font-sans">
             Satu ruang, beberapa cara untuk merasa lebih terbantu.
           </h2>
-          <p className="text-sm sm:text-base text-[#66736C] max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-[#35413A] leading-relaxed max-w-xl mx-auto">
             Setiap fitur dirancang untuk fokus memberikan manfaat pengguna tanpa membuatnya merasa kewalahan.
           </p>
         </div>
@@ -134,11 +130,11 @@ export const MainFeatures: React.FC<MainFeaturesProps> = ({
             return (
               <div
                 key={feat.id}
-                className="bg-white rounded-3xl p-6 border border-[#DDE4DF] shadow-sm rangkul-card-hover flex flex-col justify-between space-y-4"
+                className="bg-white rounded-3xl p-6 shadow-sm rangkul-card-hover flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <div className="p-3 rounded-2xl bg-[#EEF7F2] text-[#2E6F57] border border-[#BFDCCD]">
+                    <div className="p-3 rounded-2xl bg-[#EEF7F2] text-[#2E6F57]">
                       <IconComponent className="w-5 h-5" />
                     </div>
                     {feat.badge && (
@@ -152,12 +148,12 @@ export const MainFeatures: React.FC<MainFeaturesProps> = ({
                     {feat.title}
                   </h3>
 
-                  <p className="text-xs text-[#66736C] leading-relaxed">
+                  <p className="text-sm text-[#66736C] leading-relaxed">
                     {feat.description}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-[#DDE4DF]">
+                <div className="pt-3">
                   <button
                     onClick={feat.onClick}
                     className="text-xs font-bold text-[#2E6F57] hover:text-[#173D30] inline-flex items-center gap-1 transition-colors"

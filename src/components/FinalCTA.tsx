@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import { Sparkles, Phone, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Phone, ArrowRight, CheckCircle2 } from "lucide-react";
 
 interface FinalCTAProps {
   onStartCheckin: () => void;
@@ -10,16 +10,11 @@ interface FinalCTAProps {
 
 export const FinalCTA: React.FC<FinalCTAProps> = ({ onStartCheckin, onOpenSafetyModal }) => {
   return (
-    <section className="py-20 lg:py-28 bg-white text-center relative overflow-hidden">
+    <section className="py-24 lg:py-32 bg-white text-center relative overflow-hidden">
       {/* Background soft organic glow */}
       <div className="absolute inset-0 bg-rangkul-lines opacity-60 pointer-events-none" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 space-y-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EEF7F2] border border-[#BFDCCD] text-[#2E6F57] text-xs font-semibold">
-          <Sparkles className="w-3.5 h-3.5 text-[#58A17F]" />
-          <span>Ruang Aman Selalu Terbuka</span>
-        </div>
-
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#173D30] font-sans leading-tight">
           Kamu tidak perlu menunggu sampai semuanya terasa{" "}
           <span className="font-serif italic text-[#2E6F57] font-normal underline decoration-[#BFDCCD] underline-offset-4">
@@ -27,7 +22,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({ onStartCheckin, onOpenSafety
           </span>
         </h2>
 
-        <p className="text-base sm:text-lg text-[#66736C] max-w-2xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-lg text-[#35413A] max-w-2xl mx-auto leading-relaxed">
           Mulai dengan check-in singkat. Tidak perlu tahu harus menulis apa dan tidak harus langsung berbicara dengan orang lain.
         </p>
 

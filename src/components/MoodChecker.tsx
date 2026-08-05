@@ -118,19 +118,18 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
   };
 
   return (
-    <section id="mood-checker" className="py-16 lg:py-24 bg-[#FAFBF8] border-b border-[#DDE4DF]">
+    <section id="mood-checker" className="py-20 lg:py-28 bg-[#FAFBF8] border-b border-[#DDE4DF]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         
         {/* Section Heading */}
-        <div className="text-center space-y-3 mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EEF7F2] text-[#2E6F57] text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5" />
+        <div className="text-center space-y-3 mb-12">
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#EEF7F2] text-[#2E6F57] text-xs font-semibold">
             <span>Pengecekan Emosi Interaktif</span>
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#173D30] font-sans">
             Apa yang paling terasa hari ini?
           </h2>
-          <p className="text-sm sm:text-base text-[#66736C] max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-[#35413A] leading-relaxed max-w-xl mx-auto">
             Tidak ada jawaban benar atau salah. Pilih yang paling mendekati perasaanmu saat ini.
           </p>
         </div>
@@ -415,7 +414,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
           )}
 
           <div className="text-center text-[11px] text-[#66736C]">
-            📌 Check-in emosi ini bukan alat diagnosis klinis dan tidak menyimpan data sensitif tanpa izinmu.
+            Check-in emosi ini bukan alat diagnosis klinis dan tidak menyimpan data sensitif tanpa izinmu.
           </div>
 
         </div>

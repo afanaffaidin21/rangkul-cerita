@@ -7,14 +7,9 @@ import { Hero } from "./components/Hero";
 import { MoodChecker } from "./components/MoodChecker";
 import { HowItWorks } from "./components/HowItWorks";
 import { MainFeatures } from "./components/MainFeatures";
-import { SelfHelpLibrary } from "./components/SelfHelpLibrary";
 import { SafetyPrivacySection } from "./components/SafetyPrivacySection";
 import { HumanSupportBridge } from "./components/HumanSupportBridge";
-import { Testimonials } from "./components/Testimonials";
-import { ArticleSection } from "./components/ArticleSection";
-import { PartnershipSection } from "./components/PartnershipSection";
 import { FAQAccordion } from "./components/FAQAccordion";
-import { NewsletterSection } from "./components/NewsletterSection";
 import { FinalCTA } from "./components/FinalCTA";
 import { Footer } from "./components/Footer";
 import { PersistentHelpButton } from "./components/PersistentHelpButton";
@@ -23,26 +18,21 @@ import { PersistentHelpButton } from "./components/PersistentHelpButton";
 import { SafetyModal } from "./components/Modals/SafetyModal";
 import { JournalingModal } from "./components/Modals/JournalingModal";
 import { GroundingExerciseModal } from "./components/Modals/GroundingExerciseModal";
-import { PartnershipModal } from "./components/Modals/PartnershipModal";
-import { ArticleReaderModal } from "./components/Modals/ArticleReaderModal";
 import { DataPrivacyModal } from "./components/Modals/DataPrivacyModal";
 
-import { EmotionType, NeedType, ArticleItem } from "./types";
+import { EmotionType, NeedType } from "./types";
 
 interface AppProps {
   trustStrip: ReactNode;
   evidenceExpertReview: ReactNode;
-  aboutPhilosophy: ReactNode;
 }
 
-export default function App({ trustStrip, evidenceExpertReview, aboutPhilosophy }: AppProps) {
+export default function App({ trustStrip, evidenceExpertReview }: AppProps) {
   // Modal states
   const [safetyModalOpen, setSafetyModalOpen] = useState(false);
   const [journalModalOpen, setJournalModalOpen] = useState(false);
   const [exerciseModalOpen, setExerciseModalOpen] = useState(false);
-  const [partnershipModalOpen, setPartnershipModalOpen] = useState(false);
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
-  const [selectedArticle, setSelectedArticle] = useState<ArticleItem | null>(null);
 
   // Journal pre-filled state
   const [journalEmotions, setJournalEmotions] = useState<EmotionType[]>(["Cemas"]);
@@ -74,7 +64,7 @@ export default function App({ trustStrip, evidenceExpertReview, aboutPhilosophy 
 
       {/* 2. Navbar */}
       <Navbar
-        onOpenJournalModal={() => setJournalModalOpen(true)}
+        onStartCheckin={handleStartCheckinScroll}
         onOpenSafetyModal={() => setSafetyModalOpen(true)}
         onOpenPrivacyModal={() => setPrivacyModalOpen(true)}
       />
@@ -107,8 +97,8 @@ export default function App({ trustStrip, evidenceExpertReview, aboutPhilosophy 
           onOpenExerciseModal={() => setExerciseModalOpen(true)}
         />
 
-        {/* 8. Self-Help Library */}
-        <SelfHelpLibrary onOpenExerciseModal={() => setExerciseModalOpen(true)} />
+        {/* 8. Human Support Bridge */}
+        <HumanSupportBridge onOpenSafetyModal={() => setSafetyModalOpen(true)} />
 
         {/* 9. Safety, Privacy, and AI Boundaries */}
         <SafetyPrivacySection
@@ -116,44 +106,26 @@ export default function App({ trustStrip, evidenceExpertReview, aboutPhilosophy 
           onOpenSafetyModal={() => setSafetyModalOpen(true)}
         />
 
-        {/* 10. Human Support Bridge */}
-        <HumanSupportBridge onOpenSafetyModal={() => setSafetyModalOpen(true)} />
+        {/* 10. Evidence and Expert Review */}
+        {evidenceExpertReview}
 
-        {/* 11. Testimonials */}
-        <Testimonials />
-
-        {/* 12. Evidence and Expert Review */}
-          {evidenceExpertReview}
-
-        {/* 13. Article and Blog Section */}
-        <ArticleSection onSelectArticle={(article) => setSelectedArticle(article)} />
-
-        {/* 14. About and Philosophy */}
-          {aboutPhilosophy}
-
-        {/* 15. Partnership Section */}
-        <PartnershipSection onOpenPartnershipModal={() => setPartnershipModalOpen(true)} />
-
-        {/* 16. FAQ Accordion */}
+        {/* 11. FAQ Accordion */}
         <FAQAccordion />
 
-        {/* 17. Quote and Newsletter */}
-        <NewsletterSection />
-
-        {/* 18. Final CTA */}
+        {/* 12. Final CTA */}
         <FinalCTA
           onStartCheckin={handleStartCheckinScroll}
           onOpenSafetyModal={() => setSafetyModalOpen(true)}
         />
       </main>
 
-      {/* 19. Footer */}
+      {/* 13. Footer */}
       <Footer
         onOpenPrivacyModal={() => setPrivacyModalOpen(true)}
         onOpenSafetyModal={() => setSafetyModalOpen(true)}
       />
 
-      {/* 20. Persistent Help Button */}
+      {/* 14. Persistent Help Button */}
       <PersistentHelpButton onOpenSafetyModal={() => setSafetyModalOpen(true)} />
 
       {/* Modals */}
@@ -174,16 +146,6 @@ export default function App({ trustStrip, evidenceExpertReview, aboutPhilosophy 
       <GroundingExerciseModal
         isOpen={exerciseModalOpen}
         onClose={() => setExerciseModalOpen(false)}
-      />
-
-      <PartnershipModal
-        isOpen={partnershipModalOpen}
-        onClose={() => setPartnershipModalOpen(false)}
-      />
-
-      <ArticleReaderModal
-        article={selectedArticle}
-        onClose={() => setSelectedArticle(null)}
       />
 
       <DataPrivacyModal

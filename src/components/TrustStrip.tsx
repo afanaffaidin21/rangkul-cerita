@@ -26,7 +26,7 @@ export const TrustStrip: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white border-y border-[#DDE4DF] py-8 px-4 sm:px-6">
+    <div className="bg-white border-y border-[#DDE4DF] py-6 px-4 sm:px-6 lg:py-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {trustItems.map((item, index) => {
@@ -36,14 +36,14 @@ export const TrustStrip: React.FC = () => {
                 key={index}
                 className="flex items-start gap-3.5 p-3 rounded-2xl hover:bg-[#FAFBF8] transition-colors"
               >
-                <div className="p-2.5 rounded-xl bg-[#EEF7F2] text-[#2E6F57] border border-[#BFDCCD] shrink-0">
+                <div className="p-2.5 rounded-xl bg-[#EEF7F2] text-[#2E6F57] shrink-0">
                   <IconComponent className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="font-bold text-sm text-[#173D30] font-sans">
                     {item.title}
                   </h3>
-                  <p className="text-xs text-[#66736C] mt-1 leading-relaxed">
+                  <p className="text-sm text-[#66736C] mt-1 leading-relaxed">
                     {item.description}
                   </p>
                 </div>

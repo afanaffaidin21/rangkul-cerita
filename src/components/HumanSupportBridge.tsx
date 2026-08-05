@@ -25,8 +25,8 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-white border-b border-[#DDE4DF]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section id="dukungan-manusia" className="py-16 lg:py-20 bg-white border-b border-[#DDE4DF]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
         
         {/* Section Heading */}
         <div className="text-center space-y-3 max-w-2xl mx-auto">
@@ -37,7 +37,7 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#173D30] font-sans">
             Kadang, langkah berikutnya adalah berbicara dengan manusia.
           </h2>
-          <p className="text-sm sm:text-base text-[#66736C]">
+          <p className="text-sm sm:text-base text-[#35413A] leading-relaxed">
             Rangkul Cerita tidak menahanmu di dalam chatbot. Kami membantumu menemukan keberanian untuk terhubung kembali dengan dunia nyata.
           </p>
         </div>
@@ -57,7 +57,7 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
                 </div>
                 <div>
                   <h4 className="font-bold text-sm text-[#17201B]">Teman atau Keluarga Tepercaya</h4>
-                  <p className="text-xs text-[#66736C] mt-0.5">Orang terdekat yang membuatmu merasa aman dan tidak dihakimi.</p>
+                  <p className="text-sm text-[#66736C] mt-1 leading-relaxed">Orang terdekat yang membuatmu merasa aman dan tidak dihakimi.</p>
                 </div>
               </div>
 
@@ -67,7 +67,7 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
                 </div>
                 <div>
                   <h4 className="font-bold text-sm text-[#17201B]">Guru BK / Konselor Sekolah / Dosen Wali</h4>
-                  <p className="text-xs text-[#66736C] mt-0.5">Pendamping profesional di lingkungan akademik tempatmu belajar.</p>
+                  <p className="text-sm text-[#66736C] mt-1 leading-relaxed">Pendamping profesional di lingkungan akademik tempatmu belajar.</p>
                 </div>
               </div>
 
@@ -77,7 +77,7 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
                 </div>
                 <div>
                   <h4 className="font-bold text-sm text-[#17201B]">Layanan Darurat & Pencegahan Bunuh Diri</h4>
-                  <p className="text-xs text-[#66736C] mt-0.5">Layanan profesional terdaftar (Healing119, PSC 119, atau 112).</p>
+                  <p className="text-sm text-[#66736C] mt-1 leading-relaxed">Layanan profesional terdaftar (Healing119, PSC 119, atau 112).</p>
                 </div>
               </div>
             </div>
@@ -103,7 +103,7 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
               Bantu Aku Menyusun Pesan Meminta Bantuan
             </h3>
 
-            <p className="text-xs text-[#66736C]">
+            <p className="text-sm text-[#66736C] leading-relaxed">
               Pilih siapa yang ingin kamu hubungi hari ini untuk mendapatkan susunan kalimat yang sopan dan tenang:
             </p>
 
