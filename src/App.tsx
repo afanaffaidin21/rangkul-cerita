@@ -120,10 +120,7 @@ export default function App({ trustStrip, evidenceExpertReview }: AppProps) {
       </main>
 
       {/* 13. Footer */}
-      <Footer
-        onOpenPrivacyModal={() => setPrivacyModalOpen(true)}
-        onOpenSafetyModal={() => setSafetyModalOpen(true)}
-      />
+      <Footer />
 
       {/* 14. Persistent Help Button */}
       <PersistentHelpButton onOpenSafetyModal={() => setSafetyModalOpen(true)} />

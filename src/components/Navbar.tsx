@@ -26,10 +26,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   const navLinks = [
-    { label: "Cara Kerja", href: "#cara-kerja" },
-    { label: "Fitur", href: "#fitur" },
-    { label: "Dukungan Manusia", href: "#dukungan-manusia" },
-    { label: "Keamanan", href: "#keamanan" },
+    { label: "Check-in", href: "/#mood-checker" },
+    { label: "Materi", href: "/resources" },
+    { label: "Artikel", href: "/articles" },
+    { label: "Dukungan", href: "/help" },
   ];
 
   return (
@@ -42,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2.5 group focus:outline-none focus:ring-2 focus:ring-[#2E6F57] rounded-lg p-1">
+        <a href="/" className="flex items-center gap-2.5 group focus:outline-none focus:ring-2 focus:ring-[#2E6F57] rounded-lg p-1">
           <div className="w-10 h-10 rounded-2xl bg-[#2E6F57] text-[#BFDCCD] flex items-center justify-center shadow-sm group-hover:bg-[#173D30] transition-colors">
             <Heart className="w-5 h-5 fill-current" />
           </div>
