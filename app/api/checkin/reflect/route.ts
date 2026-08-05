@@ -23,13 +23,17 @@ function getGenAI() {
 
 export async function POST(request: Request) {
   let body: any = {};
+  let safety: ReturnType<typeof runSafetyGate>;
   try {
     body = await request.json();
-    const { emotions, intensity, need, userNote, history = [] } = body;
-    const safety = runSafetyGate(typeof userNote === "string" ? userNote : "");
+    const { userNote } = body;
+    safety = runSafetyGate(typeof userNote === "string" ? userNote : "");
+  } catch {
+    return NextResponse.json({ error: "Permintaan tidak valid" }, { status: 400 });
+  }
 
-    if (!safety.allowed) {
-      return NextResponse.json({
+  if (!safety.allowed) {
+    return NextResponse.json({
         success: true,
         safety: {
           level: safety.classification?.level ?? null,
@@ -42,9 +46,11 @@ export async function POST(request: Request) {
             ? CONTROLLED_IMMINENT_RESPONSE
             : null,
         reflection: null,
-      });
-    }
+  });
+  }
 
+  try {
+    const { emotions, intensity, need, userNote, history = [] } = body;
     const ai = getGenAI();
     const level = safety.classification.level;
 

@@ -46,16 +46,17 @@ export const JournalingModal: React.FC<JournalingModalProps> = ({
         }),
       });
 
-      const data = await response.json();
+      const data: MoodCheckinResult = await response.json();
 
-      if (data.isCrisis) {
+      if (data.safety?.level === "HIGH" || data.safety?.level === "IMMINENT") {
         onOpenSafetyModal();
+        return;
       }
 
       setResult(data);
       setConversation([
         { sender: "user", text: userNote || `Check-in: ${initialEmotions.join(", ")} (Skala ${initialIntensity}/5)` },
-        { sender: "ai", text: data.reflection },
+        { sender: "ai", text: data.reflection || "" },
       ]);
     } catch (err) {
       console.error(err);
@@ -87,14 +88,15 @@ export const JournalingModal: React.FC<JournalingModalProps> = ({
         }),
       });
 
-      const data = await response.json();
+      const data: MoodCheckinResult = await response.json();
 
-      if (data.isCrisis) {
+      if (data.safety?.level === "HIGH" || data.safety?.level === "IMMINENT") {
         onOpenSafetyModal();
+        return;
       }
 
       setResult(data);
-      setConversation((prev) => [...prev, { sender: "ai", text: data.reflection }]);
+      setConversation((prev) => [...prev, { sender: "ai", text: data.reflection || "" }]);
     } catch (err) {
       console.error(err);
     } finally {
