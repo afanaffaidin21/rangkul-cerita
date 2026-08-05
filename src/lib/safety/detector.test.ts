@@ -79,6 +79,50 @@ describe("classifySafetyRisk", () => {
     expect(result.level).not.toBe(SAFETY_RISK_LEVELS.LOW);
   });
 
+  it("keeps a third-person concern contextual without treating it as the user's HIGH state", () => {
+    const result = classifySafetyRisk("Temanku bilang ingin mati, dan aku ingin membantunya.");
+
+    expect(result.context).toBe("THIRD_PERSON");
+    expect(result.level).not.toBe(SAFETY_RISK_LEVELS.HIGH);
+    expect(result.level).not.toBe(SAFETY_RISK_LEVELS.IMMINENT);
+  });
+
+  it("does not let third-person content mask a self-directed clause", () => {
+    const result = classifySafetyRisk("Temanku bilang ingin mati, tapi aku juga merasa aku gak mau hidup lagi.");
+
+    expect(result.context).toBe("SELF");
+    expect(result.level).toBe(SAFETY_RISK_LEVELS.HIGH);
+  });
+
+  it("does not let quoted content mask current self-directed evidence", () => {
+    const result = classifySafetyRisk("Aku membaca kalimat 'aku ingin mati', tapi sekarang aku sendiri merasa begitu.");
+
+    expect(result.context).toBe("SELF");
+    expect(result.level).toBe(SAFETY_RISK_LEVELS.HIGH);
+  });
+
+  it("preserves concern for historical self-directed language without IMMINENT escalation", () => {
+    const result = classifySafetyRisk("Dulu aku pernah kepikiran bunuh diri dan sekarang merasa putus asa.");
+
+    expect(result.context).toBe("SELF");
+    expect(result.level).toBe(SAFETY_RISK_LEVELS.ELEVATED);
+    expect(result.level).not.toBe(SAFETY_RISK_LEVELS.IMMINENT);
+  });
+
+  it("does not treat a current death wish as negation because it uses informal wording", () => {
+    const result = classifySafetyRisk("Aku gak mau hidup lagi.");
+
+    expect(result.level).toBe(SAFETY_RISK_LEVELS.HIGH);
+    expect(result.signals).not.toContain("NEGATION");
+  });
+
+  it("keeps immediate self-directed evidence stronger than historical context", () => {
+    const result = classifySafetyRisk("Dulu aku pernah berpikir begitu, tapi sekarang sedang mau menyakiti diri.");
+
+    expect(result.context).toBe("SELF");
+    expect(result.level).toBe(SAFETY_RISK_LEVELS.IMMINENT);
+  });
+
   it("returns a safe failure result instead of defaulting invalid input to LOW", () => {
     expect(tryClassifySafetyRisk(null)).toBeNull();
     expect(tryClassifySafetyRisk({ text: "Aku ingin mati" })).toBeNull();
