@@ -84,11 +84,19 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
 
       const data = await response.json();
 
-      if (data.safety?.level === "HIGH" || data.safety?.level === "IMMINENT") {
-        onOpenSafetyModal();
-      }
+       if (data.safety?.level === "HIGH" || data.safety?.level === "IMMINENT") {
+         onOpenSafetyModal();
+         setResult(data);
+         return;
+       }
 
-      setResult(data);
+       if (!response.ok || data.success !== true || typeof data.reflection !== "string") {
+         setRequestError(true);
+         setResult(null);
+         return;
+       }
+
+       setResult(data);
     } catch {
       setRequestError(true);
       console.error("Check-in reflection request failed");
@@ -264,8 +272,15 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
           </div>
 
           {viewState === "ERROR" ? (
-            <div className="p-4 mt-6 rounded-2xl border border-[#E89887] bg-[#FAF0EE] text-sm text-[#8F2E3B]" role="alert">
-              Refleksi belum tersedia. Coba lagi tanpa mengubah jalur bantuan yang tersedia.
+            <div className="p-4 mt-6 rounded-2xl border border-[#E89887] bg-[#FAF0EE] text-sm text-[#8F2E3B] space-y-3" role="alert">
+              <p>Refleksi belum tersedia. Coba lagi atau pilih jalur bantuan.</p>
+              <button
+                type="button"
+                onClick={onOpenSafetyModal}
+                className="px-4 py-2.5 bg-white text-[#173D30] border border-[#DDE4DF] text-xs font-semibold rounded-xl"
+              >
+                Lihat Pilihan Bantuan
+              </button>
             </div>
           ) : viewState === "IMMINENT_CONTROLLED" && result && isControlledImminentState(result.safety?.level) ? (
             <div className="p-6 bg-[#FAF0EE] border-2 border-[#B8414E] rounded-2xl space-y-4 animate-fade-in mt-6" role="alert" aria-labelledby="imminent-safety-title">

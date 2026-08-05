@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { checkinReflectionSchema, parseJson, validationError } from "../../../../src/lib/validation/public-boundaries";
+import { reflectionOutputSchema } from "../../../../src/lib/ai/schemas";
 import { isCrisisLevel, runSafetyGate } from "../../../../src/lib/safety/gate";
 import {
   CONTROLLED_HIGH_RESPONSE,
@@ -45,33 +46,18 @@ export async function POST(request: Request) {
   });
   }
 
+  const level = safety.classification.level;
+
   try {
     const { emotions, intensity, need, userNote, history = [] } = body;
     const ai = getGenAI();
-    const level = safety.classification.level;
 
     if (!ai) {
-      // Fallback warm response when API key is not configured yet
-      const primaryEmotion = emotions && emotions.length > 0 ? emotions.join(", ") : "yang dirasakan";
       return NextResponse.json({
-        success: true,
+        success: false,
+        error: { code: "AI_UNAVAILABLE", message: "Refleksi sedang tidak tersedia. Coba lagi nanti." },
         safety: { level, status: "ALLOWED" },
-        isCrisis: false,
-        reflection: `Kedengarannya hari ini cukup melelahkan bagi kamu yang merasakan ${primaryEmotion} (intensitas ${intensity}/5). Sangat wajar jika kamu merasa butuh waktu untuk ${need || "memahami perasaan ini"}. Tidak perlu terburu-buru mencari semua jawaban hari ini.`,
-        suggestedQuestion: "Apa satu hal kecil yang membuat perasaan ini terasa makin berat belakangan ini?",
-        summary: {
-          mainTopic: "Pencek-inan Emosi Harian",
-          emotions: emotions || ["Cemas"],
-          possibleTriggers: "Beban harian atau rasa lelah yang menumpuk",
-          userNeed: need || "Waktu untuk menenangkan diri",
-          nextStep: "Mencoba latihan grounding 2 menit atau menulis cerita pelan-pelan."
-        },
-        recommendedSteps: [
-          "Ambil napas dalam 4 detik, tahan 4 detik, hembuskan 6 detik",
-          "Tulis 2 kalimat singkat tentang apa yang kamu butuhkan sekarang",
-          "Istirahat sejenak dari media sosial selama 30 menit"
-        ]
-      });
+      }, { status: 503 });
     }
 
     const systemInstruction = `
@@ -122,45 +108,47 @@ Buatkan respon dengan format JSON persis seperti berikut:
       },
     });
 
-    const resultText = response.text || "{}";
-    const parsed = JSON.parse(resultText);
+    const resultText = response.text?.trim();
+    if (!resultText) {
+      return NextResponse.json({
+        success: false,
+        error: { code: "AI_EMPTY_RESPONSE", message: "Refleksi belum tersedia. Coba lagi." },
+        safety: { level, status: "ALLOWED" },
+      }, { status: 502 });
+    }
+
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(resultText);
+    } catch {
+      return NextResponse.json({
+        success: false,
+        error: { code: "AI_INVALID_RESPONSE", message: "Refleksi belum tersedia. Coba lagi." },
+        safety: { level, status: "ALLOWED" },
+      }, { status: 502 });
+    }
+
+    const validated = reflectionOutputSchema.safeParse(parsed);
+    if (!validated.success) {
+      return NextResponse.json({
+        success: false,
+        error: { code: "AI_INVALID_RESPONSE", message: "Refleksi belum tersedia. Coba lagi." },
+        safety: { level, status: "ALLOWED" },
+      }, { status: 502 });
+    }
 
     return NextResponse.json({
       success: true,
       safety: { level, status: "ALLOWED" },
       isCrisis: false,
-      reflection: parsed.reflection || "Terima kasih sudah berbagi cerita dengan Rangkul Cerita hari ini.",
-      suggestedQuestion: parsed.suggestedQuestion || "Bagaimana jika kita mulai dengan mengenali apa yang paling kamu butuhkan saat ini?",
-      summary: parsed.summary || {
-        mainTopic: "Refleksi Perasaan",
-        emotions: emotions || [],
-        userNeed: need || "Waktu untuk mendengar diri sendiri",
-        nextStep: "Mengambil napas dan istirahat sejenak"
-      },
-      recommendedSteps: parsed.recommendedSteps || [
-        "Latihan pernapasan 1 menit",
-        "Menulis 1 hal yang bisa dikontrol saat ini",
-        "Minum air hangat dan rehat sejenak"
-      ]
+      ...validated.data,
     });
 
   } catch {
-    console.error("Gemini reflection error");
     return NextResponse.json({
-      isCrisis: false,
-      reflection: "Kedengarannya hari ini ada banyak hal yang menumpuk di pikiranmu. Mengakui bahwa kamu sedang tidak baik-baik saja adalah langkah keberanian pertama yang sangat berarti.",
-      suggestedQuestion: "Apa yang bisa membuat tubuh atau pikiranmu terasa 5% lebih tenang sekarang?",
-      summary: {
-        mainTopic: "Refleksi Emosi Harian",
-        emotions: body.emotions || ["Perasaan bercampur"],
-        userNeed: body.need || "Ruang tenang",
-        nextStep: "Mencoba pernapasan atau grounding"
-      },
-      recommendedSteps: [
-        "Cobalah latihan pernapasan tenang 1 menit",
-        "Tuliskan 1 hal yang paling menyita energimu hari ini",
-        "Simpan kontak bantuan jika sewaktu-waktu membutuhkan teman bicara"
-      ]
-    });
+      success: false,
+      error: { code: "AI_PROVIDER_ERROR", message: "Refleksi sedang tidak tersedia. Coba lagi nanti." },
+      safety: { level, status: "ALLOWED" },
+    }, { status: 502 });
   }
 }

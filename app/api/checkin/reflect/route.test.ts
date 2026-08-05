@@ -22,11 +22,14 @@ describe("journal reflection safety boundary", () => {
     expect(data.controlledResponse).not.toBeNull();
   });
 
-  it("keeps LOW journal reflection functional", async () => {
+  it("reports unavailable AI without fabricating a LOW reflection", async () => {
     const response = await POST(request({ userNote: "Aku capek setelah hari yang panjang." }));
     const data = await response.json();
 
+    expect(response.status).toBe(503);
     expect(data.safety).toEqual({ level: "LOW", status: "ALLOWED" });
-    expect(data.reflection).toEqual(expect.any(String));
+    expect(data.success).toBe(false);
+    expect(data.error.code).toBe("AI_UNAVAILABLE");
+    expect(data.reflection).toBeUndefined();
   });
 });
