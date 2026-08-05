@@ -1,4 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("../../../src/lib/database/newsletter", () => ({
+  subscribeToNewsletter: vi.fn().mockResolvedValue({ created: true }),
+}));
 import { POST as reflect } from "../../../app/api/checkin/reflect/route";
 import { POST as classify } from "../../../app/api/safety/classify/route";
 import { POST as newsletter } from "../../../app/api/newsletter/route";
