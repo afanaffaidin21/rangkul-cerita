@@ -7,8 +7,8 @@ export const TrustStrip: React.FC = () => {
   const trustItems = [
     {
       icon: UserCheck,
-      title: "Ditinjau Profesional",
-      description: "Materi self-help & algoritma evaluasi ditinjau oleh psikolog klinis.",
+       title: "Batas Produk Jelas",
+       description: "Refleksi awal non-klinis dengan batas AI yang dijelaskan secara terbuka.",
     },
     {
       icon: ShieldCheck,
@@ -17,8 +17,8 @@ export const TrustStrip: React.FC = () => {
     },
     {
       icon: Lock,
-      title: "Data Sensitif Dilindungi",
-      description: "Privasi sebagai standar utama dengan opsi identitas anonim.",
+       title: "Batas Data Dijelaskan",
+       description: "Data aplikasi tetap lokal di browser secara default; browser storage bukan vault terenkripsi.",
     },
     {
       icon: HeartHandshake,

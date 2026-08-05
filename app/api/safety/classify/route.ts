@@ -31,8 +31,8 @@ export async function POST(request: Request) {
       },
       isCrisis: false,
     });
-  } catch (err: any) {
-    console.error("Safety classification error:", err);
+  } catch {
+    console.error("Safety classification error");
     return NextResponse.json(
       { error: "Gagal memproses pengecekan keselamatan" },
       { status: 500 }

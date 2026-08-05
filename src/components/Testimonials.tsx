@@ -29,7 +29,7 @@ export const Testimonials: React.FC = () => {
             Cerita kecil dari mereka yang pernah memulai.
           </h2>
           <p className="text-sm text-[#66736C]">
-            Menggunakan nama samaran (pseudonim) untuk menjaga kerahasiaan dan keamanan privasi.
+             Contoh ilustratif untuk menunjukkan jenis pengalaman yang dapat didukung fitur ini; bukan testimoni pengguna terverifikasi.
           </p>
         </div>
 

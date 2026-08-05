@@ -87,9 +87,9 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
       }
 
       setResult(data);
-    } catch (err) {
+    } catch {
       setRequestError(true);
-      console.error(err);
+      console.error("Check-in reflection request failed");
     } finally {
       setIsLoading(false);
     }

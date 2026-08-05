@@ -34,13 +34,13 @@ export const SelfHelpLibrary: React.FC<SelfHelpLibraryProps> = ({ onOpenExercise
         <div className="text-center space-y-3 mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EEF7F2] text-[#2E6F57] text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Materi Self-Help Berbasis Bukti</span>
+            <span>Materi Self-Help untuk Refleksi Awal</span>
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#173D30] font-sans">
             Temukan yang paling relevan dengan ceritamu.
           </h2>
           <p className="text-sm sm:text-base text-[#66736C] max-w-xl mx-auto">
-            Latihan singkat, artikel panduan, dan template pesan yang telah ditinjau oleh tim profesional.
+             Latihan singkat, artikel panduan, dan template pesan untuk membantu refleksi awal.
           </p>
         </div>
 

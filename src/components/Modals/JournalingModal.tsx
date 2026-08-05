@@ -58,8 +58,8 @@ export const JournalingModal: React.FC<JournalingModalProps> = ({
         { sender: "user", text: userNote || `Check-in: ${initialEmotions.join(", ")} (Skala ${initialIntensity}/5)` },
         { sender: "ai", text: data.reflection || "" },
       ]);
-    } catch (err) {
-      console.error(err);
+    } catch {
+      console.error("Journal reflection request failed");
     } finally {
       setIsLoading(false);
     }
@@ -97,8 +97,8 @@ export const JournalingModal: React.FC<JournalingModalProps> = ({
 
       setResult(data);
       setConversation((prev) => [...prev, { sender: "ai", text: data.reflection || "" }]);
-    } catch (err) {
-      console.error(err);
+    } catch {
+      console.error("Journal reflection request failed");
     } finally {
       setIsLoading(false);
     }
@@ -179,7 +179,7 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
 
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
               <div className="text-xs text-[#66736C]">
-                🔒 Ceritamu dienkripsi dan tidak pernah disimpan ke sistem pelacak.
+                 Ceritamu tetap di browser sampai kamu memilih untuk meminta refleksi AI.
               </div>
               <button
                 onClick={handleStartReflect}

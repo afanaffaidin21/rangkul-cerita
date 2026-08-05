@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from "react";
-import { ShieldCheck, X, Download, Trash2, Lock, CheckCircle2, UserX } from "lucide-react";
+import { ShieldCheck, X, Download, Trash2, CheckCircle2, UserX } from "lucide-react";
+import { deleteOwnedStorage, readOwnedStorage } from "../../lib/privacy/storage";
 
 interface DataPrivacyModalProps {
   isOpen: boolean;
@@ -9,8 +10,6 @@ interface DataPrivacyModalProps {
 }
 
 export const DataPrivacyModal: React.FC<DataPrivacyModalProps> = ({ isOpen, onClose }) => {
-  const [pin, setPin] = useState("");
-  const [isPinSet, setIsPinSet] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   if (!isOpen) return null;
@@ -21,37 +20,23 @@ export const DataPrivacyModal: React.FC<DataPrivacyModalProps> = ({ isOpen, onCl
   };
 
   const handleExport = () => {
-    const dummyData = {
-      alias: "Pengguna Rangkul Cerita",
+    const exportData = {
       exportedAt: new Date().toISOString(),
-      checkins: [
-        { date: "2026-07-22", emotion: "Cemas", intensity: 3, need: "Cerita sebentar" },
-      ],
-      disclaimer: "Data ini tersimpan hanya di perangkat peramban lokal milik pengguna.",
+      storage: readOwnedStorage(localStorage),
     };
-    const blob = new Blob([JSON.stringify(dummyData, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
     a.download = `rangkul-cerita-export-${Date.now()}.json`;
     a.click();
-    showToast("Data riwayat berhasil diunduh dalam format JSON.");
+    showToast("Data Rangkul Cerita yang tersedia berhasil diunduh dalam format JSON.");
   };
 
   const handleDeleteAll = () => {
-    if (confirm("Apakah kamu yakin ingin menghapus seluruh riwayat check-in dan jurnal dari perangkat ini? Tindakan ini tidak dapat dibatalkan.")) {
-      localStorage.clear();
-      showToast("Seluruh riwayat lokal telah dihapus secara permanen.");
-    }
-  };
-
-  const handleSetPin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (pin.length === 4) {
-      setIsPinSet(true);
-      showToast("PIN Kunci Aplikasi 4-digit berhasil diaktifkan.");
-    } else {
-      alert("PIN harus berupa 4 angka.");
+    if (confirm("Apakah kamu yakin ingin menghapus data Rangkul Cerita dari perangkat ini? Data aplikasi yang tersedia akan dihapus.")) {
+      const deletedCount = deleteOwnedStorage(localStorage);
+      showToast(`${deletedCount} penyimpanan Rangkul Cerita berhasil dihapus dari perangkat ini.`);
     }
   };
 
@@ -92,23 +77,9 @@ export const DataPrivacyModal: React.FC<DataPrivacyModalProps> = ({ isOpen, onCl
 
             <div className="p-3.5 bg-white border border-[#DDE4DF] rounded-xl text-xs space-y-1">
               <span className="font-bold text-[#173D30] flex items-center gap-1.5">
-                <Lock className="w-4 h-4 text-[#2E6F57]" /> Kunci PIN Perangkat
+                <ShieldCheck className="w-4 h-4 text-[#2E6F57]" /> Batas Perlindungan
               </span>
-              <p className="text-[#66736C]">Lindungi aplikasi dengan PIN 4-digit agar orang lain yang meminjam HP tidak bisa membaca jurnalmu.</p>
-              
-              <form onSubmit={handleSetPin} className="flex gap-2 pt-2">
-                <input
-                  type="password"
-                  maxLength={4}
-                  value={pin}
-                  onChange={(e) => setPin(e.target.value)}
-                  placeholder="Atur 4 Digit PIN"
-                  className="w-32 px-3 py-1.5 text-xs bg-[#FAFBF8] border border-[#DDE4DF] rounded-lg"
-                />
-                <button type="submit" className="px-3 py-1.5 bg-[#2E6F57] text-white text-xs font-semibold rounded-lg">
-                  {isPinSet ? "PIN Aktif" : "Simpan PIN"}
-                </button>
-              </form>
+              <p className="text-[#66736C]">Data aplikasi disimpan di browser perangkat ini. Penyimpanan browser bukan vault terenkripsi dan dapat diakses melalui perangkat atau profil browser.</p>
             </div>
           </div>
 
@@ -130,7 +101,7 @@ export const DataPrivacyModal: React.FC<DataPrivacyModalProps> = ({ isOpen, onCl
 
         {/* Footer */}
         <div className="p-4 bg-[#F3F5F2] border-t border-[#DDE4DF] text-center text-xs text-[#66736C]">
-          Cerita milikmu sepenuhnya. Rangkul Cerita tidak menjual data kepada pihak ketiga.
+          Data yang tersimpan di browser ini dapat kamu unduh atau hapus dari perangkatmu. Teks yang dikirim untuk fitur AI diproses melalui server dan penyedia AI saat kamu memintanya.
         </div>
       </div>
     </div>

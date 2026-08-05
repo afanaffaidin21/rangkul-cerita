@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import { UserX, Lock, ShieldAlert, FileKey, ArrowRight, ShieldCheck, Trash2 } from "lucide-react";
+import { UserX, Lock, ShieldAlert, FileKey, ArrowRight, ShieldCheck } from "lucide-react";
 
 interface SafetyPrivacySectionProps {
   onOpenPrivacyModal: () => void;
@@ -20,7 +20,7 @@ export const SafetyPrivacySection: React.FC<SafetyPrivacySectionProps> = ({
     },
     {
       title: "2. Cerita Tetap Milikmu",
-      description: "Data jurnal tersimpan privat di bawah kendalimu. Kamu bebas mengedit, mengunduh, atau menghapusnya kapan saja.",
+      description: "Data yang disimpan aplikasi berada di browser perangkat ini. Kamu dapat mengunduh data yang tersedia atau menghapus penyimpanan aplikasi dari sini.",
       icon: Lock,
     },
     {
@@ -86,7 +86,7 @@ export const SafetyPrivacySection: React.FC<SafetyPrivacySectionProps> = ({
             </div>
             <ArrowRight className="w-4 h-4 text-[#BFDCCD] hidden sm:block" />
             <div className="p-3 bg-[#173D30] rounded-xl border border-[#BFDCCD]/30 w-full sm:w-auto">
-              2. Enkripsi Lokal
+              2. Penyimpanan Lokal
             </div>
             <ArrowRight className="w-4 h-4 text-[#BFDCCD] hidden sm:block" />
             <div className="p-3 bg-[#173D30] rounded-xl border border-[#BFDCCD]/30 w-full sm:w-auto">
@@ -94,7 +94,7 @@ export const SafetyPrivacySection: React.FC<SafetyPrivacySectionProps> = ({
             </div>
             <ArrowRight className="w-4 h-4 text-[#BFDCCD] hidden sm:block" />
             <div className="p-3 bg-[#2E7D5B] rounded-xl border border-[#BFDCCD]/40 font-bold w-full sm:w-auto">
-              4. Tidak Dibagikan
+              4. Tidak Disimpan di Server oleh Default
             </div>
           </div>
         </div>

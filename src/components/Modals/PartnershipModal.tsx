@@ -89,7 +89,7 @@ export const PartnershipModal: React.FC<PartnershipModalProps> = ({ isOpen, onCl
               <div className="p-3 bg-[#EEF7F2] border border-[#BFDCCD] rounded-xl text-xs text-[#173D30] flex items-start gap-2">
                 <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5 text-[#2E6F57]" />
                 <span>
-                  <strong>Komitmen Privasi Kemitraan:</strong> Institusi tidak dapat membaca isi jurnal atau cerita individual pengguna. Laporan institusi berupa agregat anonim.
+                   <strong>Batas Kemitraan:</strong> Fitur laporan institusi belum tersedia dan tidak ada akses kemitraan ke Journal pengguna.
                 </span>
               </div>
 

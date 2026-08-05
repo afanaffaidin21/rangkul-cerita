@@ -148,8 +148,8 @@ Buatkan respon dengan format JSON persis seperti berikut:
       ]
     });
 
-  } catch (err: any) {
-    console.error("Gemini reflection error:", err);
+  } catch {
+    console.error("Gemini reflection error");
     return NextResponse.json({
       isCrisis: false,
       reflection: "Kedengarannya hari ini ada banyak hal yang menumpuk di pikiranmu. Mengakui bahwa kamu sedang tidak baik-baik saja adalah langkah keberanian pertama yang sangat berarti.",

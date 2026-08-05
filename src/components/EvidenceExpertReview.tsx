@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import { ShieldCheck, UserCheck, CheckCircle2, Clock, Calendar } from "lucide-react";
+import { ShieldCheck, Calendar } from "lucide-react";
 
 export const EvidenceExpertReview: React.FC = () => {
   return (
@@ -18,7 +18,7 @@ export const EvidenceExpertReview: React.FC = () => {
             Dibangun dengan empati, ditinjau dengan tanggung jawab.
           </h2>
           <p className="text-sm text-[#66736C]">
-            Pendekatan non-klinis berbasis bukti (evidence-informed) yang dievaluasi secara berkala oleh tim psikolog.
+             Pendekatan non-klinis untuk refleksi awal, dengan batasan yang dijelaskan secara terbuka.
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export const EvidenceExpertReview: React.FC = () => {
             </div>
             <h3 className="font-bold text-base text-[#173D30]">Pengujian Algoritma AI Safety</h3>
             <p className="text-xs text-[#66736C] leading-relaxed">
-              Pengujian keselamatan AI menggunakan simulasi red-teaming untuk mendeteksi kata kunci krisis, slang, dan kalimat implisit bahaya.
+               Jalur keselamatan menggunakan pengujian internal untuk membantu menangani sinyal krisis, slang, dan kalimat implisit bahaya.
             </p>
           </div>
 
@@ -59,27 +59,27 @@ export const EvidenceExpertReview: React.FC = () => {
         <div className="p-6 bg-[#EEF7F2] border border-[#BFDCCD] rounded-3xl space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#BFDCCD] pb-3">
             <div className="flex items-center gap-2 text-xs font-bold text-[#173D30]">
-              <UserCheck className="w-4 h-4 text-[#2E6F57]" />
-              <span>Tim Advisor & Reviewer Konten</span>
+               <ShieldCheck className="w-4 h-4 text-[#2E6F57]" />
+               <span>Status Materi & Keselamatan</span>
             </div>
             <span className="text-[11px] text-[#2E6F57] font-semibold flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5" /> Evaluasi Terakhir: Mei 2026
+               <Calendar className="w-3.5 h-3.5" /> Status: Dalam pengembangan
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div className="p-4 bg-white rounded-2xl border border-[#DDE4DF] space-y-1">
-              <span className="font-bold text-[#173D30]">Tim Advisor Psikologi Klinis</span>
-              <p className="text-[#66736C] text-[11px]">
-                [Profil advisor terverifikasi dari himpunan psikolog klinis Indonesia akan ditampilkan setelah proses kemitraan selesai]
-              </p>
+                <span className="font-bold text-[#173D30]">Batas Penggunaan</span>
+                <p className="text-[#66736C] text-[11px]">
+                 Materi ini bukan diagnosis, terapi, atau pengganti dukungan profesional.
+                </p>
             </div>
 
             <div className="p-4 bg-white rounded-2xl border border-[#DDE4DF] space-y-1">
-              <span className="font-bold text-[#173D30]">Tim Reviewer Keselamatan AI</span>
-              <p className="text-[#66736C] text-[11px]">
-                [Profil pakar keselamatan AI dan etika medis terverifikasi]
-              </p>
+                <span className="font-bold text-[#173D30]">Status Pengembangan</span>
+                <p className="text-[#66736C] text-[11px]">
+                 Klaim tinjauan pakar atau klinis tidak digunakan sebelum proses tinjauan benar-benar selesai.
+                </p>
             </div>
           </div>
         </div>

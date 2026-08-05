@@ -56,7 +56,7 @@ export const PartnershipSection: React.FC<PartnershipSectionProps> = ({ onOpenPa
               <div className="p-3.5 bg-[#F3F5F2] rounded-xl text-xs text-[#66736C] flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-[#2E6F57] shrink-0" />
                 <span>
-                  <strong>Jaminan Privasi:</strong> Institusi HANYA menerima laporan agregat tren (anonim) dan TIDAK PERNAH membaca isi jurnal siswa/mahasiswa.
+                   <strong>Batas Kemitraan:</strong> Fitur laporan institusi belum tersedia; data Journal pengguna tidak disediakan sebagai laporan kemitraan.
                 </span>
               </div>
             </div>

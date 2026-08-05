@@ -24,7 +24,7 @@ export const ArticleSection: React.FC<ArticleSectionProps> = ({ onSelectArticle 
             Bacaan untuk membantu memahami yang kamu rasakan.
           </h2>
           <p className="text-sm text-[#66736C]">
-            Artikel ringkas berbahasa Indonesia yang ramah, santun, dan ditinjau oleh psikolog.
+             Artikel ringkas berbahasa Indonesia yang ramah untuk refleksi awal dan literasi emosi.
           </p>
         </div>
 

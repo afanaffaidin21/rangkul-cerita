@@ -83,7 +83,7 @@ export const SELF_HELP_RESOURCES: SelfHelpResource[] = [
     category: "Cemas dan Overthinking",
     duration: "2 Menit",
     format: "Latihan Praktis",
-    reviewer: "Ditinjau oleh Tim Psikolog Klinis",
+    reviewer: "Materi informatif untuk refleksi awal",
     summary: "Latihan indera singkat untuk meredakan serangan cemas, gelisah, dan pikiran yang memutar tak terkendali.",
     isInteractiveExercise: true,
     steps: [
@@ -100,7 +100,7 @@ export const SELF_HELP_RESOURCES: SelfHelpResource[] = [
     category: "Cemas dan Overthinking",
     duration: "3 Menit",
     format: "Audio Breathing",
-    reviewer: "Ditinjau oleh Tim Psikolog Klinis",
+    reviewer: "Materi informatif untuk refleksi awal",
     summary: "Teknik ritme pernapasan untuk menurunkan denyut jantung dan menenangkan sistem saraf.",
     isInteractiveExercise: true,
     steps: [
@@ -116,7 +116,7 @@ export const SELF_HELP_RESOURCES: SelfHelpResource[] = [
     category: "Keluarga",
     duration: "1 Menit",
     format: "Template Pesan",
-    reviewer: "Ditinjau oleh Konselor Remaja",
+    reviewer: "Materi informatif untuk refleksi awal",
     summary: "Susunan kata-kata sopan dan tenang untuk menyampaikan bahwa kamu sedang tidak baik-baik saja dan butuh teman bicara.",
     contentMarkdown: `Halo [Ibu/Bapak], akhir-akhir ini aku merasa cukup lelah dan cemas dengan [tugas/sekolah/kondisiku]. Aku belum tahu semua jawabannya, tapi aku butuh waktu untuk ngobrol sebentar kalau [Ibu/Bapak] ada waktu senggang hari ini. Terima kasih ya.`,
   },
@@ -126,7 +126,7 @@ export const SELF_HELP_RESOURCES: SelfHelpResource[] = [
     category: "Kesepian",
     duration: "4 Menit",
     format: "Artikel Panduan",
-    reviewer: "Ditinjau oleh Tim Psikolog Akademik",
+    reviewer: "Materi informatif untuk refleksi awal",
     summary: "Memahami bedanya 'sendiri' dan 'kesepian', serta tindakan kecil untuk merasa terhubung kembali.",
   },
   {
@@ -135,7 +135,7 @@ export const SELF_HELP_RESOURCES: SelfHelpResource[] = [
     category: "Stres Sekolah atau Kuliah",
     duration: "3 Menit",
     format: "Latihan Praktis",
-    reviewer: "Ditinjau oleh Konselor Pendidikan",
+    reviewer: "Materi informatif untuk refleksi awal",
     summary: "Memisahkan harga diri dari nilai akademik dan menyusun micro-breaks yang efektif.",
   },
   {
@@ -144,7 +144,7 @@ export const SELF_HELP_RESOURCES: SelfHelpResource[] = [
     category: "Pertemanan",
     duration: "5 Menit",
     format: "Artikel Panduan",
-    reviewer: "Ditinjau oleh Spesialis Hubungan Remaja",
+    reviewer: "Materi informatif untuk refleksi awal",
     summary: "Langkah menjaga kesehatan emosional tanpa harus memicu pertengkaran besar.",
   },
 ];
@@ -156,7 +156,7 @@ export const ARTICLES_DATA: ArticleItem[] = [
     slug: "kenapa-merasa-capek-padahal-tidak-banyak-aktivitas",
     category: "Kelelahan Emosional",
     readTime: "3 Menit Baca",
-    reviewer: "Ditinjau oleh Psikolog Klinis Rangkul Cerita",
+    reviewer: "Materi informatif untuk refleksi awal",
     updatedAt: "18 Mei 2026",
     excerpt: "Kelelahan mental karena memendam emosi atau overthinking sering kali menyerap energi lebih besar daripada olahraga berat.",
     fullBody: [
@@ -172,7 +172,7 @@ export const ARTICLES_DATA: ArticleItem[] = [
     slug: "cara-memulai-cerita-kepada-orang-tua",
     category: "Komunikasi Keluarga",
     readTime: "4 Menit Baca",
-    reviewer: "Ditinjau oleh Konselor Keluarga",
+    reviewer: "Materi informatif untuk refleksi awal",
     updatedAt: "10 Mei 2026",
     excerpt: "Meminta bantuan ke orang tua bisa terasa menakutkan. Berikut panduan praktis memilih waktu dan kata-kata pembuka yang aman.",
     fullBody: [
@@ -188,7 +188,7 @@ export const ARTICLES_DATA: ArticleItem[] = [
     slug: "bedanya-sedih-stres-dan-bantuan-profesional",
     category: "Literasi Emosi",
     readTime: "5 Menit Baca",
-    reviewer: "Ditinjau oleh Tim Evaluasi Klinis",
+    reviewer: "Materi informatif untuk refleksi awal",
     updatedAt: "02 Mei 2026",
     excerpt: "Memahami batas kapan sebuah perasaan masih bisa ditangani mandiri dan kapan saatnya berkonsultasi dengan psikolog.",
     fullBody: [
@@ -257,13 +257,13 @@ export const FAQ_DATA: FAQItem[] = [
   {
     id: "faq-4",
     question: "Apakah cerita dan isi jurnal saya disimpan dan dijual?",
-    answer: "TIDAK PERNAH. Cerita dan jurnalmu adalah milikmu sepenuhnya. Data jurnal dienkripsi, tidak pernah dijual kepada pihak ketiga, dan tidak digunakan untuk iklan. Kamu juga memiliki hak penuh untuk mengunduh atau menghapus seluruh riwayat ceritamu kapan saja.",
+    answer: "Jurnal dan catatan yang belum kamu kirim untuk fitur AI tetap berada di browser perangkat ini secara lokal. Penyimpanan browser bukan vault terenkripsi. Saat kamu meminta refleksi AI, teks yang diperlukan dikirim ke server dan penyedia AI untuk diproses.",
     category: "Keamanan & Privasi",
   },
   {
     id: "faq-5",
     question: "Siapa saja yang dapat membaca jurnal saya?",
-    answer: "Hanya kamu sendiri. Bahkan jika sekolah, kampus, atau orang tuamu bekerja sama dengan Rangkul Cerita, institusi HANYA mendapatkan laporan agregat tanpa nama (anonim) seperti tren umum kelelahan harian, dan TIDAK PERNAH bisa membaca cerita atau jurnal individual pengguna.",
+    answer: "Catatan yang tersimpan di browser perangkat ini tidak dikirim ke server sampai kamu meminta fitur AI. Karena browser storage bukan vault terenkripsi, orang yang memiliki akses ke perangkat atau profil browser dapat mengaksesnya.",
     category: "Keamanan & Privasi",
   },
   {
@@ -293,7 +293,7 @@ export const FAQ_DATA: FAQItem[] = [
   {
     id: "faq-10",
     question: "Bagaimana cara menghapus akun dan seluruh data saya?",
-    answer: "Kamu bisa masuk ke menu Profil atau Pengaturan Privasi, lalu memilih 'Hapus Seluruh Data Saya'. Dalam satu klik, seluruh riwayat check-in, jurnal, dan preferensimu akan dihapus secara permanen dari sistem kami.",
+    answer: "Buka Pengaturan Privasi lalu pilih penghapusan data. Fitur ini hanya menghapus kunci penyimpanan Rangkul Cerita yang tersedia di browser perangkat ini; data atau layanan lain tidak disentuh.",
     category: "Keamanan & Privasi",
   },
 ];
@@ -305,7 +305,7 @@ export const PARTNERSHIP_PROGRAMS: PartnershipProgram[] = [
     description: "Sediakan ruang refleksi terstruktur bagi siswa/mahasiswa serta dapatkan insight tren kesehatan emosional kolektif tanpa melanggar privasi individual.",
     features: [
       "Akses prioritas Rangkul Cerita untuk siswa & mahasiswa",
-      "Dashboard agregat tren emosi institusi (100% anonim)",
+       "Laporan institusi belum tersedia pada MVP",
       "Materi workshop literasi emosi & penanganan stres",
       "Integrasi direktori guru BK / konselor kampus"
     ],
@@ -315,7 +315,7 @@ export const PARTNERSHIP_PROGRAMS: PartnershipProgram[] = [
     target: "Komunitas Pemuda, OSIS, & Yayasan Sosial",
     description: "Latih anggota komunitasmu menjadi pendengar yang empati, memahami batas peran pendamping, dan mahir melakukan rujukan keselamatan.",
     features: [
-      "Kurikulum pendampingan sebaya yang ditinjau psikolog",
+       "Kurikulum pendampingan sebaya dalam pengembangan",
       "Simulasi studi kasus penanganan krisis awal",
       "Sertifikat kepesertaan & supervisi berkala",
       "Akses modul fasilitator grup refleksi"
