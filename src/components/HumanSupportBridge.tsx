@@ -42,10 +42,9 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Left Column: Support Destinations List */}
-          <div className="lg:col-span-6 space-y-4">
+          <div className="space-y-4">
             <h3 className="font-bold text-lg text-[#173D30]">
               Pilihan Teman Bicara & Bantuan:
             </h3>
@@ -93,7 +92,7 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
           </div>
 
           {/* Right Column: Interactive Message Template Builder */}
-          <div className="lg:col-span-6 bg-[#FAFBF8] border border-[#DDE4DF] rounded-3xl p-6 sm:p-7 space-y-4">
+          <div className="bg-[#FAFBF8] border border-[#DDE4DF] rounded-3xl p-6 sm:p-7 space-y-4">
             <div className="flex items-center gap-2 text-xs font-bold text-[#2E6F57]">
               <MessageCircle className="w-4 h-4" />
               <span>Penyusun Pesan Siap Kirim</span>

@@ -1162,6 +1162,11 @@ Suitable directions:
 -   subtle human presence,
 -   editorial illustration.
 
+Approved local homepage photography:
+
+-   `public/images/editorial-reflection.png` — project-approved generated editorial asset.
+-   `public/images/human-connection.png` — project-approved generated editorial asset.
+
 ------------------------------------------------------------------------
 
 ## 49. Imagery to Avoid

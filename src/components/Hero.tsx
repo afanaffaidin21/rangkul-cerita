@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import { Sparkles, Shield, Lock, Heart, ArrowRight, CheckCircle2, UserCheck, Play } from "lucide-react";
+import { Sparkles, Shield, Lock, Heart, ArrowRight, CheckCircle2, UserCheck, Play, Wind, CloudRain, BatteryLow, Sun } from "lucide-react";
 
 interface HeroProps {
   onStartCheckin: () => void;
@@ -122,18 +122,18 @@ export const Hero: React.FC<HeroProps> = ({ onStartCheckin, onOpenJournalModal }
                   1. Pilih apa yang paling terasa hari ini:
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1.5 bg-[#F7F0FA] text-[#C8A4D8] border border-[#C8A4D8]/50 text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-sm">
-                    🌀 Cemas
-                  </span>
-                  <span className="px-3 py-1.5 bg-[#EFF5FA] text-[#8FAFD0] border border-[#DDE4DF] text-xs font-medium rounded-xl">
-                    💧 Sedih
-                  </span>
-                  <span className="px-3 py-1.5 bg-[#F8F5F0] text-[#C8B59A] border border-[#DDE4DF] text-xs font-medium rounded-xl">
-                    🪫 Lelah
-                  </span>
-                  <span className="px-3 py-1.5 bg-[#EEF7F2] text-[#2E6F57] border border-[#DDE4DF] text-xs font-medium rounded-xl">
-                    🌿 Lumayan
-                  </span>
+<span className="px-3 py-1.5 bg-[#F7F0FA] text-[#C8A4D8] border border-[#C8A4D8]/50 text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-sm">
+                     <Wind className="w-3.5 h-3.5" aria-hidden="true" /> Cemas
+                   </span>
+                   <span className="px-3 py-1.5 bg-[#EFF5FA] text-[#8FAFD0] border border-[#DDE4DF] text-xs font-medium rounded-xl flex items-center gap-1.5">
+                     <CloudRain className="w-3.5 h-3.5" aria-hidden="true" /> Sedih
+                   </span>
+                   <span className="px-3 py-1.5 bg-[#F8F5F0] text-[#C8B59A] border border-[#DDE4DF] text-xs font-medium rounded-xl flex items-center gap-1.5">
+                     <BatteryLow className="w-3.5 h-3.5" aria-hidden="true" /> Lelah
+                   </span>
+                   <span className="px-3 py-1.5 bg-[#EEF7F2] text-[#2E6F57] border border-[#DDE4DF] text-xs font-medium rounded-xl flex items-center gap-1.5">
+                     <Sun className="w-3.5 h-3.5" aria-hidden="true" /> Lumayan
+                   </span>
                 </div>
               </div>
 

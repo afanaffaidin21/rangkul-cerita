@@ -7,6 +7,7 @@ import { Hero } from "./components/Hero";
 import { MoodChecker } from "./components/MoodChecker";
 import { HowItWorks } from "./components/HowItWorks";
 import { MainFeatures } from "./components/MainFeatures";
+import { EditorialVisualStory } from "./components/EditorialVisualStory";
 import { SafetyPrivacySection } from "./components/SafetyPrivacySection";
 import { HumanSupportBridge } from "./components/HumanSupportBridge";
 import { FAQAccordion } from "./components/FAQAccordion";
@@ -97,7 +98,10 @@ export default function App({ trustStrip, evidenceExpertReview }: AppProps) {
           onOpenExerciseModal={() => setExerciseModalOpen(true)}
         />
 
-        {/* 8. Human Support Bridge */}
+        {/* 9. Editorial Visual Story */}
+        <EditorialVisualStory />
+
+        {/* 10. Human Support Bridge */}
         <HumanSupportBridge onOpenSafetyModal={() => setSafetyModalOpen(true)} />
 
         {/* 9. Safety, Privacy, and AI Boundaries */}
