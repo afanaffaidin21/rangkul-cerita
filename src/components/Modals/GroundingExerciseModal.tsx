@@ -128,7 +128,7 @@ export const GroundingExerciseModal: React.FC<GroundingExerciseModalProps> = ({
               {/* Animated breathing circle */}
               <div className="relative w-40 h-40 mx-auto flex items-center justify-center">
                 <div
-                  className={`absolute inset-0 rounded-full bg-[#BFDCCD] opacity-30 transition-transform duration-1000 ${
+                  className={`absolute inset-0 rounded-full bg-[#BFDCCD] opacity-30 transition-transform duration-1000 motion-reduce:transition-none motion-reduce:animate-none motion-reduce:scale-100 ${
                     isActive ? "scale-125 animate-pulse" : "scale-100"
                   }`}
                 />

@@ -158,7 +158,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
                   <button
                     key={opt.id}
                     onClick={() => toggleEmotion(opt.id)}
-                    className={`min-h-24 p-3.5 rounded-2xl border text-left transition-all flex flex-col justify-between gap-2 ${
+                    className={`min-h-24 p-3.5 rounded-2xl border text-left transition-colors flex flex-col justify-between gap-2 ${
                       isSelected
                         ? "border-[#2E6F57] bg-[#EEF7F2] ring-2 ring-[#2E6F57]/30 shadow-sm"
                         : "border-[#DDE4DF] bg-white hover:border-[#BFDCCD] hover:bg-[#FAFBF8]"
@@ -230,7 +230,7 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
                   <button
                     key={opt}
                     onClick={() => setNeed(opt)}
-                    className={`px-4 py-2.5 rounded-xl text-xs font-semibold border transition-all ${
+                    className={`px-4 py-2.5 rounded-xl text-xs font-semibold border transition-colors ${
                       isSelected
                         ? "bg-[#2E6F57] text-white border-[#2E6F57] shadow-sm"
                         : "bg-white text-[#35413A] border-[#DDE4DF] hover:bg-[#F3F5F2]"

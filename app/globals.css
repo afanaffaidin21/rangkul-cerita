@@ -44,7 +44,7 @@
 }
 
 .rangkul-card-hover {
-  transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .rangkul-card-hover:hover {
@@ -80,6 +80,11 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
+  }
+
+  .rangkul-card-hover:hover {
+    transform: none !important;
   }
 }

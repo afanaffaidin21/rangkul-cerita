@@ -246,7 +246,7 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
                <button
                 onClick={handleStartReflect}
                 disabled={isLoading}
-                className="w-full sm:w-auto px-6 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-semibold rounded-xl transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full sm:w-auto px-6 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-semibold rounded-xl transition-[background-color,box-shadow,color] shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {isLoading ? (
                   <>
@@ -381,7 +381,7 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
               <button
                 type="submit"
                 disabled={isLoading || !followUpText.trim()}
-                className="min-w-11 min-h-11 px-4 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                className="min-w-11 min-h-11 px-4 py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-sm font-semibold rounded-xl transition-[background-color,color] flex items-center justify-center gap-1.5 disabled:opacity-50"
               >
                 <Send className="w-4 h-4" />
               </button>

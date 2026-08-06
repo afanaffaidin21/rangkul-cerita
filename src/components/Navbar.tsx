@@ -34,7 +34,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-50 transition-[background-color,box-shadow,border-color] duration-300 ${
         isScrolled
           ? "bg-[#FAFBF8]/95 backdrop-blur-md shadow-sm border-b border-[#DDE4DF]"
           : "bg-[#FAFBF8] border-b border-transparent"
@@ -89,7 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={onStartCheckin}
-            className="px-5 py-2.5 bg-[#2E6F57] hover:bg-[#173D30] text-white text-xs font-semibold rounded-xl shadow-sm transition-all flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#2E6F57]"
+            className="px-5 py-2.5 bg-[#2E6F57] hover:bg-[#173D30] text-white text-xs font-semibold rounded-xl shadow-sm transition-[background-color,box-shadow,color] flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#2E6F57]"
           >
             <Sparkles className="w-4 h-4 text-[#BFDCCD]" />
             <span>Mulai Check-in</span>

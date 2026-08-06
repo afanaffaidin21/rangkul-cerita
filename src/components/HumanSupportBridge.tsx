@@ -85,7 +85,7 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
             <div className="pt-2">
               <button
                 onClick={onOpenSafetyModal}
-                className="w-full py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-xs font-semibold rounded-xl transition-all shadow-sm flex items-center justify-center gap-2"
+                className="w-full py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-xs font-semibold rounded-xl transition-[background-color,box-shadow,color] shadow-sm flex items-center justify-center gap-2"
               >
                 <Phone className="w-4 h-4" /> Lihat Direktori Layanan Bantuan Terverifikasi
               </button>
@@ -150,7 +150,7 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
               </span>
               <button
                 onClick={handleCopy}
-                className="px-4 py-2 bg-[#173D30] hover:bg-[#2E6F57] text-white text-xs font-semibold rounded-xl transition-all shadow-sm flex items-center gap-1.5"
+                className="px-4 py-2 bg-[#173D30] hover:bg-[#2E6F57] text-white text-xs font-semibold rounded-xl transition-[background-color,box-shadow,color] shadow-sm flex items-center gap-1.5"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-[#BFDCCD]" /> : <Copy className="w-3.5 h-3.5" />}
                 {copied ? "Tersalin!" : "Salin Pesan"}
