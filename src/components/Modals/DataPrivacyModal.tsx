@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { ShieldCheck, X, Download, Trash2, CheckCircle2, UserX } from "lucide-react";
 import { deleteOwnedStorage, readOwnedStorage } from "../../lib/privacy/storage";
+import { useAccessibleDialog } from "../../lib/accessibility/useAccessibleDialog";
 
 interface DataPrivacyModalProps {
   isOpen: boolean;
@@ -11,6 +12,8 @@ interface DataPrivacyModalProps {
 
 export const DataPrivacyModal: React.FC<DataPrivacyModalProps> = ({ isOpen, onClose }) => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const dialogRef = useAccessibleDialog(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -45,15 +48,16 @@ export const DataPrivacyModal: React.FC<DataPrivacyModalProps> = ({ isOpen, onCl
       className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-[#17201B]/60 backdrop-blur-sm animate-fade-in"
       role="dialog"
       aria-modal="true"
+      aria-labelledby="privacy-modal-title"
     >
-      <div className="relative w-full max-w-lg bg-[#FAFBF8] rounded-2xl shadow-2xl border border-[#DDE4DF] overflow-hidden">
+      <div ref={dialogRef} tabIndex={-1} className="relative w-full max-w-lg bg-[#FAFBF8] rounded-2xl shadow-2xl border border-[#DDE4DF] overflow-hidden">
         {/* Header */}
         <div className="bg-[#173D30] text-white px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <ShieldCheck className="w-5 h-5 text-[#BFDCCD]" />
-            <h2 className="text-base font-bold">Pusat Kontrol Privasi & Data</h2>
+            <h2 id="privacy-modal-title" className="text-base font-bold">Pusat Kontrol Privasi & Data</h2>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-[#BFDCCD] hover:text-white">
+          <button onClick={onClose} aria-label="Tutup Pusat Kontrol Privasi & Data" className="min-w-11 min-h-11 p-1.5 rounded-lg text-[#BFDCCD] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#BFDCCD]">
             <X className="w-5 h-5" />
           </button>
         </div>

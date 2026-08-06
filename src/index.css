@@ -75,6 +75,11 @@
 }
 
 /* Smooth motion accessibility fallback */
+*:focus-visible {
+  outline: 3px solid #2E6F57;
+  outline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;

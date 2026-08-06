@@ -135,7 +135,8 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
         </div>
 
         {/* Interactive Card Container */}
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#DDE4DF] shadow-lg space-y-8">
+          <div className="bg-white rounded-3xl p-6 sm:p-10 border border-[#DDE4DF] shadow-lg space-y-8" aria-busy={isLoading}>
+            <div className="sr-only" role="status" aria-live="polite">{isLoading ? "Sedang menyusun refleksi." : result ? "Refleksi tersedia." : ""}</div>
           
           {/* STEP 1: Emotion Selection */}
           <div className={`${step === 1 ? "" : "hidden"} space-y-4`}>
@@ -157,6 +158,8 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
                 return (
                   <button
                     key={opt.id}
+                    type="button"
+                    aria-pressed={isSelected}
                     onClick={() => toggleEmotion(opt.id)}
                     className={`min-h-24 p-3.5 rounded-2xl border text-left transition-colors flex flex-col justify-between gap-2 ${
                       isSelected
@@ -197,8 +200,10 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
             </div>
 
             <div className="space-y-2">
-              <input
-                type="range"
+                <input
+                  id="checkin-intensity"
+                  aria-label="Seberapa kuat perasaan ini, dari 1 sampai 5"
+                  type="range"
                 min={1}
                 max={5}
                 step={1}
@@ -229,6 +234,8 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
                 return (
                   <button
                     key={opt}
+                    type="button"
+                    aria-pressed={isSelected}
                     onClick={() => setNeed(opt)}
                     className={`px-4 py-2.5 rounded-xl text-xs font-semibold border transition-colors ${
                       isSelected
@@ -245,10 +252,11 @@ export const MoodChecker: React.FC<MoodCheckerProps> = ({
 
           {/* Optional Short Note */}
           <div className={`${step === 4 ? "" : "hidden"} space-y-2 pt-2`}>
-            <label className="text-xs font-semibold text-[#173D30]">
+            <label htmlFor="checkin-note" className="text-xs font-semibold text-[#173D30]">
               Catatan singkat tentang pemicu atau apa yang terjadi (Opsional):
             </label>
             <input
+              id="checkin-note"
               type="text"
               value={userNote}
               onChange={(e) => setUserNote(e.target.value)}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Heart, Menu, X, Sparkles, Phone, ShieldCheck } from "lucide-react";
 
 interface NavbarProps {
@@ -16,6 +16,22 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const firstLink = mobileMenuRef.current?.querySelector<HTMLElement>("a, button");
+    firstLink?.focus();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -107,6 +123,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           <button
+            ref={menuButtonRef}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="min-w-11 min-h-11 p-2.5 border border-[#DDE4DF] bg-white text-[#17201B] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#2E6F57] flex items-center justify-center"
             aria-label={mobileMenuOpen ? "Tutup Menu Navigasi" : "Buka Menu Navigasi"}
@@ -120,7 +137,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div id="mobile-navigation" className="lg:hidden max-h-[calc(100dvh-5rem)] overflow-y-auto bg-[#FAFBF8] border-b border-[#DDE4DF] px-6 py-6 space-y-4 animate-fade-in">
+        <div ref={mobileMenuRef} id="mobile-navigation" className="lg:hidden max-h-[calc(100dvh-5rem)] overflow-y-auto bg-[#FAFBF8] border-b border-[#DDE4DF] px-6 py-6 space-y-4 animate-fade-in">
           <nav className="flex flex-col space-y-3">
             {navLinks.map((link) => (
               <a

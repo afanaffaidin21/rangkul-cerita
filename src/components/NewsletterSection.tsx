@@ -76,20 +76,25 @@ export const NewsletterSection: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-3">
             {successMsg && (
-              <div className="p-3 bg-[#EEF7F2] border border-[#BFDCCD] text-[#2E7D5B] text-xs font-semibold rounded-xl flex items-center gap-2">
+              <div role="status" aria-live="polite" className="p-3 bg-[#EEF7F2] border border-[#BFDCCD] text-[#2E7D5B] text-xs font-semibold rounded-xl flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 shrink-0" /> {successMsg}
               </div>
             )}
 
             {errorMsg && (
-              <div className="p-3 bg-[#FBEAEC] border border-[#E89887] text-[#B8414E] text-xs font-semibold rounded-xl flex items-center gap-2">
+              <div id="newsletter-error" role="alert" aria-live="assertive" className="p-3 bg-[#FBEAEC] border border-[#E89887] text-[#B8414E] text-xs font-semibold rounded-xl flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0" /> {errorMsg}
               </div>
             )}
 
             <div className="flex flex-col sm:flex-row gap-2">
+              <label htmlFor="newsletter-email" className="sr-only">Alamat email</label>
               <input
+                id="newsletter-email"
                 type="email"
+                aria-invalid={Boolean(errorMsg && (!email || !email.includes("@")))}
+                aria-describedby={errorMsg ? "newsletter-error" : undefined}
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Masukkan alamat email kamu..."
@@ -107,7 +112,9 @@ export const NewsletterSection: React.FC = () => {
 
             <label className="flex items-start gap-2 text-[11px] text-[#BFDCCD] cursor-pointer pt-1">
               <input
+                id="newsletter-consent"
                 type="checkbox"
+                aria-describedby={errorMsg && !consent ? "newsletter-error" : undefined}
                 checked={consent}
                 onChange={(e) => setConsent(e.target.checked)}
                 className="mt-0.5 rounded border-[#BFDCCD] text-[#2E6F57] focus:ring-[#2E6F57]"

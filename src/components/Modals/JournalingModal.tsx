@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Sparkles, X, Send, ShieldAlert, Check, Copy, ArrowRight, Heart, RefreshCw, BookOpen, Trash2 } from "lucide-react";
 import { EmotionType, NeedType, MoodCheckinResult } from "../../types";
 import { deleteJournalEntry, JournalEntry, readJournalEntries, saveJournalEntry } from "../../lib/privacy/journal-storage";
+import { useAccessibleDialog } from "../../lib/accessibility/useAccessibleDialog";
 
 interface JournalingModalProps {
   isOpen: boolean;
@@ -37,6 +38,8 @@ export const JournalingModal: React.FC<JournalingModalProps> = ({
     if (!isOpen || typeof window === "undefined") return;
     setSavedEntries(readJournalEntries(window.localStorage));
   }, [isOpen]);
+
+  const dialogRef = useAccessibleDialog(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -165,7 +168,7 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
       aria-modal="true"
       aria-labelledby="journal-modal-title"
     >
-      <div className="relative w-full max-w-3xl max-h-[calc(100dvh-1rem)] sm:max-h-[92vh] flex flex-col bg-[#FAFBF8] rounded-2xl shadow-2xl border border-[#DDE4DF] overflow-hidden">
+      <div ref={dialogRef} tabIndex={-1} className="relative w-full max-w-3xl max-h-[calc(100dvh-1rem)] sm:max-h-[92vh] flex flex-col bg-[#FAFBF8] rounded-2xl shadow-2xl border border-[#DDE4DF] overflow-hidden">
         {/* Header */}
         <div className="bg-[#173D30] text-white px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
           <div className="min-w-0 flex items-center gap-3">
@@ -218,11 +221,13 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
              )}
 
              <div className="space-y-2">
-               <label className="text-sm font-semibold text-[#17201B]">
-                Ingin menceritakan apa yang terjadi hari ini? (Boleh dikosongkan)
-              </label>
-              <textarea
-                value={userNote}
+               <label htmlFor="journal-note" className="text-sm font-semibold text-[#17201B]">
+                 Ingin menceritakan apa yang terjadi hari ini? (Boleh dikosongkan)
+               </label>
+               <textarea
+                 id="journal-note"
+                 aria-describedby="journal-note-help"
+                 value={userNote}
                 onChange={(e) => setUserNote(e.target.value)}
                 placeholder="Tulis sesuka hatimu... misalnya: 'Aku kepikiran tentang tugas sekolah dan takut ngecewain orang tua', atau 'Tiba-tiba merasa sedih tanpa sebab'."
                 rows={5}
@@ -370,8 +375,10 @@ ${result.recommendedSteps.map((s, i) => `${i + 1}. ${s}`).join("\n")}
             </div>
 
             {/* Follow up text form */}
-            <form onSubmit={handleSendFollowUp} className="flex gap-2 pt-2">
+            <form onSubmit={handleSendFollowUp} className="flex gap-2 pt-2" aria-label="Lanjutkan percakapan refleksi">
+              <label htmlFor="journal-follow-up" className="sr-only">Balas atau ceritakan lebih lanjut</label>
               <input
+                id="journal-follow-up"
                 type="text"
                 value={followUpText}
                 onChange={(e) => setFollowUpText(e.target.value)}

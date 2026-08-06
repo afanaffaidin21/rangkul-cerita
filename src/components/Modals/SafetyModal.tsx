@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Phone, ShieldAlert, HeartHandshake, X, Copy, Check, ExternalLink, LifeBuoy } from "lucide-react";
+import { useAccessibleDialog } from "../../lib/accessibility/useAccessibleDialog";
 import { VERIFIED_HELPLINES } from "../../lib/safety/contacts";
 
 interface SafetyModalProps {
@@ -17,6 +18,8 @@ export const SafetyModal: React.FC<SafetyModalProps> = ({ isOpen, onClose }) => 
 
   const [customTemplate, setCustomTemplate] = useState(sampleTemplate);
   const [isCopiedTemplate, setIsCopiedTemplate] = useState(false);
+
+  const dialogRef = useAccessibleDialog(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -40,7 +43,7 @@ export const SafetyModal: React.FC<SafetyModalProps> = ({ isOpen, onClose }) => 
       aria-modal="true"
       aria-labelledby="safety-modal-title"
     >
-      <div className="relative w-full max-w-2xl max-h-[calc(100dvh-1rem)] sm:max-h-[90vh] flex flex-col bg-[#FAFBF8] rounded-2xl shadow-2xl border border-[#DDE4DF] overflow-hidden">
+      <div ref={dialogRef} tabIndex={-1} className="relative w-full max-w-2xl max-h-[calc(100dvh-1rem)] sm:max-h-[90vh] flex flex-col bg-[#FAFBF8] rounded-2xl shadow-2xl border border-[#DDE4DF] overflow-hidden">
         {/* Soft danger banner */}
         <div className="bg-[#FBEAEC] border-b border-[#E89887]/30 px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
           <div className="min-w-0 flex items-center gap-3">
@@ -66,10 +69,19 @@ export const SafetyModal: React.FC<SafetyModalProps> = ({ isOpen, onClose }) => 
         </div>
 
         {/* Tab navigation */}
-        <div className="flex border-b border-[#DDE4DF] bg-[#F3F5F2] px-6">
+        <div role="tablist" aria-label="Pilihan bantuan" className="flex flex-wrap border-b border-[#DDE4DF] bg-[#F3F5F2] px-3 sm:px-6">
           <button
+            id="safety-tab-helplines"
+            role="tab"
+            aria-selected={activeTab === "helplines"}
+            aria-controls="safety-panel-helplines"
+            tabIndex={activeTab === "helplines" ? 0 : -1}
+            onKeyDown={(event) => {
+              if (event.key === "ArrowRight" || event.key === "ArrowDown") setActiveTab("template");
+              if (event.key === "ArrowLeft" || event.key === "ArrowUp") setActiveTab("steps");
+            }}
             onClick={() => setActiveTab("helplines")}
-            className={`py-3 px-4 font-medium text-sm border-b-2 transition-colors ${
+            className={`min-h-11 py-3 px-3 sm:px-4 font-medium text-sm border-b-2 transition-colors ${
               activeTab === "helplines"
                 ? "border-[#2E6F57] text-[#173D30]"
                 : "border-transparent text-[#66736C] hover:text-[#17201B]"
@@ -78,8 +90,17 @@ export const SafetyModal: React.FC<SafetyModalProps> = ({ isOpen, onClose }) => 
             Layanan Darurat & Telepon
           </button>
           <button
+            id="safety-tab-template"
+            role="tab"
+            aria-selected={activeTab === "template"}
+            aria-controls="safety-panel-template"
+            tabIndex={activeTab === "template" ? 0 : -1}
+            onKeyDown={(event) => {
+              if (event.key === "ArrowRight" || event.key === "ArrowDown") setActiveTab("steps");
+              if (event.key === "ArrowLeft" || event.key === "ArrowUp") setActiveTab("helplines");
+            }}
             onClick={() => setActiveTab("template")}
-            className={`py-3 px-4 font-medium text-sm border-b-2 transition-colors ${
+            className={`min-h-11 py-3 px-3 sm:px-4 font-medium text-sm border-b-2 transition-colors ${
               activeTab === "template"
                 ? "border-[#2E6F57] text-[#173D30]"
                 : "border-transparent text-[#66736C] hover:text-[#17201B]"
@@ -88,8 +109,17 @@ export const SafetyModal: React.FC<SafetyModalProps> = ({ isOpen, onClose }) => 
             Pesan ke Orang Tepercaya
           </button>
           <button
+            id="safety-tab-steps"
+            role="tab"
+            aria-selected={activeTab === "steps"}
+            aria-controls="safety-panel-steps"
+            tabIndex={activeTab === "steps" ? 0 : -1}
+            onKeyDown={(event) => {
+              if (event.key === "ArrowRight" || event.key === "ArrowDown") setActiveTab("helplines");
+              if (event.key === "ArrowLeft" || event.key === "ArrowUp") setActiveTab("template");
+            }}
             onClick={() => setActiveTab("steps")}
-            className={`py-3 px-4 font-medium text-sm border-b-2 transition-colors ${
+            className={`min-h-11 py-3 px-3 sm:px-4 font-medium text-sm border-b-2 transition-colors ${
               activeTab === "steps"
                 ? "border-[#2E6F57] text-[#173D30]"
                 : "border-transparent text-[#66736C] hover:text-[#17201B]"
@@ -102,7 +132,7 @@ export const SafetyModal: React.FC<SafetyModalProps> = ({ isOpen, onClose }) => 
         {/* Content body */}
         <div className="p-6 overflow-y-auto space-y-6 flex-1">
           {activeTab === "helplines" && (
-            <div className="space-y-4">
+            <div id="safety-panel-helplines" role="tabpanel" aria-labelledby="safety-tab-helplines" tabIndex={0} className="space-y-4">
               <p className="text-sm text-[#35413A] leading-relaxed">
                 Jika kamu merasa tidak aman, memiliki pikiran menyakiti diri sendiri, atau membutuhkan teman bicara saat ini juga, silakan hubungi salah satu layanan terverifikasi di bawah ini:
               </p>
@@ -155,8 +185,9 @@ export const SafetyModal: React.FC<SafetyModalProps> = ({ isOpen, onClose }) => 
                         </a>
                         <button
                           onClick={() => handleCopyPhone(helpline.id, helpline.phone, helpline.ext)}
-                          className="p-2 border border-[#DDE4DF] bg-white hover:bg-[#F3F5F2] text-[#35413A] rounded-xl transition-colors"
-                          title="Salin Nomor Telepon"
+                           className="min-w-11 min-h-11 p-2 border border-[#DDE4DF] bg-white hover:bg-[#F3F5F2] text-[#35413A] rounded-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2E6F57]"
+                           aria-label={`Salin nomor telepon ${helpline.phone}`}
+                           title="Salin Nomor Telepon"
                         >
                           {copiedIndex === helpline.id ? (
                             <Check className="w-4 h-4 text-[#2E7D5B]" />
@@ -173,7 +204,7 @@ export const SafetyModal: React.FC<SafetyModalProps> = ({ isOpen, onClose }) => 
           )}
 
           {activeTab === "template" && (
-            <div className="space-y-4">
+            <div id="safety-panel-template" role="tabpanel" aria-labelledby="safety-tab-template" tabIndex={0} className="space-y-4">
               <p className="text-sm text-[#35413A]">
                 Kadang hal tersulit adalah menemukan kata-kata pertama. Kamu bisa menyunting dan menyalin template pesan berikut untuk dikirim ke teman, keluarga, atau guru yang kamu percayai:
               </p>
@@ -213,7 +244,7 @@ export const SafetyModal: React.FC<SafetyModalProps> = ({ isOpen, onClose }) => 
           )}
 
           {activeTab === "steps" && (
-            <div className="space-y-4 text-sm text-[#35413A] leading-relaxed">
+            <div id="safety-panel-steps" role="tabpanel" aria-labelledby="safety-tab-steps" tabIndex={0} className="space-y-4 text-sm text-[#35413A] leading-relaxed">
               <h3 className="font-bold text-[#173D30] text-base">3 Langkah Praktis Menuju Keselamatan Diri:</h3>
               <ol className="list-decimal pl-5 space-y-2">
                 <li>
