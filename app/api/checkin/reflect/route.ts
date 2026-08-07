@@ -3,6 +3,7 @@ import { AppError, apiFailure } from "../../../../src/lib/errors";
 import { checkinReflectionSchema, parseJson, validationError } from "../../../../src/lib/validation/public-boundaries";
 import { generateReflection } from "../../../../src/lib/ai/provider";
 import { reflectionOutputSchema } from "../../../../src/lib/ai/schemas";
+import { enforceRateLimit } from "../../../../src/lib/rate-limit/limiter";
 import { isCrisisLevel, runSafetyGate } from "../../../../src/lib/safety/gate";
 import {
   CONTROLLED_HIGH_RESPONSE,
@@ -31,6 +32,12 @@ export async function POST(request: Request) {
         reflection: null,
   });
   }
+
+  // Rate limiting protects the paid generative-AI path only. It runs AFTER
+  // the Safety Gate so deterministic HIGH/IMMINENT escalation never depends
+  // on rate-limit store or provider availability.
+  const limited = await enforceRateLimit(request, "reflect");
+  if (limited) return limited;
 
   const level = safety.classification.level;
 

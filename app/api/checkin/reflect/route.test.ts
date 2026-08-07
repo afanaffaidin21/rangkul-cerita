@@ -1,5 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { POST } from "./route";
+import { resetRateLimitStore } from "../../../../src/lib/rate-limit/limiter";
+
+const { generateReflection } = vi.hoisted(() => ({
+  generateReflection: vi.fn(),
+}));
+
+vi.mock("../../../../src/lib/ai/provider", () => ({ generateReflection }));
 
 function request(body: Record<string, unknown>) {
   return new Request("http://localhost/api/checkin/reflect", {
@@ -10,6 +17,12 @@ function request(body: Record<string, unknown>) {
 }
 
 describe("journal reflection safety boundary", () => {
+  beforeEach(() => {
+    resetRateLimitStore();
+    generateReflection.mockReset();
+    generateReflection.mockResolvedValue({ ok: false, reason: "UNAVAILABLE" });
+  });
+
   it.each([
     "Aku kepikiran bunuh diri.",
     "Aku sedang mau menyakiti diri sekarang.",
@@ -20,6 +33,7 @@ describe("journal reflection safety boundary", () => {
     expect(data.safety.level).toMatch(/HIGH|IMMINENT/);
     expect(data.reflection).toBeNull();
     expect(data.controlledResponse).not.toBeNull();
+    expect(generateReflection).not.toHaveBeenCalled();
   });
 
   it("reports unavailable AI without fabricating a LOW reflection", async () => {
@@ -31,5 +45,38 @@ describe("journal reflection safety boundary", () => {
     expect(data.success).toBe(false);
     expect(data.error.code).toBe("AI_UNAVAILABLE");
     expect(data.reflection).toBeUndefined();
+  });
+
+  it("rate-limits the AI path with a controlled 429", async () => {
+    for (let i = 0; i < 5; i++) {
+      const response = await POST(request({ userNote: "Aku capek setelah hari yang panjang." }));
+      expect(response.status).toBe(503);
+    }
+
+    const limited = await POST(request({ userNote: "Aku capek setelah hari yang panjang." }));
+    expect(limited.status).toBe(429);
+    expect(Number(limited.headers.get("Retry-After"))).toBeGreaterThan(0);
+    expect(await limited.json()).toMatchObject({
+      success: false,
+      error: { code: "RATE_LIMITED" },
+    });
+    expect(generateReflection).toHaveBeenCalledTimes(5);
+  });
+
+  it("keeps crisis escalation available even when the AI path is rate-limited", async () => {
+    for (let i = 0; i < 6; i++) {
+      await POST(request({ userNote: "Aku capek setelah hari yang panjang." }));
+    }
+    const callsBeforeCrisis = generateReflection.mock.calls.length;
+
+    const crisis = await POST(request({ userNote: "Aku kepikiran bunuh diri." }));
+    const data = await crisis.json();
+
+    expect(crisis.status).toBe(200);
+    expect(data.safety.level).toMatch(/HIGH|IMMINENT/);
+    expect(data.reflection).toBeNull();
+    expect(data.controlledResponse).not.toBeNull();
+    // The crisis request must not reach the provider even while rate-limited.
+    expect(generateReflection.mock.calls.length).toBe(callsBeforeCrisis);
   });
 });

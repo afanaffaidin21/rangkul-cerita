@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 export type AppErrorCode =
   | "VALIDATION_ERROR"
+  | "RATE_LIMITED"
   | "AI_UNAVAILABLE"
   | "AI_EMPTY_RESPONSE"
   | "AI_INVALID_RESPONSE"

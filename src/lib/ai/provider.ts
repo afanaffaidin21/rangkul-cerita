@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import { AI_CONFIG, getGeminiApiKey } from "./config";
+import { AI_CONFIG, getAiProviderTimeoutMs, getGeminiApiKey } from "./config";
 
 export type ReflectionGenerationInput = {
   emotions: string[];
@@ -11,7 +11,27 @@ export type ReflectionGenerationInput = {
 
 export type ReflectionGenerationResult =
   | { ok: true; text: string }
-  | { ok: false; reason: "UNAVAILABLE" };
+  | { ok: false; reason: "UNAVAILABLE" | "TIMEOUT" };
+
+const AI_PROVIDER_TIMEOUT = Symbol("AI_PROVIDER_TIMEOUT");
+
+/**
+ * Bounds how long we wait for the provider. The SDK is also configured with
+ * the same timeout (`httpOptions.timeout`) so the underlying request is
+ * aborted; this race additionally guarantees the awaiting code always settles
+ * and lets us distinguish timeout internally without exposing provider errors.
+ */
+function withProviderTimeout<T>(operation: Promise<T>, timeoutMs: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  return Promise.race([
+    operation,
+    new Promise<never>((_, reject) => {
+      timer = setTimeout(() => reject(AI_PROVIDER_TIMEOUT), timeoutMs);
+    }),
+  ]).finally(() => {
+    if (timer) clearTimeout(timer);
+  });
+}
 
 const SYSTEM_INSTRUCTION = `
 Kamu adalah pendamping refleksi emosi hangat dari "Rangkul Cerita" untuk anak muda Indonesia (usia 16-21 tahun).
@@ -57,24 +77,36 @@ export async function generateReflection(input: ReflectionGenerationInput): Prom
   const apiKey = getGeminiApiKey();
   if (!apiKey) return { ok: false, reason: "UNAVAILABLE" };
 
+  const timeoutMs = getAiProviderTimeoutMs();
+
   try {
     const ai = new GoogleGenAI({
       apiKey,
       httpOptions: {
         headers: { "User-Agent": AI_CONFIG.userAgent },
+        // Native per-request timeout so an unresponsive provider cannot hang
+        // a reflection request or keep an open charge indefinitely.
+        timeout: timeoutMs,
       },
     });
-    const response = await ai.models.generateContent({
-      model: AI_CONFIG.model,
-      contents: buildPrompt(input),
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-        responseMimeType: AI_CONFIG.responseMimeType,
-        temperature: AI_CONFIG.temperature,
-      },
-    });
+    const response = await withProviderTimeout(
+      ai.models.generateContent({
+        model: AI_CONFIG.model,
+        contents: buildPrompt(input),
+        config: {
+          systemInstruction: SYSTEM_INSTRUCTION,
+          responseMimeType: AI_CONFIG.responseMimeType,
+          temperature: AI_CONFIG.temperature,
+        },
+      }),
+      timeoutMs,
+    );
     return { ok: true, text: response.text?.trim() ?? "" };
-  } catch {
+  } catch (error) {
+    if (error === AI_PROVIDER_TIMEOUT) {
+      // Maps to the existing graceful provider-unavailable user-facing path.
+      return { ok: false, reason: "TIMEOUT" };
+    }
     throw new Error("AI_PROVIDER_ERROR");
   }
 }

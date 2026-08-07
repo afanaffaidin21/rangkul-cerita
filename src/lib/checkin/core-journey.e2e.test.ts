@@ -3,6 +3,7 @@ import { POST } from "../../../app/api/checkin/reflect/route";
 import { getPrimaryNextStepAction, getNextStepActionLabel } from "./next-step";
 import { deleteJournalEntry, JOURNAL_STORAGE_KEY, readJournalEntries, saveJournalEntry } from "../privacy/journal-storage";
 import { getSupportVisibility } from "../safety/support-visibility";
+import { resetRateLimitStore } from "../rate-limit/limiter";
 
 const { generateReflection } = vi.hoisted(() => ({ generateReflection: vi.fn() }));
 
@@ -55,6 +56,7 @@ describe("core journey E2E boundary", () => {
     vi.clearAllMocks();
     process.env.GEMINI_API_KEY = "synthetic-test-key";
     generateReflection.mockResolvedValue({ ok: true, text: JSON.stringify(validReflection) });
+    resetRateLimitStore();
   });
 
   it("completes the LOW check-in, validates reflection, selects Next Step, saves Journal locally, and exposes Human Support", async () => {

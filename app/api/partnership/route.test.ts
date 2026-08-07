@@ -7,6 +7,7 @@ const { createPartnershipLead } = vi.hoisted(() => ({
 vi.mock("../../../src/lib/database/partnership", () => ({ createPartnershipLead }));
 
 import { POST } from "./route";
+import { resetRateLimitStore } from "../../../src/lib/rate-limit/limiter";
 
 function request(body: unknown) {
   return new Request("http://localhost/api/partnership", {
@@ -26,7 +27,10 @@ const validPayload = {
 };
 
 describe("partnership persistence boundary", () => {
-  beforeEach(() => createPartnershipLead.mockClear().mockResolvedValue({ created: true }));
+  beforeEach(() => {
+    createPartnershipLead.mockClear().mockResolvedValue({ created: true });
+    resetRateLimitStore();
+  });
 
   it("persists a valid lead before returning success", async () => {
     const response = await POST(request(validPayload));
@@ -54,5 +58,20 @@ describe("partnership persistence boundary", () => {
     const response = await POST(request(validPayload));
     expect(response.status).toBe(500);
     expect(await response.json()).toEqual({ success: false, error: { code: "PERSISTENCE_FAILED", message: "Formulir kemitraan belum dapat diproses" } });
+  });
+
+  it("returns a controlled 429 after the submission limit is exceeded", async () => {
+    for (let i = 0; i < 3; i++) {
+      const response = await POST(request(validPayload));
+      expect(response.status).toBe(200);
+    }
+
+    const limited = await POST(request(validPayload));
+    expect(limited.status).toBe(429);
+    expect(createPartnershipLead).toHaveBeenCalledTimes(3);
+    expect(await limited.json()).toMatchObject({
+      success: false,
+      error: { code: "RATE_LIMITED" },
+    });
   });
 });

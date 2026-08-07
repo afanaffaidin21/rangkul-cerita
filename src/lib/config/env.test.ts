@@ -28,4 +28,26 @@ describe("runtime environment configuration", () => {
       DATABASE_URL: "postgresql://localhost/app",
     });
   });
+
+  it("normalizes hardening and rate-limit configuration values", () => {
+    expect(getRuntimeEnv({
+      DATABASE_CONNECTION_TIMEOUT_MS: " 10000 ",
+      AI_PROVIDER_TIMEOUT_MS: " 30000 ",
+      RATE_LIMIT_REFLECT_MAX: " 5 ",
+      RATE_LIMIT_REFLECT_WINDOW_SECONDS: " 60 ",
+      RATE_LIMIT_NEWSLETTER_MAX: " 5 ",
+      RATE_LIMIT_NEWSLETTER_WINDOW_SECONDS: " 3600 ",
+      RATE_LIMIT_PARTNERSHIP_MAX: " 3 ",
+      RATE_LIMIT_PARTNERSHIP_WINDOW_SECONDS: " 3600 ",
+    })).toEqual({
+      DATABASE_CONNECTION_TIMEOUT_MS: "10000",
+      AI_PROVIDER_TIMEOUT_MS: "30000",
+      RATE_LIMIT_REFLECT_MAX: "5",
+      RATE_LIMIT_REFLECT_WINDOW_SECONDS: "60",
+      RATE_LIMIT_NEWSLETTER_MAX: "5",
+      RATE_LIMIT_NEWSLETTER_WINDOW_SECONDS: "3600",
+      RATE_LIMIT_PARTNERSHIP_MAX: "3",
+      RATE_LIMIT_PARTNERSHIP_WINDOW_SECONDS: "3600",
+    });
+  });
 });

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AI_CONFIG, getGeminiApiKey } from "./config";
 
 const { generateContent } = vi.hoisted(() => ({ generateContent: vi.fn() }));
@@ -25,6 +25,8 @@ describe("AI provider boundary", () => {
     process.env.GEMINI_API_KEY = "synthetic-key";
     generateContent.mockResolvedValue({ text: "{\"reflection\":\"synthetic\"}" });
   });
+
+  afterEach(() => vi.unstubAllEnvs());
 
   it("owns the current Gemini generation configuration", () => {
     expect(AI_CONFIG).toEqual({
@@ -68,5 +70,18 @@ describe("AI provider boundary", () => {
 
     await expect(generateReflection(input)).rejects.toThrow("AI_PROVIDER_ERROR");
     await expect(generateReflection(input)).rejects.not.toThrow("synthetic provider detail");
+  });
+
+  it("bounds provider calls and reports timeout through the graceful path", async () => {
+    vi.stubEnv("AI_PROVIDER_TIMEOUT_MS", "1000");
+    generateContent.mockReturnValue(new Promise(() => {}));
+    vi.useFakeTimers();
+    try {
+      const pending = generateReflection(input);
+      vi.advanceTimersByTime(1000);
+      await expect(pending).resolves.toEqual({ ok: false, reason: "TIMEOUT" });
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
