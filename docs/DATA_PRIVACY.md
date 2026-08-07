@@ -1143,23 +1143,34 @@ Maintain an internal inventory:
   Processor    Purpose       Data          Sensitive     Retention   Location   Contract
                                            Data?                                Reviewed?
   ------------ ------------- ------------- ------------- ----------- ---------- -----------
-  AI Provider  Reflection    Minimum       Yes           TBD         TBD        TBD
-                             emotional                                          
-                             text                                               
+  Google       AI            Minimum       Yes           TBD         TBD        TBD
+  Gemini       Reflection    emotional
+                             text
 
-  Newsletter   Email         Email         No/Personal   TBD         TBD        TBD
-  Provider     delivery                                                         
+  Supabase     Postgres      Newsletter    Email         TBD         TBD        TBD
+  Postgres     persistence   email +
+                             partnership
+                             lead data
 
-  Hosting      Application   Operational   Possible      TBD         TBD        TBD
+  Upstash      Distributed   Rate-limit    IP-derived    TBD         TBD        TBD
+  Redis        rate          counter       client key
+               limiting      keys only     (no content)
+
+  Vercel       Hosting       Operational   Possible      TBD         TBD        TBD
+                             logs
 
   Error        Errors        Sanitized     Must avoid    TBD         TBD        TBD
-  Monitoring                 metadata      raw sensitive                        
+  Monitoring                 metadata      raw sensitive
 
   Analytics    Product       Event         Must avoid    TBD         TBD        TBD
-               metrics       metadata      raw sensitive                        
+               metrics       metadata      raw sensitive
   -----------------------------------------------------------------------------------------
 
-Populate actual vendors before production.
+Locked production processors (Issue #42): Google Gemini (AI), Supabase
+Postgres (managed Postgres only), Upstash Redis (distributed rate limiting),
+Vercel (hosting). Location, retention, and contract-review cells remain TBD
+until provisioning and owner review are completed in Phase B2.
+
 
 ------------------------------------------------------------------------
 

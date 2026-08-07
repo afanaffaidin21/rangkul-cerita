@@ -54,4 +54,14 @@ describe("runtime environment configuration", () => {
       RATE_LIMIT_PARTNERSHIP_WINDOW_SECONDS: "3600",
     });
   });
+
+  it("normalizes Upstash production configuration values", () => {
+    expect(getRuntimeEnv({
+      UPSTASH_REDIS_REST_URL: " https://example.upstash.io ",
+      UPSTASH_REDIS_REST_TOKEN: " synthetic-token ",
+    })).toEqual({
+      UPSTASH_REDIS_REST_URL: "https://example.upstash.io",
+      UPSTASH_REDIS_REST_TOKEN: "synthetic-token",
+    });
+  });
 });

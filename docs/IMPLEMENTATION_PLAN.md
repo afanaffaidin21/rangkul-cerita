@@ -1810,3 +1810,53 @@ What would make the demo look more complete?
 **Next Recommended Task:**
 
 -   Issue #42 --- production hosting (#41 is its only dependency).
+
+## 23.2 Issue #42 Phase B1 --- Production Infrastructure Adaptation
+
+**Status:** IN PROGRESS (code adaptation complete; deployment not yet performed)
+
+**Locked production architecture:**
+
+-   Hosting: Vercel
+-   Database: Supabase Postgres (managed Postgres only; pg + Drizzle server-side)
+-   Distributed rate limiting: Upstash Redis (REST)
+-   AI: Google Gemini (existing integration)
+-   Observability: Vercel runtime/function logs
+
+**Phase B1 scope (completed):**
+
+-   `UpstashRateLimiter` added behind the existing `RateLimiter` interface
+-   Deterministic driver selection: production uses Upstash; development/tests
+    use `InMemoryRateLimiter`
+-   Missing Upstash credentials in production fail loudly (no silent
+    per-instance fallback)
+-   Endpoint-specific limiter failure policy: reflection fails closed (503
+    `AI_UNAVAILABLE`); newsletter/unsubscribe/partnership fail open
+    (lower abuse/cost impact and availability-preferred failure policy)
+-   Fixed-window Lua script stores only namespaced counter state; no request
+    content ever stored
+-   `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` added to validated
+    runtime config and `.env.example`
+-   Supabase compatibility documented (transaction-mode pooler for Vercel
+    runtime; direct/session connection for controlled migrations)
+-   Migrations remain Drizzle-authoritative and are NOT run on app boot
+
+**Deferred to Phase B2 (not done in B1):**
+
+-   provisioning Vercel/Supabase/Upstash resources,
+-   environment variable provisioning,
+-   production migration execution,
+-   deployed CSP/nonce/header verification,
+-   HSTS after HTTPS/domain confirmation,
+-   deployed force-dynamic performance/caching measurement,
+-   deployed rate-limit behavior behind Vercel proxy (client IP trust),
+-   privacy carry-forward: "Upstash stores TTL-bounded rate-limit keys
+    derived from client IP; include Upstash in the processor/data inventory
+    and verify retention/privacy posture."
+
+**Known limitations:**
+
+-   Rate-limit keys use the client IP-derived identifier from
+    `x-forwarded-for` (first value), consistent with the pre-existing #43
+    behavior; a privacy-safer hashed identifier would require a new
+    keyed-hash secret decision and is not introduced in B1.

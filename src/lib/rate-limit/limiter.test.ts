@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { getRateLimitPolicies } from "./config";
-import { enforceRateLimit, resetRateLimitStore } from "./limiter";
+import { getRateLimitPolicies, RateLimitPolicyName } from "./config";
+import { enforceRateLimit, getRateLimiter, InMemoryRateLimiter, resetRateLimiterForTests, resetRateLimitStore } from "./limiter";
+import { UpstashRateLimiter } from "./upstash";
 
 function request(headers: Record<string, string> = {}) {
   return new Request("http://localhost/api/newsletter", {
@@ -125,5 +126,67 @@ describe("in-memory rate limiter", () => {
     );
     expect(denied!.status).toBe(429);
     expect(JSON.stringify(await denied!.json())).not.toContain(secret);
+  });
+});
+
+describe("rate limiter driver selection", () => {
+  beforeEach(() => resetRateLimiterForTests());
+  afterEach(() => vi.unstubAllEnvs());
+
+  it("uses the in-memory driver in development and tests", () => {
+    vi.stubEnv("NODE_ENV", "development");
+    expect(getRateLimiter()).toBeInstanceOf(InMemoryRateLimiter);
+    resetRateLimiterForTests();
+
+    vi.stubEnv("NODE_ENV", "test");
+    expect(getRateLimiter()).toBeInstanceOf(InMemoryRateLimiter);
+  });
+
+  it("uses the shared Upstash driver in production when configured", () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("UPSTASH_REDIS_REST_URL", "https://example.upstash.io");
+    vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", "synthetic-token");
+
+    expect(getRateLimiter()).toBeInstanceOf(UpstashRateLimiter);
+  });
+
+  it("fails loudly in production when Upstash configuration is missing", () => {
+    vi.stubEnv("NODE_ENV", "production");
+
+    expect(() => getRateLimiter()).toThrow("UPSTASH_REDIS_REST_URL");
+  });
+});
+
+describe("rate limiter infrastructure failure policy", () => {
+  const failingLimiter: RateLimiter = {
+    check: async () => ({ ok: false, infrastructureFailure: true }),
+  };
+
+  it("fails closed on the AI reflection path with a controlled 503", async () => {
+    const response = await enforceRateLimit(request(), "reflect", failingLimiter);
+
+    expect(response).not.toBeNull();
+    expect(response!.status).toBe(503);
+    expect(await response!.json()).toEqual({
+      success: false,
+      error: {
+        code: "AI_UNAVAILABLE",
+        message: "Refleksi sedang tidak tersedia. Coba lagi nanti.",
+      },
+    });
+  });
+
+  it.each(["newsletter", "newsletterUnsubscribe", "partnership"] as const)(
+    "fails open for %s so forms keep working",
+    async (policyName) => {
+      const response = await enforceRateLimit(request(), policyName, failingLimiter);
+      expect(response).toBeNull();
+    },
+  );
+
+  it("does not expose infrastructure details in any failure response", async () => {
+    const response = await enforceRateLimit(request(), "reflect", failingLimiter);
+    const body = JSON.stringify(await response!.json());
+    expect(body).not.toMatch(/upstash|redis|infrastructure/i);
   });
 });

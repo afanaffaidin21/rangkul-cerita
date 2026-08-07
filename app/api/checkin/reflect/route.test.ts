@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { POST } from "./route";
 import { resetRateLimitStore } from "../../../../src/lib/rate-limit/limiter";
+import * as rateLimitModule from "../../../../src/lib/rate-limit/limiter";
 
 const { generateReflection } = vi.hoisted(() => ({
   generateReflection: vi.fn(),
@@ -78,5 +79,26 @@ describe("journal reflection safety boundary", () => {
     expect(data.controlledResponse).not.toBeNull();
     // The crisis request must not reach the provider even while rate-limited.
     expect(generateReflection.mock.calls.length).toBe(callsBeforeCrisis);
+  });
+
+  it("keeps HIGH escalation deterministic when the rate-limit backend is unavailable", async () => {
+    const enforceSpy = vi
+      .spyOn(rateLimitModule, "enforceRateLimit")
+      .mockRejectedValue(new Error("rate-limit store unavailable"));
+    enforceSpy.mockClear();
+    try {
+      const response = await POST(request({ userNote: "Aku kepikiran bunuh diri." }));
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.safety.level).toMatch(/HIGH|IMMINENT/);
+      expect(data.reflection).toBeNull();
+      expect(data.controlledResponse).not.toBeNull();
+      // The Safety Gate returns before the limiter is ever consulted.
+      expect(enforceSpy).not.toHaveBeenCalled();
+      expect(generateReflection).not.toHaveBeenCalled();
+    } finally {
+      enforceSpy.mockRestore();
+    }
   });
 });

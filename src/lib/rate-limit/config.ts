@@ -99,3 +99,28 @@ export function getRateLimitPolicies(
     },
   };
 }
+
+export type UpstashRedisConfig = {
+  url: string;
+  token: string;
+};
+
+/**
+ * Returns the production Upstash REST credentials from validated runtime
+ * configuration. Upstash is the shared distributed rate-limit store for the
+ * Vercel production runtime; local development and tests keep using the
+ * in-memory driver and do not need these values.
+ */
+export function getUpstashRedisConfig(env: NodeJS.ProcessEnv = process.env): UpstashRedisConfig {
+  const runtimeEnv = getRuntimeEnv(env);
+  const url = runtimeEnv.UPSTASH_REDIS_REST_URL;
+  const token = runtimeEnv.UPSTASH_REDIS_REST_TOKEN;
+
+  if (!url || !token) {
+    throw new Error(
+      "UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are required in production for distributed rate limiting",
+    );
+  }
+
+  return { url, token };
+}

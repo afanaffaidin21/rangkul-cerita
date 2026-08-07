@@ -1015,7 +1015,30 @@ Deployment harus menjaga:
 -   provider configuration,
 -   safe logging.
 
-Deployment provider belum ditentukan oleh dokumen ini.
+Locked production architecture (Issue #42):
+
+``` text
+Hosting:       Vercel
+Database:      Supabase Postgres (managed Postgres only; no Supabase SDK features)
+Rate limiting: Upstash Redis (REST)
+AI:            Google Gemini
+```
+
+Deployment rules:
+
+-   production secrets are provisioned outside the repository (Vercel
+    environment variables / secret store; never committed, never
+    `NEXT_PUBLIC_*`),
+-   HTTPS is terminated by Vercel; HSTS stays disabled until deployed
+    HTTPS/domain behavior is verified (Phase B2),
+-   Drizzle migrations remain the schema/migration source of truth and are
+    run as a controlled release step; they are NOT executed automatically on
+    application boot,
+-   runtime DB connections use Supabase's transaction-mode pooler for
+    serverless safety; migration runs use a direct/session connection from a
+    controlled environment,
+-   provider configuration and safe logging rules from this document apply
+    unchanged.
 
 ## 53. Database Migrations
 
@@ -1308,3 +1331,37 @@ development so Next.js dev tooling keeps working.
 
 HSTS is intentionally deferred to issue #42 because it depends on the
 production hosting decision.
+
+### Production Driver
+
+Locked production architecture (Issue #42):
+
+``` text
+Hosting:          Vercel (serverless)
+Database:         Supabase Postgres (managed Postgres only; pg + Drizzle)
+Rate limiting:    Upstash Redis (REST, distributed)
+AI:               Google Gemini (server-side only)
+Observability:    Vercel runtime/function logs
+```
+
+- `InMemoryRateLimiter` is NOT production-safe on Vercel: every function
+  instance would enforce its own per-instance limits, so limits would not
+  hold across instances. It remains the development/test driver.
+- Production uses `UpstashRateLimiter` behind the same `RateLimiter`
+  interface and `enforceRateLimit()` entry point; routes do not change.
+- Upstash access is HTTP/REST (`UPSTASH_REDIS_REST_URL` +
+  `UPSTASH_REDIS_REST_TOKEN`); no persistent TCP pool inside Vercel
+  Functions.
+- The fixed-window Lua script stores only a namespaced policy/counter key
+  (`rangkul:ratelimit:*`) plus window/max metadata. It never stores journal,
+  check-in, reflection, crisis, email, or message content.
+- Missing Upstash credentials in production fail loudly at first use (never
+  a silent per-instance fallback).
+- Transient Upstash failures are endpoint-specific: the paid AI reflection
+  path fails closed with the existing controlled 503 `AI_UNAVAILABLE`
+  response (a limiter outage never silently turns the paid endpoint into an
+  unlimited one); newsletter/unsubscribe/partnership fail open so forms keep
+  working (lower abuse/cost impact and availability-preferred failure
+  policy). All failures log only a sanitized category.
+- The Safety Gate runs before the limiter, so HIGH/IMMINENT escalation is
+  always deterministic and never affected by limiter availability.
