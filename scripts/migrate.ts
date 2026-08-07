@@ -4,10 +4,28 @@ import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { Pool } from "pg";
 import { getDatabaseConfig } from "@/lib/database/config";
 
-const config = getDatabaseConfig();
-const pool = new Pool({ connectionString: config.url, max: config.maxConnections });
-const db = drizzle(pool);
+async function main() {
+  const config = getDatabaseConfig();
+  const pool = new Pool({
+    connectionString: config.url,
+    max: config.maxConnections,
+  });
 
-await migrate(db, { migrationsFolder: "./drizzle" });
-await db.execute(sql`select 1`);
-await pool.end();
+  try {
+    const db = drizzle(pool);
+    await migrate(db, { migrationsFolder: "./drizzle" });
+    // Final connectivity/schema verification before declaring success.
+    await db.execute(sql`select 1`);
+  } finally {
+    await pool.end();
+  }
+}
+
+main().catch((error) => {
+  // Concise and sanitized: never print DATABASE_URL or credentials.
+  console.error(
+    "Database migration failed:",
+    error instanceof Error ? error.message : "unknown error",
+  );
+  process.exitCode = 1;
+});
