@@ -218,7 +218,7 @@ export const TESTIMONIALS_DATA: TestimonialItem[] = [
     role: "Mahasiswi Semester 4",
     city: "Yogyakarta",
     story: "Aku tipe orang yang susah ngomong kalau lagi panik. Template pesan di Rangkul Cerita ngebantu banget waktu aku bingung mau kirim chat apa ke konselor kampus. Rasanya lebih rapi dan nggak bikin tambah cemas.",
-    featureUsed: "Template Pesan & Direktori Bantuan",
+    featureUsed: "Template Pesan & Jembatan Dukungan Manusia",
     subjectiveOutcome: "Mendapatkan keberanian menghubungi rujukan konselor kampus",
     avatarSeed: "Alya",
   },
@@ -239,7 +239,7 @@ export const FAQ_DATA: FAQItem[] = [
   {
     id: "faq-1",
     question: "Apakah Rangkul Cerita memberikan diagnosis kesehatan mental?",
-    answer: "Sama sekali tidak. Rangkul Cerita adalah ruang refleksi awal dan alat literasi emosi. Kami tidak memberikan diagnosis, tidak mengkategorikan gangguan mental, dan tidak menyediakan resep obat. Jika kamu membutuhkan diagnosis medis, kami akan mengarahkanmu ke direktori psikolog atau psikiater profesional.",
+    answer: "Sama sekali tidak. Rangkul Cerita adalah ruang refleksi awal dan alat literasi emosi. Kami tidak memberikan diagnosis, tidak mengkategorikan gangguan mental, dan tidak menyediakan resep obat. Jika kamu membutuhkan diagnosis medis, kami akan menyarankanmu untuk berkonsultasi dengan psikolog atau psikiater profesional.",
     category: "Umum",
   },
   {
@@ -269,7 +269,7 @@ export const FAQ_DATA: FAQItem[] = [
   {
     id: "faq-6",
     question: "Apakah layanan dasar Rangkul Cerita gratis?",
-    answer: "Ya! Fitur utama seperti Check-in Emosi, Jurnal AI Terpandu dasar, Panduan Self-Help, Direktori Bantuan, dan Tombol Krisis 100% gratis dan dapat diakses oleh siapa saja.",
+    answer: "Ya! Fitur utama seperti Check-in Emosi, Jurnal AI Terpandu, Panduan Self-Help, dan Jalur Bantuan Krisis 100% gratis dan dapat diakses oleh siapa saja.",
     category: "Umum",
   },
   {
@@ -281,7 +281,7 @@ export const FAQ_DATA: FAQItem[] = [
   {
     id: "faq-8",
     question: "Apa itu Peer Supporter di Rangkul Cerita?",
-    answer: "Peer Supporter adalah sesama anak muda atau relawan terlatih yang mendengarkan cerita dengan empati di bawah pengawasan psikolog. Fitur Peer Support saat ini dijalankan dalam skala pilot terbatas melalui grup kecil terstruktur dengan aturan komunitas yang ketat.",
+    answer: "Peer Supporter adalah rencana pendampingan dari sesama anak muda terlatih yang mendengarkan cerita dengan empati. Fitur ini belum tersedia saat ini dan masih dalam tahap perencanaan — kami akan mengumumkannya jika sudah siap diluncurkan.",
     category: "AI & Fitur",
   },
   {
@@ -302,12 +302,12 @@ export const PARTNERSHIP_PROGRAMS: PartnershipProgram[] = [
   {
     title: "Program Sekolah & Kampus Aman",
     target: "SMA, SMK, Universitas, BEM, & Unit Konseling",
-    description: "Sediakan ruang refleksi terstruktur bagi siswa/mahasiswa serta dapatkan insight tren kesehatan emosional kolektif tanpa melanggar privasi individual.",
+    description: "Sediakan ruang refleksi terstruktur bagi siswa/mahasiswa di sekolah atau kampusmu.",
     features: [
       "Akses prioritas Rangkul Cerita untuk siswa & mahasiswa",
-       "Laporan institusi belum tersedia pada MVP",
+      "Laporan institusi belum tersedia pada MVP",
       "Materi workshop literasi emosi & penanganan stres",
-      "Integrasi direktori guru BK / konselor kampus"
+      "Panduan dukungan guru BK / konselor kampus — dalam pengembangan"
     ],
   },
   {

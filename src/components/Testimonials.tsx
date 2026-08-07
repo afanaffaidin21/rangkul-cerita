@@ -23,10 +23,10 @@ export const Testimonials: React.FC = () => {
         <div className="text-center space-y-3 max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EEF7F2] text-[#2E6F57] text-xs font-semibold">
             <Heart className="w-3.5 h-3.5 fill-current" />
-            <span>Pengalaman Pengguna Pilot</span>
+            <span>Contoh Pengalaman</span>
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#173D30] font-sans">
-            Cerita kecil dari mereka yang pernah memulai.
+            Potongan pengalaman yang bisa mirip dengan ceritamu.
           </h2>
           <p className="text-sm text-[#66736C]">
              Contoh ilustratif untuk menunjukkan jenis pengalaman yang dapat didukung fitur ini; bukan testimoni pengguna terverifikasi.
@@ -56,7 +56,7 @@ export const Testimonials: React.FC = () => {
               </div>
 
               <span className="text-[10px] font-bold px-2.5 py-1 bg-[#EEF7F2] text-[#2E6F57] rounded-full border border-[#BFDCCD]">
-                [Testimoni pengguna pilot dengan izin]
+                [Contoh Ilustratif]
               </span>
             </div>
 
@@ -83,7 +83,7 @@ export const Testimonials: React.FC = () => {
             <button
               onClick={handlePrev}
               className="p-3 bg-white border border-[#DDE4DF] text-[#173D30] hover:bg-[#EEF7F2] rounded-xl transition-colors shadow-sm"
-              aria-label="Testimoni Sebelumnya"
+              aria-label="Contoh Sebelumnya"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -95,7 +95,7 @@ export const Testimonials: React.FC = () => {
             <button
               onClick={handleNext}
               className="p-3 bg-white border border-[#DDE4DF] text-[#173D30] hover:bg-[#EEF7F2] rounded-xl transition-colors shadow-sm"
-              aria-label="Testimoni Berikutnya"
+              aria-label="Contoh Berikutnya"
             >
               <ChevronRight className="w-5 h-5" />
             </button>

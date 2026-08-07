@@ -86,7 +86,7 @@ export const HumanSupportBridge: React.FC<HumanSupportBridgeProps> = ({ onOpenSa
                 onClick={onOpenSafetyModal}
                 className="w-full py-3 bg-[#2E6F57] hover:bg-[#173D30] text-white text-xs font-semibold rounded-xl transition-[background-color,box-shadow,color] shadow-sm flex items-center justify-center gap-2"
               >
-                <Phone className="w-4 h-4" /> Lihat Direktori Layanan Bantuan Terverifikasi
+                <Phone className="w-4 h-4" /> Lihat Layanan Bantuan Terverifikasi
               </button>
             </div>
           </div>
