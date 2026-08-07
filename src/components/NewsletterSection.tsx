@@ -59,18 +59,18 @@ export const NewsletterSection: React.FC = () => {
           </blockquote>
         </div>
 
-        {/* Weekly Reflection Newsletter Box */}
+        {/* Newsletter Box */}
         <div className="bg-[#173D30] text-white rounded-3xl p-8 sm:p-10 space-y-6 shadow-xl">
           <div className="text-center space-y-2 max-w-xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2E6F57] text-[#BFDCCD] text-xs font-semibold">
               <Mail className="w-3.5 h-3.5" />
-              <span>Teman Mingguan Rangkul Cerita</span>
+              <span>Kabar Rangkul Cerita</span>
             </div>
             <h3 className="text-2xl font-bold font-sans">
-              Temani perjalananmu, satu pesan kecil setiap minggu.
+              Temani perjalananmu dengan kabar Rangkul Cerita.
             </h3>
             <p className="text-xs sm:text-sm text-[#BFDCCD]">
-              Dapatkan refleksi singkat, latihan praktis 2 menit, dan panduan memahami emosi langsung di kotak masukmu. Bebas spam, bisa batal berlangganan kapan saja.
+              Daftar untuk mendapat kabar Rangkul Cerita lewat email — info artikel, materi, dan kegiatan terbaru saat tersedia. Tanpa spam, dan kamu bisa berhenti berlangganan kapan saja.
             </p>
           </div>
 
@@ -106,9 +106,15 @@ export const NewsletterSection: React.FC = () => {
                 className="px-6 py-3 bg-[#58A17F] hover:bg-[#2E6F57] text-white text-xs font-bold rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 shrink-0 disabled:opacity-50"
               >
                 <Send className="w-3.5 h-3.5" />
-                {isSubmitting ? "Mengirim..." : "Kirim Teman Mingguan"}
+                {isSubmitting ? "Mengirim..." : "Daftar Kabar Rangkul Cerita"}
               </button>
             </div>
+            <p className="text-center text-[11px] text-[#BFDCCD]">
+              Sudah terdaftar?{" "}
+              <a href="/newsletter/unsubscribe" className="underline hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#BFDCCD] rounded">
+                Berhenti berlangganan
+              </a>
+            </p>
 
             <label className="flex items-start gap-2 text-[11px] text-[#BFDCCD] cursor-pointer pt-1">
               <input
@@ -120,7 +126,7 @@ export const NewsletterSection: React.FC = () => {
                 className="mt-0.5 rounded border-[#BFDCCD] text-[#2E6F57] focus:ring-[#2E6F57]"
               />
               <span>
-                Saya menyetujui Kebijakan Privasi Rangkul Cerita dan bersedia menerima pesan refleksi mingguan.
+                Saya menyetujui Kebijakan Privasi Rangkul Cerita dan bersedia menerima kabar dari Rangkul Cerita.
               </span>
             </label>
           </form>

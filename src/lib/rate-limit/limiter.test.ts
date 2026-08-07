@@ -16,6 +16,7 @@ describe("rate-limit configuration", () => {
     expect(getRateLimitPolicies()).toEqual({
       reflect: { max: 5, windowSeconds: 60 },
       newsletter: { max: 5, windowSeconds: 3600 },
+      newsletterUnsubscribe: { max: 10, windowSeconds: 3600 },
       partnership: { max: 3, windowSeconds: 3600 },
     });
   });

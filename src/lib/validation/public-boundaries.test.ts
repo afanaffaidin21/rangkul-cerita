@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { POST as reflect } from "../../../app/api/checkin/reflect/route";
 import { POST as classify } from "../../../app/api/safety/classify/route";
 import { POST as newsletter } from "../../../app/api/newsletter/route";
+import { POST as newsletterUnsubscribe } from "../../../app/api/newsletter/unsubscribe/route";
 import { POST as partnership } from "../../../app/api/partnership/route";
 
 function request(path: string, body: unknown) {
@@ -18,6 +19,7 @@ describe("public boundary runtime validation", () => {
     [reflect, "/api/checkin/reflect", { userNote: "private text", intensity: 9 }],
     [classify, "/api/safety/classify", { text: "" }],
     [newsletter, "/api/newsletter", { email: "not-an-email", consent: true }],
+    [newsletterUnsubscribe, "/api/newsletter/unsubscribe", { email: "not-an-email" }],
     [partnership, "/api/partnership", { institutionName: "School", category: "Unknown", contactName: "A", email: "bad" }],
   ])("rejects malformed payloads without exposing input", async (handler, path, body) => {
     const response = await handler(request(path, body));

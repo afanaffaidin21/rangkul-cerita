@@ -1,6 +1,10 @@
 import { getRuntimeEnv } from "../config/env";
 
-export type RateLimitPolicyName = "reflect" | "newsletter" | "partnership";
+export type RateLimitPolicyName =
+  | "reflect"
+  | "newsletter"
+  | "newsletterUnsubscribe"
+  | "partnership";
 
 export type RateLimitPolicy = {
   /** Maximum number of requests allowed within the window. */
@@ -18,6 +22,7 @@ export type RateLimitPolicy = {
 const DEFAULT_POLICIES: Record<RateLimitPolicyName, RateLimitPolicy> = {
   reflect: { max: 5, windowSeconds: 60 },
   newsletter: { max: 5, windowSeconds: 3600 },
+  newsletterUnsubscribe: { max: 10, windowSeconds: 3600 },
   partnership: { max: 3, windowSeconds: 3600 },
 };
 
@@ -66,6 +71,18 @@ export function getRateLimitPolicies(
         runtimeEnv.RATE_LIMIT_NEWSLETTER_WINDOW_SECONDS,
         DEFAULT_POLICIES.newsletter.windowSeconds,
         "RATE_LIMIT_NEWSLETTER_WINDOW_SECONDS",
+      ),
+    },
+    newsletterUnsubscribe: {
+      max: parsePolicyValue(
+        runtimeEnv.RATE_LIMIT_UNSUBSCRIBE_MAX,
+        DEFAULT_POLICIES.newsletterUnsubscribe.max,
+        "RATE_LIMIT_UNSUBSCRIBE_MAX",
+      ),
+      windowSeconds: parsePolicyValue(
+        runtimeEnv.RATE_LIMIT_UNSUBSCRIBE_WINDOW_SECONDS,
+        DEFAULT_POLICIES.newsletterUnsubscribe.windowSeconds,
+        "RATE_LIMIT_UNSUBSCRIBE_WINDOW_SECONDS",
       ),
     },
     partnership: {

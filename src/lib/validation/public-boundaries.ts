@@ -25,6 +25,10 @@ export const newsletterSchema = z.object({
   consent: z.literal(true),
 }).strict();
 
+export const newsletterUnsubscribeSchema = z.object({
+  email: z.string().trim().email().max(254),
+}).strict();
+
 export const partnershipSchema = z.object({
   institutionName: boundedText(160),
   category: z.enum(["Sekolah / SMA / SMK", "Universitas / BEM / Fakultas", "Komunitas Pemuda / OSIS", "Yayasan / NGO", "Lainnya"]),

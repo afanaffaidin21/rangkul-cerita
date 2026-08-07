@@ -17,8 +17,8 @@ export async function POST(request: Request) {
       success: true,
       alreadySubscribed: !result.created,
       message: result.created
-        ? "Terima kasih telah mendaftar Teman Mingguan Rangkul Cerita!"
-        : "Email ini sudah terdaftar di Teman Mingguan Rangkul Cerita.",
+        ? "Terima kasih telah mendaftar Kabar Rangkul Cerita!"
+        : "Email ini sudah terdaftar di Kabar Rangkul Cerita.",
     });
   } catch (error) {
     return apiFailure(new AppError({

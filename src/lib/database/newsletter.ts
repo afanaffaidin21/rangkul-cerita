@@ -30,3 +30,17 @@ export async function subscribeToNewsletter(email: string, now = new Date()) {
 
   return { created: false, status: existing[0].status };
 }
+
+/**
+ * Transitions a subscription to `unsubscribed`. The result is intentionally
+ * identical whether the email exists, is already unsubscribed, or is unknown
+ * (no enumeration signal). Consent metadata and providerId are preserved.
+ */
+export async function unsubscribeFromNewsletter(email: string) {
+  const db = getDatabase();
+  const normalizedEmail = email.trim().toLowerCase();
+  await db.update(newsletterSubscriptions)
+    .set({ status: "unsubscribed" })
+    .where(eq(newsletterSubscriptions.email, normalizedEmail));
+  return { ok: true };
+}
