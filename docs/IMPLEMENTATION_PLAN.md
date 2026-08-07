@@ -1758,3 +1758,55 @@ not:
 ``` text
 What would make the demo look more complete?
 ```
+
+------------------------------------------------------------------------
+
+# 23. P4 --- Production Hardening & Release Tracker
+
+## 23.1 Issue #41 --- Harden Production Security & Remove Dead Runtime Surface
+
+**Status:** COMPLETED
+
+**Scope:**
+
+-   production security-header baseline and nonce-based CSP (centralized in `middleware.ts`),
+-   removal of confirmed-dead `/api/safety/classify` and `/download-zip` public surface,
+-   AI reflect-route test hermeticity (verified already resolved by #43; no change required).
+
+**Files Changed:**
+
+-   `middleware.ts` (new: security headers + per-request nonce CSP)
+-   `app/layout.tsx` (force-dynamic so the App Router can apply the CSP nonce)
+-   `next.config.mjs` (`poweredByHeader: false`)
+-   `app/api/safety/classify/` (removed route + route test)
+-   `app/download-zip/` (removed route)
+-   `src/lib/validation/public-boundaries.ts` (removed classify-only schema)
+-   `src/lib/validation/public-boundaries.test.ts` (removed classify case)
+-   `middleware.test.ts` (new: header/CSP invariant tests)
+-   `app/runtime-surface.test.ts` (new: dead-surface removal guard)
+-   `docs/ARCHITECTURE.md` (Security Headers Baseline)
+
+**Acceptance Criteria:**
+
+-   [x] Security headers present on production responses
+-   [x] CSP built from current runtime resources; no broad wildcards
+-   [x] No `unsafe-inline` in `script-src`; nonce per request
+-   [x] `/api/safety/classify` removed; canonical Safety Gate intact
+-   [x] `/download-zip` removed
+-   [x] Reflect-route tests hermetic (no real Gemini call required)
+
+**Verification Run:**
+
+-   `npm test` (all tests pass)
+-   `npm run build` (build passes; removed routes absent from route table)
+-   `git diff --check`
+-   local `next start` probe confirmed headers and per-request nonce on HTML
+
+**Known Limitations:**
+
+-   HSTS and deployed-header verification deferred to #42 (production hosting decision required).
+-   Pages render dynamically to support per-request CSP nonces.
+
+**Next Recommended Task:**
+
+-   Issue #42 --- production hosting (#41 is its only dependency).

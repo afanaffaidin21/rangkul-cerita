@@ -1259,3 +1259,52 @@ Maintainability
 
 dan tidak boleh menjadi alasan untuk menambah complexity yang belum
 diperlukan.
+
+## 65. Security Headers Baseline
+
+Production responses carry a centralized security-header baseline set by
+`middleware.ts` (single source; do not scatter header logic across routes).
+
+Static headers on every runtime response:
+
+``` text
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+```
+
+Production-only Content-Security-Policy, built per request with a fresh
+script nonce:
+
+``` text
+default-src 'self'
+base-uri 'self'
+form-action 'self'
+frame-ancestors 'none'
+frame-src 'none'
+object-src 'none'
+img-src 'self' data:
+font-src 'self' https://fonts.gstatic.com
+style-src 'self' 'unsafe-inline' https://fonts.googleapis.com
+connect-src 'self'
+script-src 'self' 'nonce-<per-request>'
+```
+
+Allowances reflect current runtime truth:
+
+-   `style-src 'unsafe-inline'` covers inline style attributes used by the
+    mood-checker color swatches and is safe because style cannot execute
+    script; external Google Fonts CSS is allowlisted separately.
+-   `font-src https://fonts.gstatic.com` covers Google Fonts font files.
+-   `connect-src 'self'` covers all client calls (`/api/*`); the Gemini
+    provider call is server-side and not subject to browser CSP.
+
+The App Router applies the request-header CSP nonce to its inline
+bootstrap/flight scripts during rendering. Pages therefore render
+dynamically (`dynamic = "force-dynamic"` in the root layout); prebuilt
+static HTML cannot carry a per-request nonce. CSP is skipped in
+development so Next.js dev tooling keeps working.
+
+HSTS is intentionally deferred to issue #42 because it depends on the
+production hosting decision.

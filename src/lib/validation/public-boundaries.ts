@@ -16,10 +16,6 @@ export const checkinReflectionSchema = z.object({
   riskLevel: z.enum(["LOW", "ELEVATED", "HIGH", "IMMINENT"]).optional(),
 }).strict();
 
-export const safetyClassificationSchema = z.object({
-  text: boundedText(4000),
-}).strict();
-
 export const newsletterSchema = z.object({
   email: z.string().trim().email().max(254),
   consent: z.literal(true),

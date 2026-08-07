@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+// Server-render every request so Next.js can apply the per-request CSP nonce
+// (read from the middleware-provided Content-Security-Policy request header)
+// to its inline bootstrap/flight scripts. Prebuilt static HTML cannot carry a
+// per-request nonce, so a nonce CSP would block hydration on static pages.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Rangkul Cerita — Ruang Aman untuk Memahami Perasaanmu",
   description: "Lakukan check-in emosi, tulis jurnal terpandu, dan temukan langkah bantuan yang tepat bersama Rangkul Cerita. Ruang refleksi digital aman untuk anak muda Indonesia.",
